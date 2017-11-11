@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">DiaryCar</string>
+    <string name="head_car">บันทึกการใช้รถ</string>
+    <string name="head_oil">บันทึกการเติมน้ำมัน</string>
+
+
+    <string name="oil_litemeter">จำนวนลิตร</string>
+    <string name="oil_money">จำนวนเเงิน</string>
+    <string name="litemeter">ลิตร</string>
+
+
+    <string name="button_save_oil">บันทึกข้อมูล</string>
+    <string name="button_list_oil">ประวัติการเติมน้ำมัน</string>
+
+    <string name="car_title">จุดประสงค์การใช้รถ*</string>
+    <string name="car_detail">รายละเอียด</string>
+    <string name="car_km_in">เลข Km ที่ออกเดินทาง*</string>
+    <string name="car_km_out">เลข Km ที่ถึงจุดหมาย*</string>
+
+    <string name="button_save_car">บันทึกข้อมูล</string>
+    <string name="button_list_car">ประวัติการใช้รถ</string>
+
+    <string name="km">Km</string>
+
+    <string name="login">LogIn</string>
+</resources>
