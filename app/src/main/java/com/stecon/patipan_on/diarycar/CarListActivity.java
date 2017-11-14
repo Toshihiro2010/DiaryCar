@@ -9,7 +9,8 @@ import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.stecon.patipan_on.diarycar.controller.DatabaseCarDiary;
+import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 
 public class CarListActivity extends AppCompatActivity {
 

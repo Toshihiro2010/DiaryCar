@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         bindWidGet();
+
         myOnClick();
 
         if (isNetworkAvailable()) {

@@ -8,6 +8,10 @@ import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.stecon.patipan_on.diarycar.controller.DatabaseOilDiary;
+import com.stecon.patipan_on.diarycar.controller.MyAdapter;
+import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
+
 public class OilListActivity extends AppCompatActivity {
 
     private ListView list_oil_diary;

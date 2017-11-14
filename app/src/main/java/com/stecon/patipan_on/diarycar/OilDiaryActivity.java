@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.stecon.patipan_on.diarycar.controller.DatabaseOilDiary;
+import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
+
 public class OilDiaryActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText edtMoneyAmount;

@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.stecon.patipan_on.diarycar.controller.DatabaseCarDiary;
+import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
+
 public class CarDiaryActivity extends AppCompatActivity implements View.OnClickListener {
 
     private LinearLayout layKmOut;

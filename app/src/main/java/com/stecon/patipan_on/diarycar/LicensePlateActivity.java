@@ -1,4 +1,4 @@
-package com.stecon.patipan_on.diarycar.view;
+package com.stecon.patipan_on.diarycar;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,9 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.stecon.patipan_on.diarycar.MainActivity;
-import com.stecon.patipan_on.diarycar.R;
 
 public class LicensePlateActivity extends AppCompatActivity implements View.OnClickListener {
 
