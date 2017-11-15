@@ -208,5 +208,7 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
         txtDate.setText(tvYear + "/" + tvMonth + "/" + tvDay);
         //txtDate.setText(strDateShow);
 
+        //hello sword
+
     }
 }
