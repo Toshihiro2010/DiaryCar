@@ -38,5 +38,20 @@ public class MyDateModify {
         return strDate;
     }
 
+    public String getStrToServer(String str){
+        int first = str.indexOf("/");
+        int last = str.lastIndexOf("/");
+
+        String svDay = str.substring(0, first);
+        String svMonth = str.substring(first + 1, last);
+        if (svMonth.length() == 1) {
+            svMonth = "0"+svMonth;
+        }
+        String svYear = str.substring(last+1);
+
+        String strToserver = svDay + svMonth + svYear;
+        return strToserver;
+    }
+
 
 }

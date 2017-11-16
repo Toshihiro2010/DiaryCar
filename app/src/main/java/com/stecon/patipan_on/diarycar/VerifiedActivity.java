@@ -2,6 +2,7 @@ package com.stecon.patipan_on.diarycar;
 
 import android.app.DatePickerDialog;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.stecon.patipan_on.diarycar.model.CheckStatus;
+import com.stecon.patipan_on.diarycar.model.MonitorInfo;
 import com.stecon.patipan_on.diarycar.model.MyDateModify;
 
 import org.json.JSONArray;
@@ -21,6 +28,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import okhttp3.Call;
@@ -29,6 +37,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
+import com.google.gson.Gson;
 
 
 public class VerifiedActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
@@ -51,9 +61,10 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
     private String strIdCard;
     private String strDateShow;
 
-    //private String strUrl = "http://csclub.ssru.ac.th/s56122201044/csc4202/monitor/php_get_monitor.php";
+    private String strUrl = "http://csclub.ssru.ac.th/s56122201044/csc4202/monitor/php_get_monitor.php";
     //private String strUrl = "http://128.1.10.62:8081/BenzApi/Data?Date=0311201703112017";
-    private String strUrl = "http://203.146.239.40:8081/BenzApi/Data?Date=0311201703112017";
+    //private String strUrl = "http://203.146.239.40:8081/BenzApi/Data?Date=0311201703112017";
+    private String strNodejs = "http://172.20.20.57:7777/checkuser";
 
 
     private MyDateModify myDateModify;
@@ -102,16 +113,92 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+
+
     private void myVertified() {
         strDateShow = txtDate.getText().toString();
         strIdCard = edtIdCard.getText().toString().trim();
-        strMember = edtMember.getText().toString().trim();
+        strMember = edtMember.getText().toString().trim().toLowerCase();
         if (strDateShow.equals("") || strIdCard.equals("") || strMember.equals("")) {
             Toast.makeText(this, "กรุณากรอกข้อมูลให้ครบ", Toast.LENGTH_SHORT).show();
-            myTestHttp();
-
         }else{
-            Toast.makeText(this, strIdCard + "\n" + strMember + "\n" + strDateShow, Toast.LENGTH_SHORT).show();
+
+            Boolean checkId = myCheckdate();
+            String dateToServer = myDateModify.getStrToServer(strDateShow);
+
+            if (checkId == true) {
+                //Toast.makeText(this, "เลขบัตรประชาชนไม่ถูกต้อง", Toast.LENGTH_SHORT).show();
+                //myTestHttp();
+                checkDataToServer(dateToServer);
+            } else {
+                Toast.makeText(this, "เลขบัตรประชาชนไม่ถูกต้อง", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
+    private void checkDataToServer(String strDate) {
+        String myUrl = strNodejs + "/" + strMember + "/" + strIdCard + "/" + strDate;
+        Request request = new Request.Builder()
+                .get()
+                .url(myUrl)
+                .build();
+
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("Check =>", "onFailed");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.d("Check => ", "onResponse");
+                int code = response.code();
+                String dataResponse = response.body().string();
+                Log.d("code => ", code +"");
+
+                Toast.makeText(VerifiedActivity.this, response.body().string(), Toast.LENGTH_SHORT).show();
+                if(code == 200){
+                    //CheckStatus checkStatus = new Gson().fromJson(dataResponse, CheckStatus.class);
+                    Log.d("status => ", "ok");
+                    myIntent();
+                }else{
+                    Log.d("content => " , "No data");
+
+                }
+            }
+        });
+
+    }
+
+    private void myIntent() {
+        Intent intent = new Intent(this, LicensePlateActivity.class);
+        startActivity(intent);
+
+
+    }
+
+    private Boolean myCheckdate() {
+
+        if (strIdCard.length() != 13) {
+            Log.d("check = > ", strIdCard.length() + "");
+            return false;
+        }
+        int check = Integer.parseInt(strIdCard.substring(12));
+        int sum = 0;
+        int myMultiple = 13;
+        for (int i = 0 ; i <12; i++) {
+            int c = Integer.parseInt(strIdCard.substring(i, i + 1)) * myMultiple;
+            sum = sum + c;
+            myMultiple--;
+        }
+        int result = sum%11;
+        result = 11 - result;
+        if (result % 10 == check) {
+            return true;
+        } else {
+            return false;
         }
 
     }
@@ -133,54 +220,21 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Log.d("Check => ", "onResponse");
+                Log.d("data => ", response.body().charStream().toString());
+
                 String dataResponse = response.body().string();
-                int codeResponse = response.code();
-                Log.d("Response data=> ", dataResponse);
-                Log.d("codeResponse => ", codeResponse +"");
 
-                try {
-//                    JSONObject jsonObject = new JSONObject(dataResponse);
-//                    String product_id = jsonObject.getString("product_id");
-//                    Log.d("prpduct id => ", product_id.toString());
-                    final JSONArray jsonArray = new JSONArray(dataResponse);
-                    final String[] iconString = new String[jsonArray.length()];
-                    final String[] titleString = new String[jsonArray.length()];
-                    final String[] priceString = new String[jsonArray.length()];
-                    final String[] brandString = new String[jsonArray.length()];
-                    final String[] sizeStrings = new String[jsonArray.length()];
-                    final String[] curveStrings = new String[jsonArray.length()];
-                    final String[] typeStrings = new String[jsonArray.length()];
-                    final String[] detailStrings = new String[jsonArray.length()];
+                JsonArray jsonArray = (JsonArray) new JsonParser().parse(dataResponse);
+                int json_length = jsonArray.size();
 
-                    for (int i = 0 ; i < jsonArray.length() ; i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        iconString[i] = jsonObject.getString("image");
-                        titleString[i] = jsonObject.getString("product_name");
-                        priceString[i] = jsonObject.getString("price");
-                        brandString[i] = jsonObject.getString("brand_name");
-                        sizeStrings[i] = jsonObject.getString("size");
-                        curveStrings[i] = jsonObject.getString("curve");
-                        typeStrings[i] = jsonObject.getString("type_name");
-                        detailStrings[i] = jsonObject.getString("product_detail");
+               for(int i = 0 ; i < json_length ; i++) {
+                   //Log.d("test=> ", jsonArray.get(i) + "");
+                   MonitorInfo monitorInfo = new Gson().fromJson(jsonArray.get(i), MonitorInfo.class);
+                   Log.d("test=> ", monitorInfo.getProductName());
 
-                    }
-                    String temp = jsonArray.getJSONObject(0).getString("product_name");
-                    Log.d("temp => ", temp);
-
-                } catch (JSONException e) {
-                    Log.d("JSONException e => ", e.toString());
-                }
-
-                //Chang Json
-
+               }
             }
         });
-
-
-
-
-
-
     }
 
 
