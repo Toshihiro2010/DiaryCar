@@ -3,6 +3,7 @@ package com.stecon.patipan_on.diarycar;
 import android.app.DatePickerDialog;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,27 +16,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.stecon.patipan_on.diarycar.model.CheckStatus;
 import com.stecon.patipan_on.diarycar.model.MonitorInfo;
 import com.stecon.patipan_on.diarycar.model.MyDateModify;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import com.google.gson.Gson;
@@ -122,14 +116,17 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
         if (strDateShow.equals("") || strIdCard.equals("") || strMember.equals("")) {
             Toast.makeText(this, "กรุณากรอกข้อมูลให้ครบ", Toast.LENGTH_SHORT).show();
         }else{
-
+            //พรุ่งนี้ทดสอบ Doin background นะ ไอ้เบนซ์ มิงทำ error ให้มันแสดง UI ม่ได้ จะลองใช้ Background ดุ Ok
             Boolean checkId = myCheckdate();
-            String dateToServer = myDateModify.getStrToServer(strDateShow);
-
             if (checkId == true) {
                 //Toast.makeText(this, "เลขบัตรประชาชนไม่ถูกต้อง", Toast.LENGTH_SHORT).show();
                 //myTestHttp();
-                checkDataToServer(dateToServer);
+                SynJson synJson = new SynJson();
+                synJson.execute();
+
+                //checkDataToServer(dateToServer);
+                //Log.d("sucess=> ", " ok");
+                //Toast.makeText(VerifiedActivity.this, "สำเร็จ", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "เลขบัตรประชาชนไม่ถูกต้อง", Toast.LENGTH_SHORT).show();
             }
@@ -145,6 +142,7 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
                 .build();
 
         OkHttpClient client = new OkHttpClient.Builder().build();
+
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -153,21 +151,24 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+
                 Log.d("Check => ", "onResponse");
                 int code = response.code();
                 String dataResponse = response.body().string();
                 Log.d("code => ", code +"");
 
-                Toast.makeText(VerifiedActivity.this, response.body().string(), Toast.LENGTH_SHORT).show();
+
                 if(code == 200){
                     //CheckStatus checkStatus = new Gson().fromJson(dataResponse, CheckStatus.class);
                     Log.d("status => ", "ok");
-                    myIntent();
+                    //Toast.makeText(VerifiedActivity.this, "สำเร็จ", Toast.LENGTH_SHORT).show();
+                    //myIntent();
                 }else{
                     Log.d("content => " , "No data");
 
                 }
             }
+
         });
 
     }
@@ -264,5 +265,43 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
 
         //hello sword
 
+    }
+
+    private class SynJson extends AsyncTask<Object, Object, Response> {
+        @Override
+        protected Response doInBackground(Object... params) {
+            //
+            String strDate = myDateModify.getStrToServer(strDateShow);
+            String myUrl = strNodejs + "/" + strMember + "/" + strIdCard + "/" + strDate;
+            Request request = new Request.Builder()
+                    .get()
+                    .url(myUrl)
+                    .build();
+
+            OkHttpClient client = new OkHttpClient.Builder().build();
+
+            try {
+                Response response = client.newCall(request).execute();
+                //Log.d("response => ", response.body().toString());
+                return response;
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.d("response error => ", e.toString());
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Response s) {
+            super.onPostExecute(s);
+            if (s.code() != 200) {
+                Toast.makeText(VerifiedActivity.this, "ข้อมูลไม่ถูกต้อง", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(VerifiedActivity.this, "ข้อมูลถูกต้อง", Toast.LENGTH_SHORT).show();
+            }
+            
+
+        }
     }
 }
