@@ -6,16 +6,15 @@ package com.stecon.patipan_on.diarycar.controller;
 
 public class DatabaseUser {
 
-    private static final String DB_NAME = "CAR";
 
     public static final String TABLE_NAME = "๊User";
 
-    public static final String COL_USERNAME = "username";
-    public static final String COL_PASSWORD = "password";
-    public static final String COL_STATUS = "status";
+    public static final String COL_EMPLOYEEID= "employeeId";
+    public static final String COL_IDCARDNUMBER = "idCardNumber";
+    public static final String COL_DATEBIRTH = "dateBirth";
 
     public static String strCreate = "CREATE TABLE " + TABLE_NAME + "(_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + COL_USERNAME + " TEXT , "
-            + COL_PASSWORD + " TEXT, "
-            + COL_STATUS + " , INTEGER);";
+            + COL_EMPLOYEEID + " TEXT , "
+            + COL_IDCARDNUMBER + " TEXT, "
+            + COL_DATEBIRTH + " , TEXT);";
 }

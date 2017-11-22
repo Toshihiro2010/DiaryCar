@@ -173,12 +173,7 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    private void myIntent() {
-        Intent intent = new Intent(this, LicensePlateActivity.class);
-        startActivity(intent);
 
-
-    }
 
     private Boolean myCheckdate() {
 
@@ -239,7 +234,6 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-
     private void mySetDate() {
         //String strDate = txtDate.getText().toString();
         strDateShow = txtDate.getText().toString();
@@ -270,7 +264,7 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
     private class SynJson extends AsyncTask<Object, Object, Response> {
         @Override
         protected Response doInBackground(Object... params) {
-            //
+
             String strDate = myDateModify.getStrToServer(strDateShow);
             String myUrl = strNodejs + "/" + strMember + "/" + strIdCard + "/" + strDate;
             Request request = new Request.Builder()

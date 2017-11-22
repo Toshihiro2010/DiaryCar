@@ -4,9 +4,15 @@
     <string name="head_oil">บันทึกการเติมน้ำมัน</string>
 
 
-    <string name="oil_litemeter">จำนวนลิตร</string>
-    <string name="oil_money">จำนวนเเงิน</string>
+    <string name="oil_litemeter">ราคาต่อลิตร</string>
+    <string name="oil_money">จำนวนเงิน</string>
+    <string name="oil_volume">ปริมาณเชื้อเพลิง</string>
+    <string name="oil_distance">มาตรวัดระยะทาง</string>
     <string name="litemeter">ลิตร</string>
+    <string name="oil_type">ประเภทเชื้อเพลิง :</string>
+    <string name="oil_full">เต็มถัง</string>
+    <string name="oil_pay">การชำระเงิน :</string>
+    <string name="oil_mark">Note</string>
 
 
     <string name="button_save_oil">บันทึกข้อมูล</string>
@@ -29,4 +35,17 @@
     <string name="id_card">เลขบัตรประชาชน</string>
     <string name="birth_date">วันเกิด</string>
     <string name="select_date">เลือกวันเกิด</string>
+
+    <string-array name="oil_array">
+        <item>เบนซิน 91</item>
+        <item>เบนซิน 95</item>
+        <item>ดีเซล</item>
+        <item>แก๊สโซฮอล์ 91</item>
+        <item>แก๊สโซฮอล์ 95</item>
+    </string-array>
+
+    <string-array name="money_pay_array">
+        <item>เงินสด</item>
+        <item>บัตร</item>
+    </string-array>
 </resources>
