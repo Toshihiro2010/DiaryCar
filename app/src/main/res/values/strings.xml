@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DiaryCar</string>
+    <string name="app_name">Vehicle Journal</string>
     <string name="head_car">บันทึกการใช้รถ</string>
     <string name="head_oil">บันทึกการเติมน้ำมัน</string>
 

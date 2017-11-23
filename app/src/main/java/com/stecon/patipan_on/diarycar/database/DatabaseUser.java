@@ -1,4 +1,4 @@
-package com.stecon.patipan_on.diarycar.controller;
+package com.stecon.patipan_on.diarycar.database;
 
 /**
  * Created by patipan_on on 11/10/2017.

@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bindWidGet();
 
         myOnClick();
-
         if (isNetworkAvailable()) {
             Toast.makeText(this, "Connect", Toast.LENGTH_SHORT).show();
         } else {

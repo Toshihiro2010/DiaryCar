@@ -17,7 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class OilJournal extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class OilJournal extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private EditText edtDistanceOil;
     private EditText edtLitMoney;
@@ -33,7 +33,7 @@ public class OilJournal extends AppCompatActivity implements AdapterView.OnItemS
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_oil_three);
+        setContentView(R.layout.activity_oil_journal);
 
         bindWidget();
 
@@ -50,16 +50,7 @@ public class OilJournal extends AppCompatActivity implements AdapterView.OnItemS
             }
         });
 
-        btnOilSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("spinner => ", spinnerOil.getSelectedItem().toString());
-                if (chkOilFull.isChecked()) {
-                    Toast.makeText(OilJournal.this, "Full Check", Toast.LENGTH_SHORT).show();
-
-                }
-            }
-        });
+        btnOilSave.setOnClickListener(this);
 
 
     }
@@ -102,5 +93,14 @@ public class OilJournal extends AppCompatActivity implements AdapterView.OnItemS
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == btnOilSave) {
+            if (chkOilFull.isChecked()) {
+                Toast.makeText(OilJournal.this, "Full Check", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

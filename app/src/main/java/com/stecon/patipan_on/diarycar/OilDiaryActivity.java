@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.stecon.patipan_on.diarycar.controller.DatabaseOilDiary;
+import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 
 public class OilDiaryActivity extends AppCompatActivity implements View.OnClickListener {
@@ -25,7 +25,7 @@ public class OilDiaryActivity extends AppCompatActivity implements View.OnClickL
 
 
     MyDbHelper myDbHelper;
-    DatabaseOilDiary mDbOilDiary;
+    DatabaseOilJournal mDbOilDiary;
     SQLiteDatabase sqLiteDatabase;
     private Boolean status = false;
 
@@ -48,12 +48,13 @@ public class OilDiaryActivity extends AppCompatActivity implements View.OnClickL
 
     private void mySave() {
         String strSQL = "INSERT INTO " + mDbOilDiary.TABLE_NAME + " ("
-                + mDbOilDiary.COL_DATE + ","
-                + mDbOilDiary.COL_LIT + ","
-                + mDbOilDiary.COL_MONEY
+                + mDbOilDiary.COL_TRANSACTION_DATE + ","
+                + mDbOilDiary.COL_VOLUME + ","
+                + mDbOilDiary.COL_TOTAL_PRICE
                 + ") VALUES (datetime(),'"
                 + strLit + "','" +
                 strMoney + "');";
+        String strSql2 = DatabaseOilJournal.myInsert(strLit, strMoney);
         Log.d("save => ", strSQL);
         //Toast.makeText(this, strSQL, Toast.LENGTH_SHORT).show();
         sqLiteDatabase.execSQL(strSQL);
