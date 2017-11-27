@@ -15,8 +15,8 @@ public class DatabaseVehicleApply {
     public static final String strCreate = "CREATE TABLE " + TABLE_NAME
             + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COL_LICENSE_PLATE + " TEXT,"
-            + COL_STATUS + " TEXT,"
-            + COL_DATE + " datetime DEFAULT CURRENT_TIMESTAMP)";
+            + COL_STATUS + " INTEGER DEFAULT 0,"
+            + COL_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP)";
 
 
 

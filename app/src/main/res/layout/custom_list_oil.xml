@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
@@ -24,27 +24,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ffffff"
             android:layout_weight="1"
+            android:background="#ffffff"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="@dimen/h3"
-                android:text="TextView" />
+                android:layout_marginTop="10dp"
+                android:text="TextView"
+                android:textSize="@dimen/h3" />
 
             <TextView
                 android:id="@+id/tvOdometer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="@dimen/h5"
-                android:text="TextView" />
+                android:layout_marginTop="10dp"
+                android:text="TextView"
+                android:textSize="@dimen/h5" />
         </LinearLayout>
 
         <LinearLayout
@@ -58,38 +58,38 @@
                 android:id="@+id/tvMoney"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:gravity="end"
                 android:text="TextView"
                 android:textSize="@dimen/h3" />
 
             <TextView
-                android:id="@+id/tvLit"
+                android:id="@+id/tvFuelAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:gravity="end"
                 android:text="TextView"
                 android:textSize="@dimen/h5" />
 
             <TextView
-                android:id="@+id/tvLit"
+                android:id="@+id/tvTotalMoney"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:gravity="end"
                 android:text="TextView"
                 android:textSize="@dimen/h5" />
 
             <TextView
-                android:id="@+id/tvLit"
+                android:id="@+id/tvLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:gravity="end"
                 android:text="TextView"
                 android:textSize="@dimen/h5" />

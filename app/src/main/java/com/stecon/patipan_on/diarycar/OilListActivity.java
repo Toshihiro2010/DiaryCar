@@ -43,10 +43,6 @@ public class OilListActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "No Data", Toast.LENGTH_SHORT).show();
         }
-        //Log.d("test => ", cursor.getString(cursor.getColumnIndex(mDbOilDiary.COL_MONEY)));
-
-
-
 
     }
 

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.stecon.patipan_on.diarycar">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,6 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"
+            tools:replace="android:value" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,10 +33,10 @@
         <activity android:name=".OilListActivity" />
         <activity android:name=".MyRecycleView" />
         <activity android:name=".CarListActivity" />
-        <activity android:name=".OilJournal" />
+        <activity android:name=".OilJournalActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".LicensePlateActivity" />
-        <activity android:name=".VerifiedActivity"></activity>
+        <activity android:name=".VerifiedActivity" />
+        <activity android:name=".LicensePlateActivity"></activity>
     </application>
 
 </manifest>

@@ -54,9 +54,6 @@ public class OilDiaryActivity extends AppCompatActivity implements View.OnClickL
                 + ") VALUES (datetime(),'"
                 + strLit + "','" +
                 strMoney + "');";
-        String strSql2 = DatabaseOilJournal.myInsert(strLit, strMoney);
-        Log.d("save => ", strSQL);
-        //Toast.makeText(this, strSQL, Toast.LENGTH_SHORT).show();
         sqLiteDatabase.execSQL(strSQL);
         mySetText();
     }

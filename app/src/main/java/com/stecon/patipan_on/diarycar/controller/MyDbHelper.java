@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.stecon.patipan_on.diarycar.database.DatabaseCarDiary;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
+import com.stecon.patipan_on.diarycar.database.DatabaseVehicleApply;
 
 /**
  * Created by patipan_on on 10/28/2017.
@@ -19,9 +20,11 @@ public class MyDbHelper extends SQLiteOpenHelper {
 
     public String oilTable = DatabaseOilJournal.TABLE_NAME;
     public String carTable = DatabaseCarDiary.TABLE_NAME;
+    public String vehicleTable = DatabaseVehicleApply.TABLE_NAME;
 
     private String strSqlCar = DatabaseCarDiary.strInsert;
     private String strSqlOil = DatabaseOilJournal.strSqlCreate;
+    private String strSqlCreateVehicle = DatabaseVehicleApply.strCreate;
 
 
 
@@ -34,6 +37,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(strSqlCar);
         db.execSQL(strSqlOil);
+        db.execSQL(strSqlCreateVehicle);
 
     }
 
@@ -43,6 +47,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
         Log.d("onUpgrade DB=> ", "test");
         db.execSQL("DROP TABLE IF EXISTS " + carTable);
         db.execSQL("DROP TABLE IF EXISTS " + oilTable);
+        db.execSQL("DROP TABLE IF EXISTS " + vehicleTable);
         onCreate(db);
 
 //        switch (oldVersion) {

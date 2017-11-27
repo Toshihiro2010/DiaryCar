@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         } else if (v == btnGoOil) {
             Log.d("test => ", "button btnGoOil");
-            Intent intent = new Intent(getApplicationContext(), OilDiaryActivity.class);
+            Intent intent = new Intent(getApplicationContext(), OilJournalActivity.class);
             startActivity(intent);
             //Log.d("click = > ", getApplicationContext().toString());
 
