@@ -1,7 +1,9 @@
 package com.stecon.patipan_on.diarycar;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -25,11 +27,8 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
     private MyDbHelper myDbHelper;
     private SQLiteDatabase database;
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
+    public static final String P_NAME = "App_Config";
+    public static String licenPlate = "licensePlate";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +53,23 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
             strLicensePlate = edtLicensePlate.getText().toString().trim();
             if (strLicensePlate.equals("")) {
                 Toast.makeText(this, "Please in put data", Toast.LENGTH_SHORT).show();
-                edtLicensePlate.setText("");
+//                edtLicensePlate.setText("");
             } else {
-                mySaveLicensePlate();
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
+                mySharePreferences();
+//                mySaveLicensePlate();
+//                Intent intent = new Intent(this, MainActivity.class);
+//                startActivity(intent);
                 finish();
             }
         }
+    }
+
+    private void mySharePreferences() {
+        SharedPreferences sp = getSharedPreferences(P_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(licenPlate, strLicensePlate);
+        editor.commit();
+
     }
 
     private void mySaveLicensePlate() {

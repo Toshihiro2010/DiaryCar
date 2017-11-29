@@ -2,6 +2,7 @@ package com.stecon.patipan_on.diarycar;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
 import com.stecon.patipan_on.diarycar.controller.MyAdapter;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
+
+import java.util.Locale;
 
 public class OilListActivity extends AppCompatActivity {
 
@@ -26,6 +29,10 @@ public class OilListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oil_list);
+
+
+
+
         list_oil_diary = (ListView) findViewById(R.id.oil_listview);
 
         myDbHelper = new MyDbHelper(this);

@@ -2,6 +2,7 @@
     <string name="app_name">Vehicle Journal</string>
     <string name="head_car">บันทึกการใช้รถ</string>
     <string name="head_oil">บันทึกการเติมน้ำมัน</string>
+    <string name="head_price_other">ค่าใช้จ่ายอื่นๆ</string>
 
 
     <string name="oil_litemeter">ราคาต่อลิตร</string>
@@ -29,12 +30,25 @@
     <string name="km">Km</string>
 
     <string name="login">LogIn</string>
+    <string name="bath">บาท</string>
 
 
     <string name="user_member">รหัสพนักงาน</string>
     <string name="id_card">เลขบัตรประชาชน</string>
     <string name="birth_date">วันเกิด</string>
     <string name="select_date">เลือกวันเกิด</string>
+
+    <string name="category">ประเภท</string>
+    <string name="cost_information">ข้อมูลค่าใช้จ่าย</string>
+
+
+
+
+
+    priceOtherActivity
+    <string name="edt_price_title">ชื่อเรื่อง</string>
+    <string name="edt_money_service">ราคารวม</string>
+
 
     <string-array name="oil_array">
         <item>เบนซิน 91</item>
@@ -47,5 +61,12 @@
     <string-array name="money_pay_array">
         <item>เงินสด</item>
         <item>บัตร</item>
+    </string-array>
+
+    <string-array name="price_other_array">
+        <item>ค่าจอดรถ</item>
+        <item>ค่าทางด่วน</item>
+        <item>ค่าปรับ</item>
+        <item>อื่นๆ</item>
     </string-array>
 </resources>

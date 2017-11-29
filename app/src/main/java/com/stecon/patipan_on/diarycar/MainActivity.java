@@ -2,6 +2,7 @@ package com.stecon.patipan_on.diarycar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -9,12 +10,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnGoDiary;
     private Button btnGoOil;
+    private Button btnGoPriceOther;
+    private TextView txtTvMainTitle;
+
+    private String strLicensePlate;
 
 
     @Override
@@ -22,16 +28,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPreferences sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
+        strLicensePlate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
+        Log.d("strLicensePlate=> ", strLicensePlate + " / ");
+        if (strLicensePlate.equals("")) {
+            Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
+            startActivity(intent);
+
+        }
 
 
         bindWidGet();
-
         myOnClick();
         if (isNetworkAvailable()) {
             Toast.makeText(this, "Connect", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Not Connect", Toast.LENGTH_SHORT).show();
         }
+
 
     }
 
@@ -44,11 +58,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void bindWidGet() {
         btnGoDiary = (Button) findViewById(R.id.btnGoDiary);
         btnGoOil = (Button) findViewById(R.id.btnGoOil);
+        btnGoPriceOther = (Button) findViewById(R.id.btnPriceOther);
+        txtTvMainTitle = (TextView) findViewById(R.id.tvMainTitle);
     }
 
     private void myOnClick() {
         btnGoDiary.setOnClickListener(this);
         btnGoOil.setOnClickListener(this);
+        btnGoPriceOther.setOnClickListener(this);
 
     }
 
@@ -65,6 +82,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
             //Log.d("click = > ", getApplicationContext().toString());
 
+        } else if (v == btnGoPriceOther) {
+            Intent intent = new Intent(MainActivity.this, PriceOtherActivity.class);
+            startActivity(intent);
+
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        SharedPreferences sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
+//        strLicensePlate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
+//        if (strLicensePlate.equals("")) {
+//            Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
+//            startActivity(intent);
+//
+//        }
     }
 }
