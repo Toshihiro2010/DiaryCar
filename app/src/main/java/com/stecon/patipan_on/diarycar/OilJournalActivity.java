@@ -10,7 +10,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,12 +22,20 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.LocationCallback;
 import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
+import com.stecon.patipan_on.diarycar.model.MyDateModify;
+
+import org.w3c.dom.Text;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.SmartLocation;
@@ -32,13 +43,15 @@ import io.nlopez.smartlocation.location.config.LocationAccuracy;
 import io.nlopez.smartlocation.location.config.LocationParams;
 import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider;
 
-public class OilJournalActivity extends AppCompatActivity implements View.OnClickListener, OnLocationUpdatedListener, CustomAlertDialog.OnMyDialogActivity {
+public class OilJournalActivity extends AppCompatActivity implements View.OnClickListener, OnLocationUpdatedListener, CustomAlertDialog.OnMyDialogActivity, TextWatcher {
 
     //view
     private EditText edtOdometer;
     private EditText edtUnitPrice;
     private EditText edtMoneyTotal;
     private EditText edtNote;
+
+    private TextView tvShowVolume;
 
     private Button btnOilSave;
 
@@ -79,6 +92,8 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
     private MyDbHelper myDbHelper;
     private SQLiteDatabase sqLiteDatabase;
 
+    private String tempShowVoulume;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +109,9 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
 
         btnOilSave.setOnClickListener(this);
         btnOilSave.setOnClickListener(this);
+
+        edtUnitPrice.addTextChangedListener(this);
+        edtMoneyTotal.addTextChangedListener(this);
 
     }
 
@@ -129,11 +147,13 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         chkOilFull = (CheckBox) findViewById(R.id.chkOilFull);
         spinnerPayMentType = (Spinner) findViewById(R.id.spinnerMoneyPay);
         edtNote = (EditText) findViewById(R.id.edtNote);
+        tvShowVolume = (TextView) findViewById(R.id.txtVolumeShow);
     }
 
 
     @Override
     public void onClick(View v) {
+
         if (v == btnOilSave) {
             progressDialog = new ProgressDialog(OilJournalActivity.this);
             progressDialog.setMessage("Loadding..........");
@@ -142,6 +162,7 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
             progressDialog.show();
             progressDialog.setCancelable(false);
             Boolean check = myCheckData();
+            Log.d("check => ", check.toString());
             if (!check) {
                 progressDialog.dismiss();
                 Toast.makeText(this, "กรุณากรอกข้อมูลที่จำเป็นให้ครับ", Toast.LENGTH_SHORT).show();
@@ -154,11 +175,9 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void processCalculate() {
-        douOdometer = Double.valueOf(strOdometer);
         douUnitPrice = Double.valueOf(strUnitPrice);
         douMoneytTotal = Double.valueOf(strMoneyTotal);
         douVolume = douMoneytTotal / douUnitPrice;
-        //Toast.makeText(this, "Volume : " + douVolume, Toast.LENGTH_SHORT).show();
     }
 
     private void myLocation() {
@@ -188,8 +207,6 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
 
     private Boolean myCheckData() {
         strOdometer = edtOdometer.getText().toString().trim();
-        strUnitPrice = edtUnitPrice.getText().toString().trim();
-        strMoneyTotal = edtMoneyTotal.getText().toString().trim();
         strFuelType = spinnerOil.getSelectedItem().toString().trim();
         strPaymentType = spinnerPayMentType.getSelectedItem().toString().trim();
         strNote = edtNote.getText().toString().trim();
@@ -199,11 +216,13 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         } else {
             partialFillUp = 0;
         }
-        strNote = edtNote.getText().toString().trim();
-
         if (strOdometer.equals("") || strUnitPrice.equals("") || strMoneyTotal.equals("") || strFuelType.equals("") || strPaymentType.equals("")) {
+
+            Log.d("Return => ", "false");
             return false;
         } else {
+            douOdometer = Double.valueOf(strOdometer);
+            Log.d("Return => ", "true");
             return true;
         }
     }
@@ -223,9 +242,11 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         latitude = location.getLatitude();
         longitude = location.getLongitude();
         onPushSQLite();
+        mySetEmptyText();
     }
 
     private void onPushSQLite() {
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseOilJournal.COL_LICENSE_PLATE, strLicensePlate);
         contentValues.put(DatabaseOilJournal.COL_ODOMETER, douOdometer);
@@ -237,11 +258,13 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         contentValues.put(DatabaseOilJournal.COL_LATITUDE, latitude);
         contentValues.put(DatabaseOilJournal.COL_LONGITUDE, longitude);
         contentValues.put(DatabaseOilJournal.COL_NOTE, strNote);
+        Log.d("contentValue => ", contentValues.toString());
 
         sqLiteDatabase.insert(DatabaseOilJournal.TABLE_NAME, null, contentValues);
         progressDialog.dismiss();
-        mySetEmptyText();
         Toast.makeText(this, "บันทึกข้อมูลเรียบร้อยแล้ว", Toast.LENGTH_SHORT).show();
+
+
     }
 
     private void mySetEmptyText() {
@@ -253,6 +276,8 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
             chkOilFull.setChecked(false);
 
         }
+        tvShowVolume.setText("0 ลิตร");
+
         mySetSpinner();
     }
 
@@ -265,4 +290,40 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        strMoneyTotal = edtMoneyTotal.getText().toString().trim();
+        strUnitPrice = edtUnitPrice.getText().toString().trim();
+
+        if (!strMoneyTotal.equals("") && !strUnitPrice.equals("")) {
+
+            douMoneytTotal = Double.valueOf(strMoneyTotal);
+            douUnitPrice = Double.valueOf(strUnitPrice);
+
+        } else if (!strMoneyTotal.equals("") && strUnitPrice.equals("")) {
+            douUnitPrice = 0.0;
+            douMoneytTotal = Double.valueOf(strMoneyTotal);
+
+        }else if (strMoneyTotal.equals("") && !strUnitPrice.equals("")) {
+            douMoneytTotal = 0.0;
+            douUnitPrice = Double.valueOf(strUnitPrice);
+        }
+
+        douVolume = douMoneytTotal / douUnitPrice;
+        DecimalFormat df = new DecimalFormat("#.0000");
+        tempShowVoulume = df.format(douVolume);
+        tvShowVolume.setText(tempShowVoulume + " ลิตร");
+
+    }
 }

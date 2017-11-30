@@ -1,5 +1,7 @@
 package com.stecon.patipan_on.diarycar;
 
+import android.app.DatePickerDialog;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -8,11 +10,14 @@ import android.widget.Spinner;
 public class PriceOtherActivity extends AppCompatActivity {
 
     private Spinner spinnerPriceType;
+    private DatePickerDialog datePickerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_price_other);
+
+
 
         bindWidget();
 
