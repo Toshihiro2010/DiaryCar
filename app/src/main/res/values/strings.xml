@@ -40,14 +40,27 @@
 
     <string name="category">ประเภท</string>
     <string name="cost_information">ข้อมูลค่าใช้จ่าย</string>
-
-
-
+    <string name="detail">รายละเอียด</string>
 
 
     priceOtherActivity
     <string name="edt_price_title">ชื่อเรื่อง</string>
     <string name="edt_money_service">ราคารวม</string>
+    <string name="edt_price_other_note">บันทึกรายละเอียด (ไม่จำไม่เป็น)</string>
+
+
+    tripStart
+    <string name="reservation_number">เลขที่การจองรถ :</string>
+    <string name="purpose">จุดประสงค์ :</string>
+    <string name="departure_date">วันที่ออกเดินทาง :</string>
+    <string name="departure_time">เวลาออกเดินทาง :</string>
+    <string name="departure_odometer">เลขไมล์เริ่มออกเดินทาง :</string>
+    <string name="departure_location">ตำแหน่งเริ่มเดินทาง :</string>
+    <string name="fuel_level">ระดับน้ำมัน :</string>
+    <string name="select_departure_date">เลือกวันที่ออกเดินทาง</string>
+    <string name="select_departure_time">เลือกเวลาที่ออกเดินทาง</string>
+    <string name="select">เลือก</string>
+
 
 
     <string-array name="oil_array">

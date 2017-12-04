@@ -7,7 +7,9 @@ import android.util.Log;
 
 import com.stecon.patipan_on.diarycar.database.DatabaseCarDiary;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
+import com.stecon.patipan_on.diarycar.database.DatabaseTrip;
 import com.stecon.patipan_on.diarycar.database.DatabaseTripCost;
+import com.stecon.patipan_on.diarycar.database.DatabaseTripDetail;
 import com.stecon.patipan_on.diarycar.database.DatabaseVehicleApply;
 
 /**
@@ -23,11 +25,13 @@ public class MyDbHelper extends SQLiteOpenHelper {
     public String carTable = DatabaseCarDiary.TABLE_NAME;
     public String vehicleTable = DatabaseVehicleApply.TABLE_NAME;
     public String tripCostTable = DatabaseTripCost.TABLE_NAME;
+    public String tripTable = DatabaseTripDetail.TABLE_NAME;
 
     private String strSqlCar = DatabaseCarDiary.strInsert;
     private String strSqlCreateOil = DatabaseOilJournal.strSqlCreate;
     private String strSqlCreateVehicle = DatabaseVehicleApply.strCreate;
     private String strSqlCreateTripCost = DatabaseTripCost.strSqlCreate;
+    private String strSqlCreateTrip = DatabaseTripDetail.strSqlCreate;
 
 
 
@@ -42,17 +46,18 @@ public class MyDbHelper extends SQLiteOpenHelper {
         db.execSQL(strSqlCreateOil);
         db.execSQL(strSqlCreateVehicle);
         db.execSQL(strSqlCreateTripCost);
+        db.execSQL(strSqlCreateTrip);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
         Log.d("onUpgrade DB=> ", "test");
         db.execSQL("DROP TABLE IF EXISTS " + carTable);
         db.execSQL("DROP TABLE IF EXISTS " + oilTable);
         db.execSQL("DROP TABLE IF EXISTS " + vehicleTable);
         db.execSQL("DROP TABLE IF EXISTS " + tripCostTable);
+        db.execSQL("DROP TABLE IF EXISTS " + tripTable);
         onCreate(db);
 
 //        switch (oldVersion) {

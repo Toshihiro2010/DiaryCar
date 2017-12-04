@@ -95,7 +95,7 @@
             android:orientation="vertical"></LinearLayout>
 
         <EditText
-            android:id="@+id/edtTitleService"
+            android:id="@+id/edtTitlePrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
@@ -115,7 +115,7 @@
 
 
             <EditText
-                android:id="@+id/edtMoneyService"
+                android:id="@+id/edtPriceOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="7"
@@ -146,7 +146,6 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="0dp"
         android:background="#FFFFFF"
         android:orientation="vertical"
         android:padding="10dp"
@@ -160,7 +159,7 @@
             android:id="@+id/textView9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/cost_information"
+            android:text="@string/detail"
             android:textColor="@color/common_signin_btn_dark_text_disabled"
             android:textSize="@dimen/h3" />
 
@@ -170,18 +169,25 @@
             android:layout_marginBottom="4dp"
             android:layout_marginTop="1dp"
             android:background="@color/common_signin_btn_dark_text_disabled"
-            android:orientation="vertical"></LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
-            android:orientation="horizontal">
-
+            android:orientation="vertical">
 
         </LinearLayout>
+
+        <EditText
+            android:id="@+id/edtOtherNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="bottom|center"
+            android:hint="@string/edt_price_other_note"
+            android:inputType="textMultiLine"
+            android:maxLines="5"
+            android:minLines="5"
+            android:padding="10dp"
+            android:textSize="14sp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="0dp" />
+
 
     </LinearLayout>
 

@@ -5,12 +5,19 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 public class PriceOtherActivity extends AppCompatActivity {
 
     private Spinner spinnerPriceType;
-    private DatePickerDialog datePickerDialog;
+    private EditText edtTitle;
+    private EditText edtPrice;
+    private EditText edtNoteDetail;
+    private Button btnSavePriceOther;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,5 +39,9 @@ public class PriceOtherActivity extends AppCompatActivity {
 
     private void bindWidget() {
         spinnerPriceType = (Spinner) findViewById(R.id.spinnerPriceType);
+        edtTitle = (EditText) findViewById(R.id.edtTitlePrice);
+        edtPrice = (EditText) findViewById(R.id.edtPriceOther);
+        edtNoteDetail = (EditText) findViewById(R.id.edtOtherNote);
+        btnSavePriceOther = (Button) findViewById(R.id.btnSavePriceOther);
     }
 }

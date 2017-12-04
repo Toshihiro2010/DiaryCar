@@ -21,7 +21,7 @@
             android:value="@integer/google_play_services_version"
             tools:replace="android:value" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".TripStartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,7 +37,8 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".VerifiedActivity" />
         <activity android:name=".LicensePlateActivity" />
-        <activity android:name=".PriceOtherActivity"></activity>
+        <activity android:name=".PriceOtherActivity" />
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>
