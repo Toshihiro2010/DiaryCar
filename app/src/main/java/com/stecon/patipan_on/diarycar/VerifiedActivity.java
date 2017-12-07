@@ -2,7 +2,6 @@ package com.stecon.patipan_on.diarycar;
 
 import android.app.DatePickerDialog;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -265,7 +264,7 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
         @Override
         protected Response doInBackground(Object... params) {
 
-            String strDate = myDateModify.getStrToServer(strDateShow);
+            String strDate = myDateModify.getStrDateToServer(strDateShow);
             String myUrl = strNodejs + "/" + strMember + "/" + strIdCard + "/" + strDate;
             Request request = new Request.Builder()
                     .get()

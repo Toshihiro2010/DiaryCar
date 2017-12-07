@@ -2,11 +2,12 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303f9f</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#ff4081</color>
 
     <color name="textFont">#001eff</color>
 
     <color name="theme_background">#e0dfdf</color>
+    <color name="box_background">#ffffff</color>
 
 
 </resources>

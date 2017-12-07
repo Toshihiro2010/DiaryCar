@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView txtTvMainTitle;
 
     private String strLicensePlate;
+    private long tripIdALong;
 
 
     @Override
@@ -34,9 +35,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (strLicensePlate.equals("")) {
             Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
             startActivity(intent);
-
+//            Intent intent1 = new Intent(MainActivity.this, TripStartActivity.class);
+//            startActivity(intent1);
         }
-
+        tripIdALong = sharedPreferences.getLong(TripStartActivity.trip_id, 0);
+        if (tripIdALong == 0) {
+            Intent intent = new Intent(MainActivity.this, TripStartActivity.class);
+            startActivity(intent);
+        }
 
         bindWidGet();
         myOnClick();

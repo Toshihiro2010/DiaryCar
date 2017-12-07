@@ -60,6 +60,9 @@
     <string name="select_departure_date">เลือกวันที่ออกเดินทาง</string>
     <string name="select_departure_time">เลือกเวลาที่ออกเดินทาง</string>
     <string name="select">เลือก</string>
+    <string name="head_location_trip">ตำแหน่งการเดินทาง</string>
+    <string name="tip_location_title">ใช้ตำแหน่ง GPS  </string>
+    <string name="tip_location_name">สถานที่เริ่มการเดินทาง</string>
 
 
 

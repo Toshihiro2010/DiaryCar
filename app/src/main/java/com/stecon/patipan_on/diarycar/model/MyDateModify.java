@@ -21,6 +21,18 @@ public class MyDateModify {
         this.year = Integer.parseInt(strInput.substring(last+1));
     }
 
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
     public int getDay() {
         return day;
     }
@@ -38,19 +50,38 @@ public class MyDateModify {
         return strDate;
     }
 
-    public String getStrToServer(String str){
+    public String getStrDateToServer(String str){
         int first = str.indexOf("/");
         int last = str.lastIndexOf("/");
 
         String svDay = str.substring(0, first);
         String svMonth = str.substring(first + 1, last);
         if (svMonth.length() == 1) {
-            svMonth = "0"+svMonth;
+            svMonth = "0" + svMonth;
         }
         String svYear = str.substring(last+1);
 
         String strToserver = svDay + svMonth + svYear;
         return strToserver;
+    }
+
+    public String getStrDateTimeModify(int day, int month, int year, int hour, int minute) {
+        //String myDateTime = day + "/" + month + "/" + year + " " + hour + ":" + minute;
+        String tempHour;
+        String tempMinute;
+        if (hour < 10) {
+            tempHour = "0" + hour;
+        } else {
+            tempHour = String.valueOf(hour);
+        }
+
+        if (minute < 10) {
+            tempMinute = "0" + minute;
+        } else {
+            tempMinute = String.valueOf(minute);
+        }
+        String myDateTime = year + "-" + month + "-" + day + " " + tempHour + ":" + tempMinute + ":00";
+        return myDateTime;
     }
 
 

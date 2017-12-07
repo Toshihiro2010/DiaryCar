@@ -123,6 +123,8 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         strLicensePlate = sp.getString(LicensePlateActivity.licenPlate, "");
         if (strLicensePlate.equals("")) {
             CustomAlertDialog customAlertDialog = new CustomAlertDialog(this);
+            customAlertDialog.setTitle("No LicensePlate");
+            customAlertDialog.setMessage("You should in put LicensePlate............");
             customAlertDialog.myDialog();
             customAlertDialog.show();
             customAlertDialog.setOnMyDialogActivity(OilJournalActivity.this);
