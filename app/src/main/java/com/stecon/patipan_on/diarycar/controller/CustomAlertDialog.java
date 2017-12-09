@@ -1,15 +1,9 @@
 package com.stecon.patipan_on.diarycar.controller;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.stecon.patipan_on.diarycar.LicensePlateActivity;
-import com.stecon.patipan_on.diarycar.OilJournalActivity;
 
 /**
  * Created by patipan_on on 11/28/2017.
@@ -53,7 +47,7 @@ public class CustomAlertDialog {
             public void onClick(DialogInterface dialog, int which) {
                 Log.d("CustomDialog =>", "Ok");
                 if (onMyDialogActivity != null) {
-                    onMyDialogActivity.onMyStartActivity();
+                    onMyDialogActivity.onMyDialogPostitve();
 
 
                 }
@@ -66,6 +60,9 @@ public class CustomAlertDialog {
             public void onClick(DialogInterface dialog, int which) {
                 Log.d("CustomDialog =>", "No");
                 dialog.dismiss();
+                if (onMyDialogActivity != null) {
+                    onMyDialogActivity.onMyDialogNegative();
+                }
             }
         });
     }
@@ -74,8 +71,11 @@ public class CustomAlertDialog {
         builder.show();
     }
 
+
+
     public interface OnMyDialogActivity {
-        public void onMyStartActivity();
+        public void onMyDialogPostitve();
+        public void onMyDialogNegative();
     }
 
     public void setOnMyDialogActivity(OnMyDialogActivity listener) {

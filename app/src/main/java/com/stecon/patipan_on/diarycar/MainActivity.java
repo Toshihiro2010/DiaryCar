@@ -31,13 +31,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         SharedPreferences sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
         strLicensePlate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
-        Log.d("strLicensePlate=> ", strLicensePlate + " / ");
-        if (strLicensePlate.equals("")) {
-            Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
-            startActivity(intent);
-//            Intent intent1 = new Intent(MainActivity.this, TripStartActivity.class);
-//            startActivity(intent1);
-        }
         tripIdALong = sharedPreferences.getLong(TripStartActivity.trip_id, 0);
         if (tripIdALong == 0) {
             Intent intent = new Intent(MainActivity.this, TripStartActivity.class);
@@ -47,9 +40,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bindWidGet();
         myOnClick();
         if (isNetworkAvailable()) {
-            Toast.makeText(this, "Connect", Toast.LENGTH_SHORT).show();
+            Log.d("Internet => ", "Conntected");
         } else {
-            Toast.makeText(this, "Not Connect", Toast.LENGTH_SHORT).show();
+            Log.d("Internet => ", "No Conncet");
         }
 
 

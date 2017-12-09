@@ -285,10 +285,15 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
 
 
     @Override
-    public void onMyStartActivity() {
-        Log.d("progress => ", "onMyStartActivity");
+    public void onMyDialogPostitve() {
+        Log.d("progress => ", "onMyDialogPostitve");
         Intent intent = new Intent(OilJournalActivity.this, LicensePlateActivity.class);
         startActivity(intent);
+
+    }
+
+    @Override
+    public void onMyDialogNegative() {
 
     }
 

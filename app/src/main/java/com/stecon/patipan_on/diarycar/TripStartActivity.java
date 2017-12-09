@@ -1,5 +1,6 @@
 package com.stecon.patipan_on.diarycar;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
@@ -8,7 +9,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +21,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -24,18 +29,21 @@ import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.controller.MyAddPermissionLocation;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
+import com.stecon.patipan_on.diarycar.controller.MyLocationFirst;
+import com.stecon.patipan_on.diarycar.database.DatabaseTrip;
 import com.stecon.patipan_on.diarycar.database.DatabaseTripDetail;
 import com.stecon.patipan_on.diarycar.model.MyDateModify;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TripStartActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class TripStartActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, MyAddPermissionLocation.OnCustomClickDialog, MyAddPermissionLocation.OnNextFunction, MyLocationFirst.OnNextLocationFunction {
 
     private EditText edtReservationNumber;
     private EditText edtPurpose;
     private EditText edtDepartureOdometer;
     private EditText edtFuelLevel;
+    private EditText edtNameLocation;
 
     private Button btnSelectDepartureDate;
     private Button btnSelectDepartureTime;
@@ -43,17 +51,23 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
 
     private TextView tvDepartureDate;
     private TextView tvDepartureTime;
+    private TextView txtNameLocation;
 
     private Switch switchLocation;
+
+    private LinearLayout tvLinearLocation;
 
     private String strReservationNumber;
     private String strPurpose;
     private String strDepartureOdometer;
     private String strFuelLevel;
     private String strDepartureDateTime;
+    private String strDepartureLocationName;
 
     private Double odometerDouble;
     private Double fuellLevelDouble;
+    private Double latitude;
+    private Double longtiude;
 
     private String str_licenseplate;
 
@@ -61,14 +75,15 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     private int tvYear , tvMonth , tvDay;
 
     private MyDateModify myDateModify;
+    private MyLocationFirst myLocationFirst;
 
     private MyDbHelper myDbHelper;
     private SQLiteDatabase sqLiteDatabase;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-    public static String trip_id = "trip_id";
-
+    public static final String trip_id = "trip_id";
+    MyAddPermissionLocation myAddPermissionLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,13 +94,12 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
 
         str_licenseplate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
         if (str_licenseplate.equals("")) {
-            Toast.makeText(this, "No License Plate", Toast.LENGTH_SHORT).show();
+            Log.d("license plate => ", "No license ");
             Intent intent = new Intent(TripStartActivity.this, LicensePlateActivity.class);
             startActivity(intent);
         }
 
         bindWidget();
-
         Date date = new Date();
         Log.d("date => ", date.toString());
         tvHour = date.getHours();
@@ -101,6 +115,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
 
         switchLocation.setOnCheckedChangeListener(this);
     }
+
 
     private void myBtnOnClick() {
         btnSelectDepartureTime.setOnClickListener(this);
@@ -125,6 +140,9 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         tvDepartureTime = (TextView) findViewById(R.id.tvDepartureTime);
         btnGoToMain = (Button) findViewById(R.id.btnGoToMain);
         switchLocation = (Switch) findViewById(R.id.switchGps);
+        txtNameLocation = (TextView) findViewById(R.id.txtNameLocation);
+        edtNameLocation = (EditText) findViewById(R.id.edtNameLocation);
+        tvLinearLocation = (LinearLayout) findViewById(R.id.tvLinearLocation);
     }
 
     @Override
@@ -180,6 +198,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         if (checkText) {
             myConvertData();
             saveToDatabase();
+            finish();
         }
     }
 
@@ -188,15 +207,17 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         contentValues.put(DatabaseTripDetail.COL_LICENSEPLATE, str_licenseplate);
         contentValues.put(DatabaseTripDetail.COL_RESERVATION_NUMBER, strReservationNumber);
         contentValues.put(DatabaseTripDetail.COL_PURPOSE, strPurpose);
-        contentValues.put(DatabaseTripDetail.COL_ARRIVAL_ODOMETER, odometerDouble);
+        contentValues.put(DatabaseTripDetail.COL_DEPARTURE_ODOMETER, odometerDouble);
         contentValues.put(DatabaseTripDetail.COL_FUEL_LEVEL, fuellLevelDouble);
         contentValues.put(DatabaseTripDetail.COL_DEPARTURE_DATETIME, strDepartureDateTime);
+        contentValues.put(DatabaseTripDetail.COL_DEPARTURE_LOCATION_NAME, strDepartureLocationName);
 
         myDbHelper = new MyDbHelper(TripStartActivity.this);
         sqLiteDatabase = myDbHelper.getWritableDatabase();
         long insertId = sqLiteDatabase.insert(DatabaseTripDetail.TABLE_NAME, null, contentValues);
         Log.d("insert id = > ", insertId + "");
         editor.putLong(trip_id, insertId);
+        editor.commit();
     }
 
     private void myConvertData() {
@@ -216,43 +237,83 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
 
     private void myGetText() {
         str_licenseplate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
-        Toast.makeText(this, str_licenseplate, Toast.LENGTH_SHORT).show();
-
         strReservationNumber = edtReservationNumber.getText().toString().trim();
         strPurpose = edtPurpose.getText().toString().trim();
         strDepartureOdometer = edtDepartureOdometer.getText().toString().trim();
         strFuelLevel = edtFuelLevel.getText().toString().trim();
         strDepartureDateTime = myDateModify.getStrDateTimeModify(tvDay, tvMonth, tvYear, tvHour, tvMinute);
+        strDepartureLocationName = edtNameLocation.getText().toString().trim();
+
 
 
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (isChecked) {
-            MyAddPermissionLocation myAddPermissionLocation = new MyAddPermissionLocation(TripStartActivity.this);
-            myAddPermissionLocation.checkLocation();
-        } else {
 
+        if (buttonView == switchLocation) {
+            Log.d("buttonView ", "True");
+            if (isChecked) {
+                tvLinearLocation.setVisibility(View.INVISIBLE);
+                myAddPermissionLocation = new MyAddPermissionLocation(TripStartActivity.this);
+                myAddPermissionLocation.setOnNextFunction(TripStartActivity.this);
+                myAddPermissionLocation.setOnCustomClickDialog(TripStartActivity.this);
+                myAddPermissionLocation.checkLocation();
+
+            } else {
+                tvLinearLocation.setVisibility(View.VISIBLE);
+
+            }
         }
+
     }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case MyAddPermissionLocation.REQUEST_CODE_ASK_PERMISSIONS:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "No use", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        if (requestCode == MyAddPermissionLocation.REQUEST_CODE_ASK_PERMISSIONS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Open GPS", Toast.LENGTH_SHORT).show();
+                onNewNextFuntion();
+                myAddPermissionLocation.setStatusLocation(true);
+
+            } else {
+                onNegativeMyDialog();
+
+            }
         }
 
     }
 
 
+    @Override
+    public void onPositiveMyDialog() {
+        Toast.makeText(this, "UsE GPS POSITIVE", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNegativeMyDialog() {
+        if (switchLocation.isChecked()) {
+            switchLocation.setChecked(false);
+            tvLinearLocation.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "No Open GPS ", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onNewNextFuntion() {
+
+        myLocationFirst = new MyLocationFirst(TripStartActivity.this);
+        myLocationFirst.registerOnextLocationFunction(TripStartActivity.this);
+        myLocationFirst.onLocationStart();
+    }
+
+    @Override
+    public void onStratNextFunction() {
+        latitude = myLocationFirst.getLatitude();
+        longtiude = myLocationFirst.getLongitude();
+        Log.d("latitude/longtitude => ", latitude + " / " + longtiude);
+    }
 }
