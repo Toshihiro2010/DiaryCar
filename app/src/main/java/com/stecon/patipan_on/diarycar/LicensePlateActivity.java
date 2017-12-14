@@ -23,9 +23,8 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
     private Button btnGoMain;
 
     private String strLicensePlate;
+    private long tripId;
 
-    private MyDbHelper myDbHelper;
-    private SQLiteDatabase database;
 
     public static final String P_NAME = "App_Config";
     public static String licenPlate = "licensePlate";
@@ -35,8 +34,15 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_licen_plate);
 
-        myDbHelper = new MyDbHelper(this);
-        database = myDbHelper.getWritableDatabase();
+        SharedPreferences sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
+        strLicensePlate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
+        tripId = sharedPreferences.getLong(TripStartActivity.trip_id, 0);
+
+        if (!strLicensePlate.equals("")) {
+            Intent intent = new Intent(LicensePlateActivity.this, TripStartActivity.class);
+            startActivity(intent);
+            finish();
+        }
         binWidGet();
         btnGoMain.setOnClickListener(this);
 
@@ -53,13 +59,15 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
             strLicensePlate = edtLicensePlate.getText().toString().trim();
             if (strLicensePlate.equals("")) {
                 Toast.makeText(this, "Please in put data", Toast.LENGTH_SHORT).show();
-//                edtLicensePlate.setText("");
             } else {
                 mySharePreferences();
-//                mySaveLicensePlate();
-//                Intent intent = new Intent(this, MainActivity.class);
-//                startActivity(intent);
-                finish();
+                if (tripId == 0) {
+                    Intent intent = new Intent(LicensePlateActivity.this, TripStartActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    finish();
+                }
             }
         }
     }
@@ -69,41 +77,6 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(licenPlate, strLicensePlate);
         editor.commit();
-
-    }
-
-    private void mySaveLicensePlate() {
-        int recCount = database.query(
-                DatabaseVehicleApply.TABLE_NAME
-                , null
-                , DatabaseVehicleApply.COL_LICENSE_PLATE + " = ? "
-                , new String[]{strLicensePlate}
-                , null
-                , null
-                , null)
-                .getCount();
-        if (recCount > 0) {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(DatabaseVehicleApply.COL_STATUS, 1);
-            database.update(DatabaseVehicleApply.TABLE_NAME, contentValues, DatabaseVehicleApply.COL_LICENSE_PLATE + " = ?", new String[]{strLicensePlate});
-            Log.d("RecCount => ", "Update => " + recCount);
-
-        }else{
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(DatabaseVehicleApply.COL_LICENSE_PLATE, strLicensePlate);
-            contentValues.put(DatabaseVehicleApply.COL_STATUS, 1);
-
-            database.insert(DatabaseVehicleApply.TABLE_NAME, null, contentValues);
-            Log.d("RecCount => ", "INSERT => " + recCount);
-
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        database.close();
-        myDbHelper.close();
 
     }
 }

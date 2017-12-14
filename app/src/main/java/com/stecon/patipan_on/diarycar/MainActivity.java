@@ -13,7 +13,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import com.stecon.patipan_on.diarycar.controller.MyStartFirst;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, MyStartFirst.CallbackMyStartFirst {
 
     private Button btnGoDiary;
     private Button btnGoOil;
@@ -32,8 +34,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
         strLicensePlate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
         tripIdALong = sharedPreferences.getLong(TripStartActivity.trip_id, 0);
-        if (tripIdALong == 0) {
-            Intent intent = new Intent(MainActivity.this, TripStartActivity.class);
+
+        if (strLicensePlate.equals("")) {
+            Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
             startActivity(intent);
         }
 
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -88,15 +92,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     @Override
-    protected void onStart() {
-        super.onStart();
-//        SharedPreferences sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
-//        strLicensePlate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
-//        if (strLicensePlate.equals("")) {
-//            Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
-//            startActivity(intent);
-//
-//        }
+    public void onCallbackLicensePlate() {
+        Log.d("myActivity => ", "onCallbackLicensePlate");
+        if (strLicensePlate.equals("")) {
+            Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
+            startActivity(intent);
+
+        }
     }
+
+    @Override
+    public void onCallbackTrip() {
+        Log.d("myActivity => ", "onCallbackTrip");
+        if (tripIdALong == 0) {
+            Intent intent = new Intent(MainActivity.this, TripStartActivity.class);
+            startActivity(intent);
+        }
+    }
+
 }

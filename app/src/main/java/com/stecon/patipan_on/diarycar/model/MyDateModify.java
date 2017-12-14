@@ -21,6 +21,9 @@ public class MyDateModify {
         this.year = Integer.parseInt(strInput.substring(last+1));
     }
 
+    public MyDateModify() {
+    }
+
     public void setDay(int day) {
         this.day = day;
     }

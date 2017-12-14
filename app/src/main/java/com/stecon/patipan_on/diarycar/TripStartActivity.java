@@ -70,6 +70,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     private Double longtiude;
 
     private String str_licenseplate;
+    private long tripId;
 
     private int tvHour , tvMinute;
     private int tvYear , tvMonth , tvDay;
@@ -91,12 +92,13 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_trip_start);
         sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-
         str_licenseplate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
-        if (str_licenseplate.equals("")) {
+        tripId = sharedPreferences.getLong(trip_id, 0);
+        if (tripId != 0) {
             Log.d("license plate => ", "No license ");
-            Intent intent = new Intent(TripStartActivity.this, LicensePlateActivity.class);
+            Intent intent = new Intent(TripStartActivity.this, MainActivity.class);
             startActivity(intent);
+            finish();
         }
 
         bindWidget();
@@ -198,6 +200,9 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         if (checkText) {
             myConvertData();
             saveToDatabase();
+
+            Intent intent = new Intent(TripStartActivity.this, MainActivity.class);
+            startActivity(intent);
             finish();
         }
     }

@@ -318,13 +318,16 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
             douMoneytTotal = Double.valueOf(strMoneyTotal);
             douUnitPrice = Double.valueOf(strUnitPrice);
 
-        } else if (!strMoneyTotal.equals("") && strUnitPrice.equals("")) {
+        }else if (!strMoneyTotal.equals("") && strUnitPrice.equals("")) {
             douUnitPrice = 0.0;
             douMoneytTotal = Double.valueOf(strMoneyTotal);
 
         }else if (strMoneyTotal.equals("") && !strUnitPrice.equals("")) {
             douMoneytTotal = 0.0;
             douUnitPrice = Double.valueOf(strUnitPrice);
+        } else if (strMoneyTotal.equals("") && strUnitPrice.equals("")) {
+            douMoneytTotal = 0.0;
+            douUnitPrice = 0.0;
         }
 
         douVolume = douMoneytTotal / douUnitPrice;

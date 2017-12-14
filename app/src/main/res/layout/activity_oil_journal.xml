@@ -123,7 +123,7 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:paddingLeft="4dp"
-                    android:text="ssssss"
+                    android:text="0 ลิตร"
                     android:textSize="@dimen/h5" />
 
             </LinearLayout>
