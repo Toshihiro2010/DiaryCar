@@ -18,9 +18,9 @@ import java.util.ArrayList;
 
 public class PostInfoAdapter extends RecyclerView.Adapter<PostInfoViewHolder> {
 
-    private ArrayList<String> dataModels;
+    private ArrayList<OilDataModel> dataModels;
 
-    public PostInfoAdapter(ArrayList<String> dataModels) {
+    public PostInfoAdapter(ArrayList<OilDataModel> dataModels) {
         this.dataModels = dataModels;
     }
 
@@ -35,10 +35,15 @@ public class PostInfoAdapter extends RecyclerView.Adapter<PostInfoViewHolder> {
     public void onBindViewHolder(PostInfoViewHolder holder, int position) {
         PostInfoViewHolder postInfoViewHolder = holder;
 
-        String date = dataModels.get(position);
-
+        OilDataModel oilDataModel = dataModels.get(position);
+        String date = oilDataModel.getTransaction_date();
         postInfoViewHolder.tvDate.setText(date.toString());
 
+        Double odometer = oilDataModel.getOdometer();
+        postInfoViewHolder.tvOdometer.setText(odometer.toString());
+
+        Double total_price = oilDataModel.getTotal_price();
+        postInfoViewHolder.tvTotalMoney.setText(total_price.toString());
 
     }
 

@@ -17,6 +17,7 @@ import com.stecon.patipan_on.diarycar.controller.PostInfoAdapter;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
 import com.stecon.patipan_on.diarycar.controller.MyAdapter;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
+import com.stecon.patipan_on.diarycar.model.MyDateModify;
 import com.stecon.patipan_on.diarycar.model.OilDataModel;
 
 import java.io.Reader;
@@ -32,7 +33,7 @@ public class OilListActivity extends AppCompatActivity {
     private SQLiteDatabase sqLiteDatabase;
 
     private Cursor cursor;
-    private ArrayList<String> arrayList;
+    private ArrayList<OilDataModel> arrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class OilListActivity extends AppCompatActivity {
             cursor.moveToFirst();
 
             for (int i = 0 ; i < cursor.getCount(); i++) {
-                OilDataModel oilDataModel = new OilDataModel();
+
                 double odometer = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_ODOMETER));
                 double unit_price = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_UNIT_PRICE));
                 double volume = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_VOLUME));
@@ -63,15 +64,21 @@ public class OilListActivity extends AppCompatActivity {
                 String payment_type = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_PAYMENT_TYPE));
                 double latitude = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_LATITUDE));
                 double longitude = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_LONGITUDE));
+                String note = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_NOTE));
+
+                String tempDate = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_TRANSACTION_DATE));
+                String[] test = MyDateModify.getStrsDateTimeFromSqlite(tempDate);
+
+                OilDataModel oilDataModel = new OilDataModel(odometer, unit_price, volume, total_rpice, partial_fillup, payment_type, latitude, longitude, note, test[0]);
 
 
+                arrayList.add(oilDataModel);
 
-                String tempDouble = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_TRANSACTION_DATE));
+                if (!cursor.isLast()) {
+                    Log.d("MyCursor => ", cursor.isAfterLast() + "");
+                    cursor.moveToNext();
+                }
 
-
-                Log.d("tempDouble =>", tempDouble + " ");
-                arrayList.add(String.valueOf(tempDouble));
-                arrayList.add("test");
             }
 
         }

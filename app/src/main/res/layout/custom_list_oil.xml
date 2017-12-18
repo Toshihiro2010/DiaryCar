@@ -56,7 +56,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvMoney"
+                android:id="@+id/tvTotalMoney"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -76,7 +76,7 @@
                 android:textSize="@dimen/h5" />
 
             <TextView
-                android:id="@+id/tvTotalMoney"
+                android:id="@+id/tvMoney"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"

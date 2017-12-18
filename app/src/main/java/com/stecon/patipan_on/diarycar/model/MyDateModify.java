@@ -1,5 +1,7 @@
 package com.stecon.patipan_on.diarycar.model;
 
+import android.util.Log;
+
 /**
  * Created by patipan_on on 11/14/2017.
  */
@@ -85,6 +87,21 @@ public class MyDateModify {
         }
         String myDateTime = year + "-" + month + "-" + day + " " + tempHour + ":" + tempMinute + ":00";
         return myDateTime;
+    }
+
+    public static String[] getStrsDateTimeFromSqlite(String str) {
+        String[] dateTime = new String[2];
+
+        int myIndexOf = str.indexOf(" ");
+        String day = str.substring(0, myIndexOf);
+        String time = str.substring(myIndexOf + 1);
+        Log.d("day => ", day);
+        Log.d("time => ", time);
+        dateTime[0] = day;
+        dateTime[1] = time;
+
+
+        return dateTime;
     }
 
 

@@ -17,10 +17,10 @@ public class OilDataModel {
     private double latitude;
     private double longitude;
     private String note;
-    private double transaction_date;
+    private String transaction_date;
     private Cursor cursor;
 
-    public OilDataModel(double odometer, double unit_price, double volume, double total_price, int partial_fillup, String payment_type, double latitude, double longitude, String note, double transaction_date) {
+    public OilDataModel(double odometer, double unit_price, double volume, double total_price, int partial_fillup, String payment_type, double latitude, double longitude, String note, String transaction_date) {
         this.odometer = odometer;
         this.unit_price = unit_price;
         this.volume = volume;
@@ -74,7 +74,7 @@ public class OilDataModel {
         return note;
     }
 
-    public double getTransaction_date() {
+    public String getTransaction_date() {
         return transaction_date;
     }
 
@@ -114,7 +114,7 @@ public class OilDataModel {
         this.note = note;
     }
 
-    public void setTransaction_date(double transaction_date) {
+    public void setTransaction_date(String transaction_date) {
         this.transaction_date = transaction_date;
     }
 }
