@@ -161,8 +161,8 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
             progressDialog.setMessage("Loadding..........");
             progressDialog.setTitle("Save Data");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.show();
             progressDialog.setCancelable(false);
+            progressDialog.show();
             Boolean check = myCheckData();
             Log.d("check => ", check.toString());
             if (!check) {
@@ -253,6 +253,7 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         contentValues.put(DatabaseOilJournal.COL_LICENSE_PLATE, strLicensePlate);
         contentValues.put(DatabaseOilJournal.COL_ODOMETER, douOdometer);
         contentValues.put(DatabaseOilJournal.COL_UNIT_PRICE, douUnitPrice);
+        contentValues.put(DatabaseOilJournal.COL_FUEL_TYPE, strFuelType);
         contentValues.put(DatabaseOilJournal.COL_VOLUME, douVolume);
         contentValues.put(DatabaseOilJournal.COL_TOTAL_PRICE, douMoneytTotal);
         contentValues.put(DatabaseOilJournal.COL_PARTIAL_FILL_UP, partialFillUp);
@@ -263,7 +264,6 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         Log.d("contentValue => ", contentValues.toString());
 
         sqLiteDatabase.insert(DatabaseOilJournal.TABLE_NAME, null, contentValues);
-        progressDialog.dismiss();
         Toast.makeText(this, "บันทึกข้อมูลเรียบร้อยแล้ว", Toast.LENGTH_SHORT).show();
 
 
@@ -281,6 +281,7 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         tvShowVolume.setText("0 ลิตร");
 
         mySetSpinner();
+        progressDialog.dismiss();
     }
 
 
@@ -331,7 +332,7 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         }
 
         douVolume = douMoneytTotal / douUnitPrice;
-        DecimalFormat df = new DecimalFormat("#.0000");
+        DecimalFormat df = new DecimalFormat("#.000");
         tempShowVoulume = df.format(douVolume);
         tvShowVolume.setText(tempShowVoulume + " ลิตร");
 

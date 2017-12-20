@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.controller.MyStartFirst;
+import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, MyStartFirst.CallbackMyStartFirst {
 
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         SharedPreferences sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
         strLicensePlate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
-        tripIdALong = sharedPreferences.getLong(TripStartActivity.trip_id, 0);
+        tripIdALong = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
 
         if (strLicensePlate.equals("")) {
             Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);

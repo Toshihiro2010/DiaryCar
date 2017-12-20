@@ -71,6 +71,7 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
 
         bindWidget();
         Date date = new Date();
+        myTestHttp();
 
         String timeStamp = new SimpleDateFormat("dd/MM/yyyy").format(date);
         myDateModify = new MyDateModify(timeStamp);
@@ -215,7 +216,8 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Log.d("Check => ", "onResponse");
-                Log.d("data => ", response.body().charStream().toString());
+
+
 
                 String dataResponse = response.body().string();
 

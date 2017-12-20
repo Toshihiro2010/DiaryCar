@@ -6,8 +6,6 @@ import android.widget.TextView;
 
 import com.stecon.patipan_on.diarycar.R;
 
-import org.w3c.dom.Text;
-
 /**
  * Created by patipan_on on 12/11/2017.
  */
@@ -16,7 +14,7 @@ public class PostInfoViewHolder extends RecyclerView.ViewHolder{
 
     public TextView tvDate;
     public TextView tvOdometer;
-    public TextView tvMoney;
+    public TextView tvDetail;
     public TextView tvFuelAmount;
     public TextView tvTotalMoney;
     public TextView tvLocation;
@@ -27,7 +25,7 @@ public class PostInfoViewHolder extends RecyclerView.ViewHolder{
 
         tvDate = (TextView) itemView.findViewById(R.id.tvDate);
         tvOdometer = (TextView) itemView.findViewById(R.id.tvOdometer);
-        tvMoney = (TextView) itemView.findViewById(R.id.tvMoney);
+        tvDetail = (TextView) itemView.findViewById(R.id.tvDetail);
         tvFuelAmount = (TextView) itemView.findViewById(R.id.tvFuelAmount);
         tvTotalMoney = (TextView) itemView.findViewById(R.id.tvTotalMoney);
         tvLocation = (TextView) itemView.findViewById(R.id.tvLocation);

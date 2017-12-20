@@ -21,7 +21,7 @@
             android:value="@integer/google_play_services_version"
             tools:replace="android:value" />
 
-        <activity android:name=".OilListActivity">
+        <activity android:name=".PriceOtherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,14 +30,14 @@
         </activity>
         <activity android:name=".OilDiaryActivity" />
         <activity android:name=".CarDiaryActivity" />
-        <activity android:name=".LicensePlateActivity" />
+        <activity android:name=".OilListActivity" />
         <activity android:name=".MyRecycleView" />
         <activity android:name=".CarListActivity" />
         <activity android:name=".OilJournalActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".VerifiedActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".PriceOtherActivity" />
+        <activity android:name=".LicensePlateActivity" />
         <activity android:name=".TripStartActivity"></activity>
     </application>
 

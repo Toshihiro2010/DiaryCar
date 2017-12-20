@@ -17,6 +17,7 @@ public class DatabaseOilJournal {
     public static final String COL_ODOMETER = "odometer";
 
     public static final String COL_UNIT_PRICE = "unit_price";
+    public static final String COL_FUEL_TYPE = "fuel_type";
     public static final String COL_VOLUME = "volume";
     public static final String COL_TOTAL_PRICE = "total_price";
     public static final String COL_PARTIAL_FILL_UP = "partial_fillup";
@@ -36,6 +37,7 @@ public class DatabaseOilJournal {
             + COL_LICENSE_PLATE + " TEXT,"
             + COL_ODOMETER + " REAL,"
             + COL_UNIT_PRICE + " REAL,"
+            + COL_FUEL_TYPE + " TEXT,"
             + COL_VOLUME + " REAL,"
             + COL_TOTAL_PRICE + " REAL,"
             + COL_PARTIAL_FILL_UP + " INTEGER,"

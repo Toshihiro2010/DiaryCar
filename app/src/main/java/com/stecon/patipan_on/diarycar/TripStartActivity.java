@@ -32,6 +32,7 @@ import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.controller.MyLocationFirst;
 import com.stecon.patipan_on.diarycar.database.DatabaseTrip;
 import com.stecon.patipan_on.diarycar.database.DatabaseTripDetail;
+import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.MyDateModify;
 
 import java.text.SimpleDateFormat;
@@ -69,6 +70,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     private Double latitude;
     private Double longtiude;
 
+
     private String str_licenseplate;
     private long tripId;
 
@@ -83,7 +85,6 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-    public static final String trip_id = "trip_id";
     MyAddPermissionLocation myAddPermissionLocation;
 
     @Override
@@ -93,7 +94,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         str_licenseplate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
-        tripId = sharedPreferences.getLong(trip_id, 0);
+        tripId = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
         if (tripId != 0) {
             Log.d("license plate => ", "No license ");
             Intent intent = new Intent(TripStartActivity.this, MainActivity.class);
@@ -221,7 +222,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         sqLiteDatabase = myDbHelper.getWritableDatabase();
         long insertId = sqLiteDatabase.insert(DatabaseTripDetail.TABLE_NAME, null, contentValues);
         Log.d("insert id = > ", insertId + "");
-        editor.putLong(trip_id, insertId);
+        editor.putLong(MyAppConfig.trip_id, insertId);
         editor.commit();
     }
 

@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class MonitorInfo {
 
+
     @SerializedName("product_id")
     @Expose
     private String productId;

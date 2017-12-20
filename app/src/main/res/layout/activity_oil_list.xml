@@ -7,33 +7,17 @@
     android:background="@color/theme_background"
     tools:context="com.stecon.patipan_on.diarycar.OilListActivity">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#aaffffff"
-        android:text="@string/button_list_oil"
-        android:textColor="@color/textFont"
-        android:textSize="@dimen/head_1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/oilRecyclerView"
         android:layout_width="0dp"
-        android:layout_height="464dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="495dp"
+        android:layout_margin="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        tools:layout_editor_absoluteY="8dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnOilJournal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="btnOilJournal"

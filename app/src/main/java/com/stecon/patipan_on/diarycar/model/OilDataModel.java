@@ -11,6 +11,7 @@ public class OilDataModel {
     private double odometer;
     private double unit_price;
     private double volume;
+    private String fuel_type;
     private double total_price;
     private int partial_fillup;
     private String payment_type;
@@ -18,9 +19,8 @@ public class OilDataModel {
     private double longitude;
     private String note;
     private String transaction_date;
-    private Cursor cursor;
 
-    public OilDataModel(double odometer, double unit_price, double volume, double total_price, int partial_fillup, String payment_type, double latitude, double longitude, String note, String transaction_date) {
+    public OilDataModel(double odometer, double unit_price, double volume,String fuel_type,double total_price, int partial_fillup, String payment_type, double latitude, double longitude, String note, String transaction_date) {
         this.odometer = odometer;
         this.unit_price = unit_price;
         this.volume = volume;
@@ -31,11 +31,20 @@ public class OilDataModel {
         this.longitude = longitude;
         this.note = note;
         this.transaction_date = transaction_date;
+        this.fuel_type = fuel_type;
     }
 
 
     public OilDataModel() {
 
+    }
+
+    public String getFuel_type() {
+        return fuel_type;
+    }
+
+    public void setFuel_type(String fuel_type) {
+        this.fuel_type = fuel_type;
     }
 
     public double getOdometer() {

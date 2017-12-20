@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.database.DatabaseVehicleApply;
+import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 
 public class LicensePlateActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -36,7 +37,7 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
 
         SharedPreferences sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
         strLicensePlate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
-        tripId = sharedPreferences.getLong(TripStartActivity.trip_id, 0);
+        tripId = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
 
         if (!strLicensePlate.equals("")) {
             Intent intent = new Intent(LicensePlateActivity.this, TripStartActivity.class);
