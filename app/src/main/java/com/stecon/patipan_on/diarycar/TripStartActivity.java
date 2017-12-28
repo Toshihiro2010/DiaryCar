@@ -1,6 +1,5 @@
 package com.stecon.patipan_on.diarycar;
 
-import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
@@ -9,10 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,7 +26,6 @@ import android.widget.Toast;
 import com.stecon.patipan_on.diarycar.controller.MyAddPermissionLocation;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.controller.MyLocationFirst;
-import com.stecon.patipan_on.diarycar.database.DatabaseTrip;
 import com.stecon.patipan_on.diarycar.database.DatabaseTripDetail;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.MyDateModify;
@@ -85,21 +80,26 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-    MyAddPermissionLocation myAddPermissionLocation;
+    private MyAddPermissionLocation myAddPermissionLocation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_start);
+
+        Bundle bundle = getIntent().getExtras();
+
         sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
+
         str_licenseplate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
         tripId = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
+        Log.d("tripId = > ", tripId + " ");
         if (tripId != 0) {
-            Log.d("license plate => ", "No license ");
-            Intent intent = new Intent(TripStartActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            Log.d("trip => ", "No tripId ");
+            goToActivitySet();
         }
 
         bindWidget();
@@ -155,7 +155,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         } else if (v == btnSelectDepartureTime) {
             mySelectTime();
         } else if (v == btnGoToMain) {
-            myGoActivity();
+            onSQLiteSaveData();
         }
     }
 
@@ -192,19 +192,15 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         timePickerDialog.show();
     }
 
-    private void myGoActivity() {
+    private void onSQLiteSaveData() {
 
-
-        // TODO CheckData Location
         myGetText();
         Boolean checkText = myCheck();
         if (checkText) {
             myConvertData();
             saveToDatabase();
 
-            Intent intent = new Intent(TripStartActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            goToActivitySet();
         }
     }
 
@@ -239,6 +235,12 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         } else {
             return true;
         }
+    }
+
+    private void goToActivitySet() {
+        Intent intent = new Intent(TripStartActivity.this, CarDiaryActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void myGetText() {

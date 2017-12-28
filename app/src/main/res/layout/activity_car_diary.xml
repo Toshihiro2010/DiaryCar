@@ -6,164 +6,47 @@
     android:layout_height="match_parent"
     tools:context="com.stecon.patipan_on.diarycar.CarDiaryActivity">
 
-    <TextView
-        android:id="@+id/textTitleCar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/head_car"
-        android:textColor="@color/textFont"
-        android:textSize="@dimen/head_1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-
-    <LinearLayout
+    <Button
+        android:id="@+id/btnEndTrip"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="125dp"
+        android:text="@string/btn_end_trp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnListCar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/button_list_car"
-                android:textColor="@color/textFont"
-                android:textSize="@dimen/h2" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnSaveCar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/button_save_oil"
-                android:textColor="@color/textFont"
-                android:textSize="@dimen/h2" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
-        android:background="#50fd0000"
-        android:orientation="vertical"
-        android:paddingBottom="30dp"
-        android:paddingTop="30dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textTitleCar">
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
-        <EditText
-            android:id="@+id/edtCarTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/car_title"
-            android:textColor="@color/textFont"
-            android:textSize="@dimen/h2"
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="106dp"
+        android:text="@string/btn_price_other"
+        app:layout_constraintLeft_toLeftOf="@+id/btnEndTrip"
+        app:layout_constraintRight_toRightOf="@+id/btnEndTrip"
+        app:layout_constraintTop_toBottomOf="@+id/btnEndTrip"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
-
-            />
-
-        <EditText
-            android:id="@+id/edtCarDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:hint="@string/car_detail"
-            android:lines="5"
-            android:textColor="@color/textFont"
-            android:textSize="@dimen/h2" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/edtKmIn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/car_km_in"
-                android:inputType="numberDecimal"
-                android:textColor="@color/textFont"
-                android:textSize="@dimen/h2" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/km"
-                android:textColor="@color/textFont"
-                android:textSize="@dimen/h2" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layKmOut"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-
-            >
-
-            <EditText
-                android:id="@+id/edtKmOut"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/car_km_in"
-                android:textColor="@color/textFont"
-                android:textSize="@dimen/h2" />
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/litemeter"
-                android:textColor="@color/textFont"
-                android:textSize="@dimen/h2" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="85dp"
+        android:text="Button"
+        app:layout_constraintLeft_toLeftOf="@+id/button2"
+        app:layout_constraintRight_toRightOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/button2"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 </android.support.constraint.ConstraintLayout>

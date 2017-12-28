@@ -1,12 +1,12 @@
 package com.stecon.patipan_on.diarycar;
 
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,11 +17,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
+import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
 import com.stecon.patipan_on.diarycar.database.DatabaseTripCost;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 
-public class PriceOtherActivity extends AppCompatActivity implements View.OnClickListener {
+public class PriceOtherActivity extends AppCompatActivity implements View.OnClickListener, CustomAlertDialog.OnMyDialogActivity {
 
     private Spinner spinnerPriceType;
     private EditText edtTitle;
@@ -43,6 +45,9 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
     SQLiteDatabase sqLiteDatabase;
 
     private ProgressDialog progressDialog;
+    private CustomAlertDialog customAlertDialog;
+
+    private int data_id;
 
 
 
@@ -51,16 +56,55 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_price_other);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
-        trip_id = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
-        Log.d("trip_id => ", trip_id + "");
+        bindWidget();
+        Bundle bundle = getIntent().getExtras();
         myDbHelper = new MyDbHelper(PriceOtherActivity.this);
         sqLiteDatabase = myDbHelper.getWritableDatabase();
-
-
-        bindWidget();
         mySetSpinner();
+
+        if (bundle != null) {
+            data_id = bundle.getInt("data_id");
+        }
+
+        if (data_id != 0) {
+            Log.d("id = > ", data_id + " ");
+            mySetQueryText();
+        } else {
+            Log.d("id = > ", "No id");
+            mySetSpinner();
+        }
         btnSavePriceOther.setOnClickListener(this);
+    }
+
+    private void mySetQueryText() {
+        String strSql = "SELECT * FROM " + DatabaseTripCost.TABLE_NAME + " WHERE " + DatabaseOilJournal.COL_ID + " = " + data_id;
+        Log.d("STRSQL = > ", strSql);
+        Cursor cursor = sqLiteDatabase.rawQuery(strSql , null);
+        Log.d("cursor = > ", cursor.getCount() + " ");
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            strPriceType = cursor.getString(cursor.getColumnIndex(DatabaseTripCost.COL_PRICE_TYPE));
+            strTitle = cursor.getString(cursor.getColumnIndex(DatabaseTripCost.COL_PRICE_TITLE));
+            priceADouble = cursor.getDouble(cursor.getColumnIndex(DatabaseTripCost.COL_PRICE_MONEY));
+            strNote = cursor.getString(cursor.getColumnIndex(DatabaseTripCost.COL_NOTE));
+
+            strPrice = priceADouble +" " + getResources().getString(R.string.bath);
+
+
+            edtTitle.setText(strTitle);
+            edtPrice.setText(strPrice);
+            edtNoteDetail.setText(strNote);
+
+            priceTypeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.price_other_array, R.layout.support_simple_spinner_dropdown_item);
+            if (!strPriceType.equals(null)) {
+                int spinnerPosition = priceTypeArrayAdapter.getPosition(strPriceType);
+                spinnerPriceType.setSelection(spinnerPosition);
+            } else {
+                spinnerPriceType.setAdapter(priceTypeArrayAdapter);
+            }
+
+        }
     }
 
     private void mySetSpinner() {
@@ -82,10 +126,13 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         if (v == btnSavePriceOther) {
             strPrice = edtPrice.getText().toString().trim();
-            if (strPrice.equals("")) {
+            strPriceType = spinnerPriceType.getSelectedItem().toString();
+            strTitle = edtTitle.getText().toString().trim();
+            strNote = edtNoteDetail.getText().toString().trim();
+
+            if (strPrice.equals("") || strNote.equals("")) {
                 Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
-                mySetEmptyText();
-            }else{
+            } else {
                 progressDialog = new ProgressDialog(PriceOtherActivity.this);
                 progressDialog.setCancelable(false);
                 progressDialog.setTitle("Save Data");
@@ -97,11 +144,7 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void onSaveData() {
-        strPriceType = spinnerPriceType.getSelectedItem().toString();
-        strTitle = edtTitle.getText().toString().trim();
         priceADouble = Double.valueOf(strPrice);
-        strNote = edtNoteDetail.getText().toString().trim();
-
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseTripCost.COL_TRIP_ID, trip_id);
         contentValues.put(DatabaseTripCost.COL_PRICE_TYPE, strPriceType);
@@ -124,5 +167,35 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
         edtNoteDetail.setText("");
         mySetSpinner();
 
+    }
+
+    @Override
+    public void onMyDialogPostitve() {
+        Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(PriceOtherActivity.this, TripStartActivity.class);
+        intent.putExtra(MyAppConfig.activity_code, 99);
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void onMyDialogNegative() {
+        Toast.makeText(this, "No", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("OnActivity => ", "OnStart");
+        SharedPreferences sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
+        trip_id = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
+        MyAppConfig.setNum_trip_id(trip_id);
+        if (trip_id == 0) {
+            customAlertDialog = new CustomAlertDialog(PriceOtherActivity.this, "No Trip id", "Please add Trip");
+            customAlertDialog.myDefaultDialog();
+            customAlertDialog.setOnMyDialogActivity(PriceOtherActivity.this);
+            customAlertDialog.show();
+        }
     }
 }

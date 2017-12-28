@@ -51,6 +51,7 @@ public class MyAddPermissionLocation {
                                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                 MyAddPermissionLocation.REQUEST_CODE_ASK_PERMISSIONS);
                         dialog.dismiss();
+                        statusLocation = true;
                         if (onCustomClickDialog != null) {
                             onCustomClickDialog.onPositiveMyDialog();
                         }

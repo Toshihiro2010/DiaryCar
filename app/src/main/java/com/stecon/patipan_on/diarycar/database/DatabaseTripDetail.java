@@ -27,9 +27,11 @@ public class DatabaseTripDetail {
     public static final String COL_FUEL_LEVEL = "fuel_level";
 
     public static final String COL_NOTE = "note";
-
+    public static final String COL_TRANSACTION_DATE = "transaction_date";
     public static final String COL_DATE_CREATE = "date_create";
     public static final String COL_DATE_UPDATE = "date_update";
+    public static final String COL_BY_CREATE = "create_by";
+    public static final String COL_BY_UPDATE = "update_by";
 
     public static String strSqlCreate = "CREATE TABLE " + TABLE_NAME
             + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -49,7 +51,10 @@ public class DatabaseTripDetail {
             + COL_ARRIVAL_PARKING_LOCATION + " TEXT,"
             + COL_FUEL_LEVEL + " REAL,"
             + COL_NOTE + " TEXT,"
+            + COL_TRANSACTION_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
             + COL_DATE_CREATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
-            + COL_DATE_UPDATE + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
+            + COL_DATE_UPDATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
+            + COL_BY_CREATE + " TEXT,"
+            + COL_BY_UPDATE + " TEXT);";
 
 }

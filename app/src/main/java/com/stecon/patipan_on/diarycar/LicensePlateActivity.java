@@ -14,8 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
-import com.stecon.patipan_on.diarycar.database.DatabaseVehicleApply;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 
 public class LicensePlateActivity extends AppCompatActivity implements View.OnClickListener {
@@ -24,7 +22,6 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
     private Button btnGoMain;
 
     private String strLicensePlate;
-    private long tripId;
 
 
     public static final String P_NAME = "App_Config";
@@ -37,7 +34,6 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
 
         SharedPreferences sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
         strLicensePlate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
-        tripId = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
 
         if (!strLicensePlate.equals("")) {
             Intent intent = new Intent(LicensePlateActivity.this, TripStartActivity.class);
@@ -62,13 +58,8 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
                 Toast.makeText(this, "Please in put data", Toast.LENGTH_SHORT).show();
             } else {
                 mySharePreferences();
-                if (tripId == 0) {
-                    Intent intent = new Intent(LicensePlateActivity.this, TripStartActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    finish();
-                }
+                Intent intent = new Intent(LicensePlateActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         }
     }

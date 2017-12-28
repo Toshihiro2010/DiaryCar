@@ -12,17 +12,19 @@ import android.util.Log;
 public class CustomAlertDialog {
 
     Context context;
-    String message = "You should in put message............";
-    String title = "You should in put title";
+    String title ;
+    String message ;
 
     AlertDialog.Builder builder;
     OnMyDialogActivity onMyDialogActivity = null;
 
     public CustomAlertDialog(Context context) {
         this.context = context;
+        this.title = "You should in put title";
+        this.message = "You should in put message............";
     }
 
-    public CustomAlertDialog(Context context, String message, String title) {
+    public CustomAlertDialog(Context context, String title, String message) {
         this.context = context;
         this.message = message;
         this.title = title;
@@ -36,7 +38,7 @@ public class CustomAlertDialog {
         this.title = title;
     }
 
-    public void myDialog() {
+    public void myDefaultDialog() {
 
         builder = new AlertDialog.Builder(context);
         builder.setCancelable(true);
@@ -59,10 +61,10 @@ public class CustomAlertDialog {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.d("CustomDialog =>", "No");
-                dialog.dismiss();
                 if (onMyDialogActivity != null) {
                     onMyDialogActivity.onMyDialogNegative();
                 }
+                dialog.dismiss();
             }
         });
     }

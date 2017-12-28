@@ -13,6 +13,7 @@ public class DatabaseOilJournal {
 
     public static final String TABLE_NAME = "OIL";
 
+    public static String COL_ID = "_id";
     public static final String COL_LICENSE_PLATE = "license_plate";
     public static final String COL_ODOMETER = "odometer";
 
@@ -26,6 +27,10 @@ public class DatabaseOilJournal {
     public static final String COL_LONGITUDE = "longitude";
     public static final String COL_NOTE = "note";
     public static final String COL_TRANSACTION_DATE = "transaction_date";
+    public static final String COL_DATE_CREATE= "create_date";
+    public static final String COL_DATE_UPDATE = "update_date";
+    public static final String COL_CREATE_BY = "create_by";
+    public static final String COL_UPDATE_BY = "update_by";
 
 //    public static String strSqlCreate = "CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
 //            + COL_TRANSACTION_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP, "
@@ -45,7 +50,11 @@ public class DatabaseOilJournal {
             + COL_LATITUDE+ " REAL,"
             + COL_LONGITUDE + " REAL,"
             + COL_NOTE + " TEXT,"
-            + COL_TRANSACTION_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
+            + COL_TRANSACTION_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
+            + COL_DATE_CREATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
+            + COL_DATE_UPDATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
+            + COL_CREATE_BY + " TEXT,"
+            + COL_UPDATE_BY + " TEXT);";
 
 
 }

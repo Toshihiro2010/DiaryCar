@@ -1,16 +1,19 @@
-package com.stecon.patipan_on.diarycar.controller;
+package com.stecon.patipan_on.diarycar.model;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.R;
+import com.stecon.patipan_on.diarycar.controller.PostInfoAdapter;
 
 /**
  * Created by patipan_on on 12/11/2017.
  */
 
-public class PostInfoViewHolder extends RecyclerView.ViewHolder{
+public class PostInfoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public TextView tvDate;
     public TextView tvOdometer;
@@ -18,6 +21,8 @@ public class PostInfoViewHolder extends RecyclerView.ViewHolder{
     public TextView tvFuelAmount;
     public TextView tvTotalMoney;
     public TextView tvLocation;
+
+    private ItemClickListener itemClickListener = null;
 
 
     public PostInfoViewHolder(View itemView) {
@@ -29,5 +34,18 @@ public class PostInfoViewHolder extends RecyclerView.ViewHolder{
         tvFuelAmount = (TextView) itemView.findViewById(R.id.tvFuelAmount);
         tvTotalMoney = (TextView) itemView.findViewById(R.id.tvTotalMoney);
         tvLocation = (TextView) itemView.findViewById(R.id.tvLocation);
+
+        itemView.setOnClickListener(this);
+    }
+
+    public void setOnClickListener(ItemClickListener listener) {
+        this.itemClickListener = listener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (itemClickListener != null) {
+            itemClickListener.onClick(v, getAdapterPosition());
+        }
     }
 }

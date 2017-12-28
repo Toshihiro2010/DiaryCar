@@ -8,12 +8,17 @@ public class DatabaseTripCost {
 
     public static final String TABLE_NAME = "TRIP_COST";
 
+    public static final String COL_ID = "_id";
     public static final String COL_TRIP_ID = "trip_id";
     public static final String COL_PRICE_TYPE = "price_type";
     public static final String COL_PRICE_TITLE = "title";
     public static final String COL_PRICE_MONEY = "money";
     public static final String COL_NOTE = "note";
     public static final String COL_TRANSACTION_DATE = "transaction_date";
+    public static final String COL_DATE_CREATE= "create_date";
+    public static final String COL_DATE_UPDATE = "update_date";
+    public static final String COL_CREATE_BY = "create_by";
+    public static final String COL_UPDATE_BY = "update_by";
 
     public static String strSqlCreate = "CREATE TABLE " + TABLE_NAME
             + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -22,6 +27,10 @@ public class DatabaseTripCost {
             + COL_PRICE_TITLE + " TEXT,"
             + COL_PRICE_MONEY + " REAL,"
             + COL_NOTE + " TEXT,"
-            + COL_TRANSACTION_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
+            + COL_TRANSACTION_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
+            + COL_DATE_CREATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
+            + COL_DATE_UPDATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
+            + COL_CREATE_BY + " TEXT,"
+            + COL_UPDATE_BY + " TEXT);";
 
 }

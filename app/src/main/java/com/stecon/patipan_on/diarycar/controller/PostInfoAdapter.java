@@ -3,16 +3,24 @@ package com.stecon.patipan_on.diarycar.controller;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.stecon.patipan_on.diarycar.CarDiaryActivity;
+import com.stecon.patipan_on.diarycar.OilJournalActivity;
 import com.stecon.patipan_on.diarycar.R;
+import com.stecon.patipan_on.diarycar.model.ItemClickListener;
+import com.stecon.patipan_on.diarycar.model.MyData;
 import com.stecon.patipan_on.diarycar.model.OilDataModel;
+import com.stecon.patipan_on.diarycar.model.PostInfoViewHolder;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -24,17 +32,17 @@ import java.util.Locale;
  * Created by patipan_on on 12/11/2017.
  */
 
-public class PostInfoAdapter extends RecyclerView.Adapter<PostInfoViewHolder> {
+public class PostInfoAdapter extends RecyclerView.Adapter<PostInfoViewHolder> implements ItemClickListener {
 
     private Context context;
     private ArrayList<OilDataModel> dataModels;
-    List<Address> addresses;
 
 
     public PostInfoAdapter(Context context, ArrayList<OilDataModel> dataModels) {
         this.context = context;
         this.dataModels = dataModels;
     }
+
 
     @Override
     public PostInfoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -67,35 +75,29 @@ public class PostInfoAdapter extends RecyclerView.Adapter<PostInfoViewHolder> {
                 + oilDataModel.getPayment_type();
         postInfoViewHolder.tvDetail.setText(tvDetail);
 
-        Double latitude = oilDataModel.getLatitude();
-        Double longitude = oilDataModel.getLongitude();
-        Geocoder geocoder = new Geocoder(context , Locale.getDefault());
 
-        try {
-            addresses = geocoder.getFromLocation(latitude, longitude, 1);
+        String strLocation = oilDataModel.getStrLocation();
+        postInfoViewHolder.tvLocation.setText(strLocation);
 
-            if (addresses != null) {
-                String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                String city = addresses.get(0).getLocality();
-                String state = addresses.get(0).getAdminArea();
-                String country = addresses.get(0).getCountryName();
-                String postalCode = addresses.get(0).getPostalCode();
-                String knownName = addresses.get(0).getFeatureName();
-                Log.d("addresses => ", addresses.toString());
-                postInfoViewHolder.tvLocation.setText(address + " " + city + " " + state + " " + country);
-
-            } else {
-                postInfoViewHolder.tvLocation.setVisibility(View.INVISIBLE);
-
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (strLocation != null) {
+            postInfoViewHolder.tvLocation.setText(strLocation);
+        } else {
+            postInfoViewHolder.tvLocation.setVisibility(View.INVISIBLE);
         }
+
+        postInfoViewHolder.setOnClickListener(this);
     }
+
 
     @Override
     public int getItemCount() {
         return dataModels.size();
     }
 
+    @Override
+    public void onClick(View view, int i) {
+        Intent intent = new Intent(context, OilJournalActivity.class);
+        intent.putExtra("data_id", dataModels.get(i).getId());
+        context.startActivity(intent);
+    }
 }

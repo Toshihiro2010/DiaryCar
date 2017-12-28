@@ -2,7 +2,7 @@
     <string name="app_name">Vehicle Journal</string>
     <string name="head_car">บันทึกการใช้รถ</string>
     <string name="head_oil">บันทึกการเติมน้ำมัน</string>
-    <string name="head_price_other">ค่าใช้จ่ายอื่นๆ</string>
+    <string name="head_price_service">ค่าใช้จ่ายซ่อมบำรุง</string>
 
 
     <string name="oil_litemeter">ราคาต่อลิตร</string>
@@ -30,6 +30,7 @@
     <string name="km">Km</string>
 
     <string name="login">LogIn</string>
+    <!--<string name="bath" translatable="false">บาท</string>-->
     <string name="bath">บาท</string>
 
 
@@ -46,7 +47,7 @@
     priceOtherActivity
     <string name="edt_price_title">ชื่อเรื่อง</string>
     <string name="edt_money_service">ราคารวม</string>
-    <string name="edt_price_other_note">บันทึกรายละเอียด (ไม่จำไม่เป็น)</string>
+    <string name="edt_price_other_note">บันทึกรายละเอียด</string>
 
 
     tripStart
@@ -63,6 +64,11 @@
     <string name="head_location_trip">ตำแหน่งการเดินทาง</string>
     <string name="tip_location_title">ใช้ตำแหน่ง GPS  </string>
     <string name="tip_location_name">สถานที่เริ่มการเดินทาง</string>
+
+    carTripMain
+    <string name="btn_price_other">ค่าใช้จ่ายในการเดินทาง</string>
+    <string name="btn_end_trp">สิ้นสุดการเดินทาง</string>
+
 
 
 

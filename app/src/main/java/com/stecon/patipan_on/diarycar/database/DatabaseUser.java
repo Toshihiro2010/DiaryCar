@@ -9,7 +9,7 @@ public class DatabaseUser {
 
     public static final String TABLE_NAME = "๊User";
 
-    public static final String COL_EMPLOYEEID= "employeeId";
+    public static final String COL_EMPLOYEEID = "employeeId";
     public static final String COL_IDCARDNUMBER = "idCardNumber";
     public static final String COL_DATEBIRTH = "dateBirth";
 
@@ -17,4 +17,5 @@ public class DatabaseUser {
             + COL_EMPLOYEEID + " TEXT , "
             + COL_IDCARDNUMBER + " TEXT, "
             + COL_DATEBIRTH + " , TEXT);";
+
 }

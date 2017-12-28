@@ -95,8 +95,6 @@ public class MyDateModify {
         int myIndexOf = str.indexOf(" ");
         String day = str.substring(0, myIndexOf);
         String time = str.substring(myIndexOf + 1);
-        Log.d("day => ", day);
-        Log.d("time => ", time);
         dateTime[0] = day;
         dateTime[1] = time;
 

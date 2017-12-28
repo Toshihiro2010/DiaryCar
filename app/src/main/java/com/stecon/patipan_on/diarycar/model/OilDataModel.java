@@ -1,13 +1,17 @@
 package com.stecon.patipan_on.diarycar.model;
 
 import android.database.Cursor;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 
 /**
  * Created by patipan_on on 12/11/2017.
  */
 
-public class OilDataModel {
+public class OilDataModel extends ArrayList<Parcelable> {
 
+    private int id;
     private double odometer;
     private double unit_price;
     private double volume;
@@ -19,8 +23,10 @@ public class OilDataModel {
     private double longitude;
     private String note;
     private String transaction_date;
+    private String strLocation;
 
-    public OilDataModel(double odometer, double unit_price, double volume,String fuel_type,double total_price, int partial_fillup, String payment_type, double latitude, double longitude, String note, String transaction_date) {
+    public OilDataModel(int id, double odometer, double unit_price, double volume,String fuel_type,double total_price, int partial_fillup, String payment_type, double latitude, double longitude, String note, String transaction_date) {
+        this.id = id;
         this.odometer = odometer;
         this.unit_price = unit_price;
         this.volume = volume;
@@ -37,6 +43,22 @@ public class OilDataModel {
 
     public OilDataModel() {
 
+    }
+
+    public String getStrLocation() {
+        return strLocation;
+    }
+
+    public void setStrLocation(String strLocation) {
+        this.strLocation = strLocation;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFuel_type() {

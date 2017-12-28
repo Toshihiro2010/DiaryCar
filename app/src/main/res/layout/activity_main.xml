@@ -32,18 +32,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/head_oil"
-        android:layout_alignBottom="@+id/btnPriceOther"
+        android:layout_marginBottom="68dp"
+        android:layout_above="@+id/btnPriceOther"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="116dp" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/btnPriceOther"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/head_price_other"
-        android:layout_marginBottom="118dp"
+        android:text="@string/head_price_service"
+        android:layout_marginBottom="117dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
 </RelativeLayout>

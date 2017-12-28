@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.stecon.patipan_on.diarycar.controller.MyStartFirst;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, MyStartFirst.CallbackMyStartFirst {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button btnGoDiary;
     private Button btnGoOil;
@@ -26,20 +26,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String strLicensePlate;
     private long tripIdALong;
 
+    private MyCallBack myCallBack = null;
+    private SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        SharedPreferences sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
-        strLicensePlate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
-        tripIdALong = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
-
-        if (strLicensePlate.equals("")) {
-            Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
-            startActivity(intent);
-        }
 
         bindWidGet();
         myOnClick();
@@ -52,11 +46,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
+        strLicensePlate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
+        if (strLicensePlate.equals("")) {
+            Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
+            startActivity(intent);
+        }
+
+    }
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+
+        Boolean status = activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        return status;
     }
 
     private void bindWidGet() {
@@ -77,40 +84,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if (v == btnGoDiary) {
             Log.d("test => ", "button go diary");
-            Intent intent = new Intent(this, CarDiaryActivity.class);
+            Intent intent = new Intent(this, TripStartActivity.class);
             startActivity(intent);
 
         } else if (v == btnGoOil) {
             Log.d("test => ", "button btnGoOil");
-            Intent intent = new Intent(getApplicationContext(), OilJournalActivity.class);
+            Intent intent = new Intent(getApplicationContext(), OilListActivity.class);
             startActivity(intent);
-            //Log.d("click = > ", getApplicationContext().toString());
 
         } else if (v == btnGoPriceOther) {
-            Intent intent = new Intent(MainActivity.this, PriceOtherActivity.class);
+            Intent intent = new Intent(MainActivity.this, PriceOtherList.class);
             startActivity(intent);
 
         }
     }
 
 
-    @Override
-    public void onCallbackLicensePlate() {
-        Log.d("myActivity => ", "onCallbackLicensePlate");
-        if (strLicensePlate.equals("")) {
-            Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
-            startActivity(intent);
-
-        }
+    public interface MyCallBack {
+        void callBack();
     }
 
-    @Override
-    public void onCallbackTrip() {
-        Log.d("myActivity => ", "onCallbackTrip");
-        if (tripIdALong == 0) {
-            Intent intent = new Intent(MainActivity.this, TripStartActivity.class);
-            startActivity(intent);
-        }
+    public void registerMyCallBack(MyCallBack listener) {
+        this.myCallBack = listener;
     }
+
+
+
 
 }
