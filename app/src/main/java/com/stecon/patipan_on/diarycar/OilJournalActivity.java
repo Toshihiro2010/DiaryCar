@@ -27,6 +27,8 @@ import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.SmartLocation;
@@ -315,6 +317,9 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void onEditSQLite() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseOilJournal.COL_LICENSE_PLATE, strLicensePlate);
         contentValues.put(DatabaseOilJournal.COL_ODOMETER, douOdometer);
@@ -325,9 +330,11 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         contentValues.put(DatabaseOilJournal.COL_PARTIAL_FILL_UP, partialFillUp);
         contentValues.put(DatabaseOilJournal.COL_PAYMENT_TYPE, strPaymentType);
         contentValues.put(DatabaseOilJournal.COL_NOTE, strNote);
+        contentValues.put(DatabaseOilJournal.COL_DATE_UPDATE, dateFormat.format(date));
 
         sqLiteDatabase.update(DatabaseOilJournal.TABLE_NAME, contentValues, DatabaseOilJournal.COL_ID + " = ? ", new String[]{String.valueOf(id)});
         mySetEmptyText();
+        progressDialog.dismiss();
         finish();
     }
 
@@ -348,6 +355,7 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
 
         sqLiteDatabase.insert(DatabaseOilJournal.TABLE_NAME, null, contentValues);
         mySetEmptyText();
+        progressDialog.dismiss();
 
     }
 

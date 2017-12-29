@@ -93,8 +93,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
 
         } else if (v == btnGoPriceOther) {
-            Intent intent = new Intent(MainActivity.this, PriceOtherList.class);
-            startActivity(intent);
+
+            Toast.makeText(this, "No Function", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent(MainActivity.this, PriceOtherList.class);
+//            startActivity(intent);
 
         }
     }

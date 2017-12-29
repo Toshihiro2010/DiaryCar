@@ -23,6 +23,9 @@ import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
 import com.stecon.patipan_on.diarycar.database.DatabaseTripCost;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class PriceOtherActivity extends AppCompatActivity implements View.OnClickListener, CustomAlertDialog.OnMyDialogActivity {
 
     private Spinner spinnerPriceType;
@@ -48,6 +51,7 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
     private CustomAlertDialog customAlertDialog;
 
     private int data_id;
+    private int mode = 0;
 
 
 
@@ -60,7 +64,6 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
         Bundle bundle = getIntent().getExtras();
         myDbHelper = new MyDbHelper(PriceOtherActivity.this);
         sqLiteDatabase = myDbHelper.getWritableDatabase();
-        mySetSpinner();
 
         if (bundle != null) {
             data_id = bundle.getInt("data_id");
@@ -68,6 +71,7 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
 
         if (data_id != 0) {
             Log.d("id = > ", data_id + " ");
+            mode = 2;
             mySetQueryText();
         } else {
             Log.d("id = > ", "No id");
@@ -89,7 +93,10 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
             priceADouble = cursor.getDouble(cursor.getColumnIndex(DatabaseTripCost.COL_PRICE_MONEY));
             strNote = cursor.getString(cursor.getColumnIndex(DatabaseTripCost.COL_NOTE));
 
-            strPrice = priceADouble +" " + getResources().getString(R.string.bath);
+
+            if (priceADouble != null) {
+                strPrice = String.valueOf(priceADouble);
+            }
 
 
             edtTitle.setText(strTitle);
@@ -97,6 +104,8 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
             edtNoteDetail.setText(strNote);
 
             priceTypeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.price_other_array, R.layout.support_simple_spinner_dropdown_item);
+            spinnerPriceType.setAdapter(priceTypeArrayAdapter);
+
             if (!strPriceType.equals(null)) {
                 int spinnerPosition = priceTypeArrayAdapter.getPosition(strPriceType);
                 spinnerPriceType.setSelection(spinnerPosition);
@@ -138,9 +147,37 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
                 progressDialog.setTitle("Save Data");
                 progressDialog.setMessage("Loading......");
                 progressDialog.show();
-                onSaveData();
+
+                if (mode == 0) {
+                    onSaveData();
+                } else if (mode == 2) {
+                    onEditData();
+                }
             }
         }
+    }
+
+    private void onEditData() {
+        priceADouble = Double.valueOf(strPrice);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+
+
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseTripCost.COL_TRIP_ID, trip_id);
+        contentValues.put(DatabaseTripCost.COL_PRICE_TYPE, strPriceType);
+        contentValues.put(DatabaseTripCost.COL_PRICE_TITLE, strTitle);
+        contentValues.put(DatabaseTripCost.COL_PRICE_MONEY, priceADouble);
+        contentValues.put(DatabaseTripCost.COL_NOTE, strNote);
+        contentValues.put(DatabaseTripCost.COL_DATE_UPDATE, dateFormat.format(date));
+
+        sqLiteDatabase.update(DatabaseTripCost.TABLE_NAME, contentValues, DatabaseTripCost.COL_ID + " = ? ", new String[]{String.valueOf(data_id)});
+        mySetEmptyText();
+        progressDialog.dismiss();
+        finish();
+
     }
 
     private void onSaveData() {
