@@ -58,8 +58,9 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
                 Toast.makeText(this, "Please in put data", Toast.LENGTH_SHORT).show();
             } else {
                 mySharePreferences();
-                Intent intent = new Intent(LicensePlateActivity.this, MainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(LicensePlateActivity.this, MainActivity.class);
+//                startActivity(intent);
+                finish();
             }
         }
     }

@@ -17,6 +17,7 @@ public class DatabaseCarDiary {
     public static final String COL_DATE_UPDATE = "update_date";
     public static final String COL_CREATE_BY = "create_by";
     public static final String COL_UPDATE_BY = "update_by";
+    public static final String COL_STATUS = "status";
 
 
     public static String strInsert = "CREATE TABLE " + TABLE_NAME
@@ -29,7 +30,8 @@ public class DatabaseCarDiary {
             + COL_DATE_CREATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
             + COL_DATE_UPDATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
             + COL_CREATE_BY + " TEXT,"
-            + COL_UPDATE_BY + " TEXT);"
-            + COL_KILOMETER + " TEXT);";
+            + COL_UPDATE_BY + " TEXT,"
+            + COL_STATUS + " INTEGER DEFAULT 0);";
+
 
 }

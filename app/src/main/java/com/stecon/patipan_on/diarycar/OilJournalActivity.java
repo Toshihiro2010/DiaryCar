@@ -340,6 +340,8 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
 
     private void onInsertSQLite() {
 
+        //TODO do check status to sync server
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseOilJournal.COL_LICENSE_PLATE, strLicensePlate);
         contentValues.put(DatabaseOilJournal.COL_ODOMETER, douOdometer);

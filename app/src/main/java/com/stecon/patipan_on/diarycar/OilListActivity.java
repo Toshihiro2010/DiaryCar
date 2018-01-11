@@ -67,7 +67,9 @@ public class OilListActivity extends AppCompatActivity {
         sqLiteDatabase = myDbHelper.getWritableDatabase();
         arrayList = new ArrayList<>();
 
-        String strSql = "SELECT * FROM " + DatabaseOilJournal.TABLE_NAME + " ORDER BY " + DatabaseOilJournal.COL_ID + " DESC";
+        String strSql = "SELECT * FROM "
+                + DatabaseOilJournal.TABLE_NAME
+                + " ORDER BY " + DatabaseOilJournal.COL_ID + " DESC";
         cursor = sqLiteDatabase.rawQuery(strSql, null);
 
         if (cursor.getCount() > 0) {
@@ -86,7 +88,7 @@ public class OilListActivity extends AppCompatActivity {
                 double longitude = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_LONGITUDE));
                 String note = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_NOTE));
                 String fueltype = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_FUEL_TYPE));
-                String tempDate = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_DATE_UPDATE));
+                String tempDate = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_TRANSACTION_DATE));
                 String[] customDate = MyDateModify.getStrsDateTimeFromSqlite(tempDate);
 
                 OilDataModel oilDataModel = new OilDataModel(id,odometer, unit_price, volume,fueltype, total_rpice, partial_fillup, payment_type, latitude, longitude, note, customDate[0]);

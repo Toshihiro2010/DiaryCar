@@ -1,18 +1,25 @@
 package com.stecon.patipan_on.diarycar.database;
 
 /**
- * Created by patipan_on on 11/30/2017.
+ * Created by patipan_on on 1/3/2018.
  */
 
-public class DatabaseTripCost {
+public class DatabaseServiceRecords {
 
-    public static final String TABLE_NAME = "TRIP_COST";
+    public static final String TABLE_NAME = "ServiceRecord";
 
-    public static final String COL_ID = "_id";
-    public static final String COL_TRIP_ID = "trip_id";
-    public static final String COL_PRICE_TYPE = "price_type";
-    public static final String COL_PRICE_TITLE = "title";
-    public static final String COL_PRICE_MONEY = "money";
+    public static String COL_ID = "_id";
+
+    public static final String COL_LICENSE_PLATE = "license_plate";
+
+    public static final String COL_SERVICE_ID = "service_id";
+    public static final String COL_ODOMETER = "odometer";
+    public static final String COL_FUEL_LEVEL = "fuel_level";
+    public static final String COL_SERVICE_COST = "service_cost";
+
+
+    public static final String COL_LATITUDE = "latitude";
+    public static final String COL_LONGITUDE = "longitude";
     public static final String COL_NOTE = "note";
     public static final String COL_TRANSACTION_DATE = "transaction_date";
     public static final String COL_DATE_CREATE= "create_date";
@@ -23,10 +30,13 @@ public class DatabaseTripCost {
 
     public static String strSqlCreate = "CREATE TABLE " + TABLE_NAME
             + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COL_TRIP_ID + " INTEGER,"
-            + COL_PRICE_TYPE + " TEXT,"
-            + COL_PRICE_TITLE + " TEXT,"
-            + COL_PRICE_MONEY + " REAL,"
+            + COL_SERVICE_ID + " INTEGER,"
+            + COL_LICENSE_PLATE + " TEXT,"
+            + COL_ODOMETER + " REAL,"
+            + COL_FUEL_LEVEL + " REAL,"
+            + COL_SERVICE_COST + " REAL,"
+            + COL_LATITUDE+ " REAL,"
+            + COL_LONGITUDE + " REAL,"
             + COL_NOTE + " TEXT,"
             + COL_TRANSACTION_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
             + COL_DATE_CREATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
@@ -34,5 +44,6 @@ public class DatabaseTripCost {
             + COL_CREATE_BY + " TEXT,"
             + COL_UPDATE_BY + " TEXT,"
             + COL_STATUS + " INTEGER DEFAULT 0);";
+
 
 }

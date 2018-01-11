@@ -5,6 +5,9 @@
     <string name="head_price_service">ค่าใช้จ่ายซ่อมบำรุง</string>
 
 
+    <string name="head_menu_main">เมนูการบันทึก</string>
+
+
     <string name="oil_litemeter">ราคาต่อลิตร</string>
     <string name="oil_money">จำนวนเงิน</string>
     <string name="oil_volume">ปริมาณเชื้อเพลิง</string>

@@ -3,27 +3,65 @@ package com.stecon.patipan_on.diarycar.model;
 import android.database.Cursor;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 /**
  * Created by patipan_on on 12/11/2017.
  */
 
-public class OilDataModel extends ArrayList<Parcelable> {
+public class OilDataModel {
 
     private int id;
+
+
     private double odometer;
+
+
     private double unit_price;
+
+
     private double volume;
+
+
     private String fuel_type;
+
+
     private double total_price;
+
+
     private int partial_fillup;
+
     private String payment_type;
+
+
     private double latitude;
+
+
     private double longitude;
+
+
     private String note;
+
+
     private String transaction_date;
+
+
     private String strLocation;
+
+
+    private String date_create;
+
+
+    private String date_update;
+
+    private String create_by;
+
+
+    private String update_by;
+
+    private int status;
 
     public OilDataModel(int id, double odometer, double unit_price, double volume,String fuel_type,double total_price, int partial_fillup, String payment_type, double latitude, double longitude, String note, String transaction_date) {
         this.id = id;
@@ -40,10 +78,31 @@ public class OilDataModel extends ArrayList<Parcelable> {
         this.fuel_type = fuel_type;
     }
 
-
     public OilDataModel() {
 
     }
+
+    public OilDataModel(int id, double odometer, double unit_price, double volume, String fuel_type, double total_price, int partial_fillup, String payment_type, double latitude, double longitude, String note, String transaction_date, String strLocation, String date_create, String date_update, String create_by, String update_by , int status) {
+        this.id = id;
+        this.odometer = odometer;
+        this.unit_price = unit_price;
+        this.volume = volume;
+        this.fuel_type = fuel_type;
+        this.total_price = total_price;
+        this.partial_fillup = partial_fillup;
+        this.payment_type = payment_type;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.note = note;
+        this.transaction_date = transaction_date;
+        this.strLocation = strLocation;
+        this.date_create = date_create;
+        this.date_update = date_update;
+        this.create_by = create_by;
+        this.update_by = update_by;
+        this.status = status;
+    }
+
 
     public String getStrLocation() {
         return strLocation;
@@ -148,4 +207,46 @@ public class OilDataModel extends ArrayList<Parcelable> {
     public void setTransaction_date(String transaction_date) {
         this.transaction_date = transaction_date;
     }
+
+    public String getDate_create() {
+        return date_create;
+    }
+
+    public void setDate_create(String date_create) {
+        this.date_create = date_create;
+    }
+
+    public String getDate_update() {
+        return date_update;
+    }
+
+    public void setDate_update(String date_update) {
+        this.date_update = date_update;
+    }
+
+    public String getCreate_by() {
+        return create_by;
+    }
+
+    public void setCreate_by(String create_by) {
+        this.create_by = create_by;
+    }
+
+    public String getUpdate_by() {
+        return update_by;
+    }
+
+    public void setUpdate_by(String update_by) {
+        this.update_by = update_by;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+
 }

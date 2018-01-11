@@ -13,6 +13,8 @@ public class DatabaseUser {
     public static final String COL_IDCARDNUMBER = "idCardNumber";
     public static final String COL_DATEBIRTH = "dateBirth";
 
+    public static final String COL_STATUS = "status";
+
     public static String strCreate = "CREATE TABLE " + TABLE_NAME + "(_id INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COL_EMPLOYEEID + " TEXT , "
             + COL_IDCARDNUMBER + " TEXT, "

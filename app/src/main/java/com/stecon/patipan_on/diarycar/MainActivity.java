@@ -11,10 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.stecon.patipan_on.diarycar.controller.MyStartFirst;
-import com.stecon.patipan_on.diarycar.model.MyAppConfig;
+import com.stecon.patipan_on.diarycar.controller.MySendToServer;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -24,7 +22,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView txtTvMainTitle;
 
     private String strLicensePlate;
-    private long tripIdALong;
 
     private MyCallBack myCallBack = null;
     private SharedPreferences sharedPreferences;
@@ -94,11 +91,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         } else if (v == btnGoPriceOther) {
 
-            Toast.makeText(this, "No Function", Toast.LENGTH_SHORT).show();
+            MySendToServer mySendToServer = new MySendToServer(MainActivity.this);
+            mySendToServer.syncToServer();
+
 //            Intent intent = new Intent(MainActivity.this, PriceOtherList.class);
 //            startActivity(intent);
+            //myCustomTest();
 
         }
+    }
+
+    private void myCustomTest() {
+        MySendToServer mySendToServer = new MySendToServer(MainActivity.this);
+        mySendToServer.syncToServer();
+
     }
 
 

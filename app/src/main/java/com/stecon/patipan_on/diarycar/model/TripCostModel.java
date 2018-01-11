@@ -13,6 +13,11 @@ public class TripCostModel {
     private Double money;
     private String note;
     private String transaction_date;
+    private String date_create;
+    private String date_update;
+    private String create_by;
+    private String update_by;
+    private int status;
 
     public TripCostModel(int id ,int trip_id, String price_type, String title, Double money, String note, String transaction_date) {
         this.id = id;
@@ -24,7 +29,20 @@ public class TripCostModel {
         this.transaction_date = transaction_date;
     }
 
-
+    public TripCostModel(int id, int trip_id, String price_type, String title, Double money, String note, String transaction_date, String date_create, String date_update, String create_by, String update_by, int status) {
+        this.id = id;
+        this.trip_id = trip_id;
+        this.price_type = price_type;
+        this.title = title;
+        this.money = money;
+        this.note = note;
+        this.transaction_date = transaction_date;
+        this.date_create = date_create;
+        this.date_update = date_update;
+        this.create_by = create_by;
+        this.update_by = update_by;
+        this.status = status;
+    }
 
     public int getId() {
         return id;
@@ -80,5 +98,45 @@ public class TripCostModel {
 
     public void setTransaction_date(String transaction_date) {
         this.transaction_date = transaction_date;
+    }
+
+    public String getDate_create() {
+        return date_create;
+    }
+
+    public void setDate_create(String date_create) {
+        this.date_create = date_create;
+    }
+
+    public String getDate_update() {
+        return date_update;
+    }
+
+    public void setDate_update(String date_update) {
+        this.date_update = date_update;
+    }
+
+    public String getCreate_by() {
+        return create_by;
+    }
+
+    public void setCreate_by(String create_by) {
+        this.create_by = create_by;
+    }
+
+    public String getUpdate_by() {
+        return update_by;
+    }
+
+    public void setUpdate_by(String update_by) {
+        this.update_by = update_by;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

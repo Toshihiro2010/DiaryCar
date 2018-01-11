@@ -8,8 +8,13 @@ import android.util.Log;
 import com.stecon.patipan_on.diarycar.database.DatabaseCarDiary;
 import com.stecon.patipan_on.diarycar.database.DatabaseLog;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
+import com.stecon.patipan_on.diarycar.database.DatabasePriceType;
+import com.stecon.patipan_on.diarycar.database.DatabaseServiceMaster;
+import com.stecon.patipan_on.diarycar.database.DatabaseServiceRecords;
+import com.stecon.patipan_on.diarycar.database.DatabaseStatusToServer;
 import com.stecon.patipan_on.diarycar.database.DatabaseTripCost;
 import com.stecon.patipan_on.diarycar.database.DatabaseTripDetail;
+import com.stecon.patipan_on.diarycar.database.DatabaseVehicleMaster;
 
 /**
  * Created by patipan_on on 10/28/2017.
@@ -25,13 +30,22 @@ public class MyDbHelper extends SQLiteOpenHelper {
     public String tripCostTable = DatabaseTripCost.TABLE_NAME;
     public String tripTable = DatabaseTripDetail.TABLE_NAME;
     public String logTable = DatabaseLog.TABLE_NAME;
+    public String serviceRecordTable = DatabaseServiceRecords.TABLE_NAME;
+    public String serviceMasterTable = DatabaseServiceMaster.TABLE_NAME;
+    public String statusToServerTable = DatabaseStatusToServer.TABLE_NAME;
+    public String priceTypeTable = DatabasePriceType.TABLE_NAME;
+    public String vehicleMasterTable = DatabaseVehicleMaster.TABLE_NAME;
 
     private String strSqlCar = DatabaseCarDiary.strInsert;
     private String strSqlCreateOil = DatabaseOilJournal.strSqlCreate;
     private String strSqlCreateTripCost = DatabaseTripCost.strSqlCreate;
     private String strSqlCreateTrip = DatabaseTripDetail.strSqlCreate;
     private String strSqlCreateLog = DatabaseLog.strSqlCreate;
-
+    private String strSqlCreateServiceRecord = DatabaseServiceRecords.strSqlCreate;
+    private String strSqlCreateServiceMaster = DatabaseServiceMaster.strSqlCreate;
+    private String strSqlCreateStatusToServer = DatabaseStatusToServer.strSqlCreate;
+    private String strSqlCreatePriceType = DatabasePriceType.strSqlCreate;
+    private String strSqlCreateVehicleMaster = DatabaseVehicleMaster.strSqlCreate;
 
 
     public MyDbHelper(Context context) {
@@ -46,6 +60,11 @@ public class MyDbHelper extends SQLiteOpenHelper {
         db.execSQL(strSqlCreateTripCost);
         db.execSQL(strSqlCreateTrip);
         db.execSQL(strSqlCreateLog);
+        db.execSQL(strSqlCreateServiceRecord);
+        db.execSQL(strSqlCreateStatusToServer);
+        db.execSQL(strSqlCreatePriceType);
+        db.execSQL(strSqlCreateServiceMaster);
+        db.execSQL(strSqlCreateVehicleMaster);
 
     }
 
@@ -57,6 +76,12 @@ public class MyDbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + tripCostTable);
         db.execSQL("DROP TABLE IF EXISTS " + tripTable);
         db.execSQL("DROP TABLE IF EXISTS " + logTable);
+        db.execSQL("DROP TABLE IF EXISTS " + strSqlCreateServiceRecord);
+        db.execSQL("DROP TABLE IF EXISTS " + serviceRecordTable);
+        db.execSQL("DROP TABLE IF EXISTS " + statusToServerTable);
+        db.execSQL("DROP TABLE IF EXISTS " + priceTypeTable);
+        db.execSQL("DROP TABLE IF EXISTS " + serviceMasterTable);
+        db.execSQL("DROP TABLE IF EXISTS " + vehicleMasterTable);
         onCreate(db);
 
 //        switch (oldVersion) {

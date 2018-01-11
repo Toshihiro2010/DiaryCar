@@ -119,14 +119,9 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
             //พรุ่งนี้ทดสอบ Doin background นะ ไอ้เบนซ์ มิงทำ error ให้มันแสดง UI ม่ได้ จะลองใช้ Background ดุ Ok
             Boolean checkId = myCheckdate();
             if (checkId == true) {
-                //Toast.makeText(this, "เลขบัตรประชาชนไม่ถูกต้อง", Toast.LENGTH_SHORT).show();
                 //myTestHttp();
-                SynJson synJson = new SynJson();
-                synJson.execute();
-
-                //checkDataToServer(dateToServer);
-                //Log.d("sucess=> ", " ok");
-                //Toast.makeText(VerifiedActivity.this, "สำเร็จ", Toast.LENGTH_SHORT).show();
+                SynUser synUser = new SynUser();
+                synUser.execute();
             } else {
                 Toast.makeText(this, "เลขบัตรประชาชนไม่ถูกต้อง", Toast.LENGTH_SHORT).show();
             }
@@ -217,8 +212,6 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
             public void onResponse(Call call, Response response) throws IOException {
                 Log.d("Check => ", "onResponse");
 
-
-
                 String dataResponse = response.body().string();
 
                 JsonArray jsonArray = (JsonArray) new JsonParser().parse(dataResponse);
@@ -256,13 +249,9 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
         tvYear = dayOfMonth;
 
         txtDate.setText(tvYear + "/" + tvMonth + "/" + tvDay);
-        //txtDate.setText(strDateShow);
-
-        //hello sword
-
     }
 
-    private class SynJson extends AsyncTask<Object, Object, Response> {
+    private class SynUser extends AsyncTask<Object, Object, Response> {
         @Override
         protected Response doInBackground(Object... params) {
 
@@ -292,6 +281,7 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
             super.onPostExecute(s);
             if (s.code() != 200) {
                 Toast.makeText(VerifiedActivity.this, "ข้อมูลไม่ถูกต้อง", Toast.LENGTH_SHORT).show();
+                onUserSave(s);
             } else {
                 Toast.makeText(VerifiedActivity.this, "ข้อมูลถูกต้อง", Toast.LENGTH_SHORT).show();
             }
@@ -299,4 +289,10 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
 
         }
     }
+
+    private void onUserSave(Response s) {
+
+    }
+
+
 }

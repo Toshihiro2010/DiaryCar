@@ -53,7 +53,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".PriceOtherList"
             android:screenOrientation="portrait"/>
-        <activity android:name=".VehicleMainActivity"></activity>
+        <activity android:name=".VehicleMainActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

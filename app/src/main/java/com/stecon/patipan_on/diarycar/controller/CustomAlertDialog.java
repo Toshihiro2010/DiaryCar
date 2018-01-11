@@ -14,6 +14,8 @@ public class CustomAlertDialog {
     Context context;
     String title ;
     String message ;
+    String positiveMessage;
+    String negativeMessage;
 
     AlertDialog.Builder builder;
     OnMyDialogActivity onMyDialogActivity = null;
@@ -22,12 +24,40 @@ public class CustomAlertDialog {
         this.context = context;
         this.title = "You should in put title";
         this.message = "You should in put message............";
+        this.positiveMessage = "Ok";
+        this.negativeMessage = "Cancel";
     }
 
     public CustomAlertDialog(Context context, String title, String message) {
         this.context = context;
         this.message = message;
         this.title = title;
+        this.positiveMessage = "Ok";
+        this.negativeMessage = "Cancel";
+    }
+
+    public CustomAlertDialog(Context context, String title, String message, String positiveMessage, String negativeMessage) {
+        this.context = context;
+        this.title = title;
+        this.message = message;
+        this.positiveMessage = positiveMessage;
+        this.negativeMessage = negativeMessage;
+    }
+
+    public String getPositiveMessage() {
+        return positiveMessage;
+    }
+
+    public void setPositiveMessage(String positiveMessage) {
+        this.positiveMessage = positiveMessage;
+    }
+
+    public String getNegativeMessage() {
+        return negativeMessage;
+    }
+
+    public void setNegativeMessage(String negativeMessage) {
+        this.negativeMessage = negativeMessage;
     }
 
     public void setMessage(String message) {
@@ -44,7 +74,7 @@ public class CustomAlertDialog {
         builder.setCancelable(true);
         builder.setTitle(title);
         builder.setMessage(message);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(positiveMessage, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.d("CustomDialog =>", "Ok");
@@ -57,7 +87,7 @@ public class CustomAlertDialog {
 
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(negativeMessage, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.d("CustomDialog =>", "No");

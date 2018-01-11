@@ -10,10 +10,12 @@ public class DatabaseLog {
 
     public static final String COL_MESSAGE = "message";
     public static final String COL_TRANSACTION_DATE = "transaction_datetime";
+    public static final String COL_STATUS = "status";
 
     public static String strSqlCreate = "CREATE TABLE " + TABLE_NAME
             + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COL_MESSAGE + " TEXT,"
-            + COL_TRANSACTION_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
+            + COL_TRANSACTION_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
+            + COL_STATUS + " TEXT );";
 
 }

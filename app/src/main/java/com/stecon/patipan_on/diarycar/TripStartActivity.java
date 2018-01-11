@@ -95,12 +95,6 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
 
 
         str_licenseplate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
-        tripId = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
-        Log.d("tripId = > ", tripId + " ");
-        if (tripId != 0) {
-            Log.d("trip => ", "No tripId ");
-            goToActivitySet();
-        }
 
         bindWidget();
         Date date = new Date();
@@ -159,6 +153,16 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        tripId = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
+        Log.d("tripId = > ", tripId + " ");
+        if (tripId != 0) {
+            goToActivitySet();
+        }
+    }
+
     private void mySelectDate() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(TripStartActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -213,6 +217,8 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         contentValues.put(DatabaseTripDetail.COL_FUEL_LEVEL, fuellLevelDouble);
         contentValues.put(DatabaseTripDetail.COL_DEPARTURE_DATETIME, strDepartureDateTime);
         contentValues.put(DatabaseTripDetail.COL_DEPARTURE_LOCATION_NAME, strDepartureLocationName);
+        contentValues.put(DatabaseTripDetail.COL_DEPARTURE_LATITUDE, latitude);
+        contentValues.put(DatabaseTripDetail.COL_DEPARTURE_LONGITUDE, longtiude);
 
         myDbHelper = new MyDbHelper(TripStartActivity.this);
         sqLiteDatabase = myDbHelper.getWritableDatabase();
