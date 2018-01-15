@@ -21,7 +21,8 @@
             android:value="@integer/google_play_services_version"
             tools:replace="android:value" />
 
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".ServiceRecordsActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,31 +30,46 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".OilDiaryActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".CarDiaryActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".LicensePlateActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".MyRecycleView"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".CarListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".OilListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".OilJournalActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".PriceOtherActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".VerifiedActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".TripStartActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".PriceOtherList"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".VehicleMainActivity"
+        <activity
+            android:name=".OilDiaryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CarDiaryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LicensePlateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MyRecycleView"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CarListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OilListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OilJournalActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PriceOtherActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".VerifiedActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TripStartActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PriceOtherList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".VehicleMainActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".MainActivity"
             android:screenOrientation="portrait" />
     </application>
 

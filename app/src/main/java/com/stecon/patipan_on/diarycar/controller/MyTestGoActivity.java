@@ -24,6 +24,5 @@ public class MyTestGoActivity {
         context.startActivity(intent);
 
 
-
     }
 }

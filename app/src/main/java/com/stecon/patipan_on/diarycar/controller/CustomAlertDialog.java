@@ -95,6 +95,7 @@ public class CustomAlertDialog {
                     onMyDialogActivity.onMyDialogNegative();
                 }
                 dialog.dismiss();
+
             }
         });
     }
@@ -102,6 +103,11 @@ public class CustomAlertDialog {
     public void show() {
         builder.show();
     }
+
+    public void myOnDismiss() {
+
+    }
+
 
 
 

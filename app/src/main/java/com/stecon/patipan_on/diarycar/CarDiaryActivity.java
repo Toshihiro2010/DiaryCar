@@ -1,5 +1,6 @@
 package com.stecon.patipan_on.diarycar;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,10 +11,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
+import com.stecon.patipan_on.diarycar.controller.TripEndDialog;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.OilDataModel;
 
@@ -21,15 +24,13 @@ import java.util.ArrayList;
 
 public class CarDiaryActivity extends AppCompatActivity implements View.OnClickListener, CustomAlertDialog.OnMyDialogActivity {
 
-
-    private MyDbHelper myDbHelper;
-    private SQLiteDatabase sqLiteDatabase;
-    private OilDataModel oilDataModel;
-
     private Button btnEndTrip;
     private Button btnPriceOtherTrip;
 
     private CustomAlertDialog customAlertDialog;
+
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
 
     @Override
@@ -37,12 +38,8 @@ public class CarDiaryActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_diary);
 
-
         binWidGet();
-        myConnect();
         btnOnClick();
-
-
 
     }
 
@@ -54,12 +51,6 @@ public class CarDiaryActivity extends AppCompatActivity implements View.OnClickL
     private void binWidGet() {
         btnEndTrip = (Button) findViewById(R.id.btnEndTrip);
         btnPriceOtherTrip = (Button) findViewById(R.id.btnPriceOtherTrip);
-
-    }
-
-    private void myConnect() {
-        myDbHelper = new MyDbHelper(this);
-        sqLiteDatabase = myDbHelper.getWritableDatabase();
     }
 
     @Override
@@ -87,12 +78,24 @@ public class CarDiaryActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onMyDialogPostitve() {
-        SharedPreferences sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(MyAppConfig.trip_id);
-        editor.commit();
-        finish();
+        onUpdateDBEndTrip();
+    }
 
+    private void onUpdateDBEndTrip() {
+        TripEndDialog tripEndDialog = new TripEndDialog(CarDiaryActivity.this);
+        tripEndDialog.onShow();
+        tripEndDialog.registerOnNextListener(new TripEndDialog.OnNextListener() {
+            @Override
+            public void onStartNextListener() {
+                Log.d("listener => ", " Onnext Listener");
+                sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
+                editor = sharedPreferences.edit();
+                editor.remove(MyAppConfig.trip_id);
+                editor.commit();
+                finish();
+            }
+        });
+        Log.d("listener => ", "onUpdateDBEndTrip");
     }
 
     @Override

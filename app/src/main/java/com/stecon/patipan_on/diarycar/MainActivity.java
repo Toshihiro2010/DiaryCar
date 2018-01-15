@@ -12,9 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.stecon.patipan_on.diarycar.controller.MyLocationFirst;
 import com.stecon.patipan_on.diarycar.controller.MySendToServer;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, MyLocationFirst.OnNextLocationFunction {
 
     private Button btnGoDiary;
     private Button btnGoOil;
@@ -91,12 +92,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         } else if (v == btnGoPriceOther) {
 
-            MySendToServer mySendToServer = new MySendToServer(MainActivity.this);
-            mySendToServer.syncToServer();
+//            MySendToServer mySendToServer = new MySendToServer(MainActivity.this);
+//            mySendToServer.syncToServer();
 
-//            Intent intent = new Intent(MainActivity.this, PriceOtherList.class);
-//            startActivity(intent);
             //myCustomTest();
+
+            MyLocationFirst myLocationFirst = new MyLocationFirst(MainActivity.this);
+            myLocationFirst.registerOnextLocationFunction(MainActivity.this);
+            myLocationFirst.onGeocodingGpsStaty();
+
+
 
         }
     }
@@ -104,6 +109,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void myCustomTest() {
         MySendToServer mySendToServer = new MySendToServer(MainActivity.this);
         mySendToServer.syncToServer();
+
+    }
+
+    @Override
+    public void onStartNextFunction() {
 
     }
 

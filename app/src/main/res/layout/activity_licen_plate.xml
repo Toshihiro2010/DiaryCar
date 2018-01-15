@@ -14,7 +14,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_margin="20dp"
-        android:hint="กรอกเลขทะเบียนรถยนต์"
+        android:hint="@string/input_license_plate"
         android:inputType="textPersonName"
         />
 

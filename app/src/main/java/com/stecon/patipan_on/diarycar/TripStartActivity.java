@@ -88,8 +88,6 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_start);
 
-        Bundle bundle = getIntent().getExtras();
-
         sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
@@ -235,7 +233,6 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
 
     private boolean myCheck() {
         if (strReservationNumber.equals("") || strPurpose.equals("") || strDepartureOdometer.equals("") || strFuelLevel.equals("") || strDepartureDateTime.equals("")) {
-//        if (strReservationNumber.equals("")) {
             Toast.makeText(this, "กรุณากรอกข้อมูลให้ครบ", Toast.LENGTH_SHORT).show();
             return false;
         } else {
@@ -259,7 +256,6 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         strDepartureLocationName = edtNameLocation.getText().toString().trim();
 
 
-
     }
 
     @Override
@@ -281,7 +277,6 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         }
 
     }
-
 
 
     @Override
@@ -325,7 +320,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public void onStratNextFunction() {
+    public void onStartNextFunction() {
         latitude = myLocationFirst.getLatitude();
         longtiude = myLocationFirst.getLongitude();
         Log.d("latitude/longtitude => ", latitude + " / " + longtiude);
