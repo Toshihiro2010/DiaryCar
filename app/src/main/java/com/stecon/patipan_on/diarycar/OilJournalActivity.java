@@ -177,7 +177,6 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
             customAlertDialog.myDefaultDialog();
             customAlertDialog.show();
             customAlertDialog.setOnMyDialogActivity(OilJournalActivity.this);
-
         }
     }
 
@@ -370,8 +369,8 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
 
 
     @Override
-    public void onMyDialogPostitve() {
-        Log.d("progress => ", "onMyDialogPostitve");
+    public void onMyDialogPosititve() {
+        Log.d("progress => ", "onMyDialogPosititve");
         Intent intent = new Intent(OilJournalActivity.this, LicensePlateActivity.class);
         startActivity(intent);
 

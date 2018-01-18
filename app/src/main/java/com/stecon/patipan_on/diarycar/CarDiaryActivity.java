@@ -77,7 +77,7 @@ public class CarDiaryActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
-    public void onMyDialogPostitve() {
+    public void onMyDialogPosititve() {
         onUpdateDBEndTrip();
     }
 

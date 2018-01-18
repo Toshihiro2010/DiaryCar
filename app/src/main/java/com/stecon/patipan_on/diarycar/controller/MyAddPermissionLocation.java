@@ -9,9 +9,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.stecon.patipan_on.diarycar.TripStartActivity;
 
 /**
  * Created by patipan_on on 12/7/2017.
@@ -74,7 +71,7 @@ public class MyAddPermissionLocation {
         }
 
         if (onNextFunction != null) {
-            onNextFunction.onNewNextFuntion();
+            onNextFunction.onNewNextFunction();
         }
 
 
@@ -101,11 +98,13 @@ public class MyAddPermissionLocation {
     }
 
     public interface OnNextFunction {
-        void onNewNextFuntion();
+        void onNewNextFunction();
     }
 
     public void setOnNextFunction(OnNextFunction onNextFunctionListener) {
         this.onNextFunction = onNextFunctionListener;
     }
+
+
 
 }

@@ -285,7 +285,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         if (requestCode == MyAddPermissionLocation.REQUEST_CODE_ASK_PERMISSIONS) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Open GPS", Toast.LENGTH_SHORT).show();
-                onNewNextFuntion();
+                onNewNextFunction();
                 myAddPermissionLocation.setStatusLocation(true);
 
             } else {
@@ -312,7 +312,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public void onNewNextFuntion() {
+    public void onNewNextFunction() {
 
         myLocationFirst = new MyLocationFirst(TripStartActivity.this);
         myLocationFirst.registerOnextLocationFunction(TripStartActivity.this);

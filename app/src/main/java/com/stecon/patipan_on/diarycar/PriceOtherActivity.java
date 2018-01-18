@@ -207,7 +207,7 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
-    public void onMyDialogPostitve() {
+    public void onMyDialogPosititve() {
         Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(PriceOtherActivity.this, TripStartActivity.class);
         intent.putExtra(MyAppConfig.activity_code, 99);

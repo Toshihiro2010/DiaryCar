@@ -79,7 +79,7 @@ public class CustomAlertDialog {
             public void onClick(DialogInterface dialog, int which) {
                 Log.d("CustomDialog =>", "Ok");
                 if (onMyDialogActivity != null) {
-                    onMyDialogActivity.onMyDialogPostitve();
+                    onMyDialogActivity.onMyDialogPosititve();
 
 
                 }
@@ -112,7 +112,7 @@ public class CustomAlertDialog {
 
 
     public interface OnMyDialogActivity {
-        public void onMyDialogPostitve();
+        public void onMyDialogPosititve();
         public void onMyDialogNegative();
     }
 

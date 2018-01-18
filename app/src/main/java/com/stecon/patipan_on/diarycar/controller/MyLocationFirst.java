@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Location;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.List;
@@ -70,6 +71,7 @@ public class MyLocationFirst {
 
         } else {
             Toast.makeText(context, "You allow GPS Open", Toast.LENGTH_SHORT).show();
+            Log.d("GPS=>", "you should allow GPS");
         }
     }
 
@@ -116,6 +118,8 @@ public class MyLocationFirst {
 
     public interface OnNextLocationFunction {
         void onStartNextFunction();
+
+
     }
 
     public void registerOnextLocationFunction(OnNextLocationFunction listener) {

@@ -85,7 +85,7 @@
     <string name="parking_fee">สถานที่จอดรถ</string>
     
     serviceRecord
-    <string name="service_date">วันที่ใช้เบริการ :</string>
+    <string name="service_date">วันที่ใช้บริการ :</string>
     <string name="service_time">เวลาที่ใช้บริการ :</string>
     <string name="service_location">สถานที่ใช้บริการ :</string>
     <string name="service_type">ประเภทของการซ่อมบำรุง :</string>
