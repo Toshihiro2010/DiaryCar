@@ -42,21 +42,21 @@ public class MyAdapterTwo extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        if (view == null) {
-            view = inflater.inflate(R.layout.custom_list_two, parent, false);
-        }
-        TextView textView = (TextView) view.findViewById(R.id.tvCarTitle);
-        textView.setText(strCarTitle[position]);
-
-        TextView textView1 = (TextView) view.findViewById(R.id.tvCarDate);
-        textView1.setText(strCarDate[position]);
-
-        TextView textView2 = (TextView) view.findViewById(R.id.tvCarKm);
-        Double my_km = Double.valueOf(strCarKm[position]);
-        textView2.setText(my_km + " Km");
+//
+//        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//
+////        if (view == null) {
+////            view = inflater.inflate(R.layout.custom_list_two, parent, false);
+////        }
+//        TextView textView = (TextView) view.findViewById(R.id.tvCarTitle);
+//        textView.setText(strCarTitle[position]);
+//
+//        TextView textView1 = (TextView) view.findViewById(R.id.tvCarDate);
+//        textView1.setText(strCarDate[position]);
+//
+//        TextView textView2 = (TextView) view.findViewById(R.id.tvCarKm);
+//        Double my_km = Double.valueOf(strCarKm[position]);
+//        textView2.setText(my_km + " Km");
 
         return view;
     }

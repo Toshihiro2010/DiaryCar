@@ -109,4 +109,18 @@ public class MyDateTimeModify {
     public void setMinute(int minute) {
         this.minute = minute;
     }
+
+
+    public static String[] getStrsDateTimeFromSqlite(String str) {
+        String[] dateTime = new String[2];
+
+        int myIndexOf = str.indexOf(" ");
+        String day = str.substring(0, myIndexOf);
+        String time = str.substring(myIndexOf + 1);
+        dateTime[0] = day;
+        dateTime[1] = time;
+
+
+        return dateTime;
+    }
 }

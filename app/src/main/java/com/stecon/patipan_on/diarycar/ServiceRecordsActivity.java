@@ -94,10 +94,11 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
         setContentView(R.layout.activity_service_records);
 
         Bundle bundle = getIntent().getExtras();
+        myDbHelper = new MyDbHelper(ServiceRecordsActivity.this);
+        sqLiteDatabase = myDbHelper.getWritableDatabase();
         if (bundle != null) {
-            serviceId = bundle.getInt("serviceId");
+            serviceId = bundle.getInt("data_id");
         }
-
         if (serviceId != 0) {
             mode = 2;
         }
@@ -112,17 +113,6 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
         final String serviceName[] = {"test", "Hello", "world"};
         ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, serviceName);
         spinnerService.setAdapter(stringArrayAdapter);
-//        spinnerService.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                Log.d("position => ", test[position] + " ");
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
 
     }
 
@@ -245,6 +235,7 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     }
 
     private void onInsert() {
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseServiceRecords.COL_SERVICE_ID, intServicePosion);
         contentValues.put(DatabaseServiceRecords.COL_LICENSE_PLATE, strLicensePlate);
@@ -255,8 +246,6 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
         contentValues.put(DatabaseServiceRecords.COL_LONGITUDE, longitude);
         contentValues.put(DatabaseServiceRecords.COL_TRANSACTION_DATE, strDateTime);
 
-        myDbHelper = new MyDbHelper(ServiceRecordsActivity.this);
-        sqLiteDatabase = myDbHelper.getWritableDatabase();
 
         sqLiteDatabase.insert(DatabaseServiceRecords.TABLE_NAME, null, contentValues);
         finish();
@@ -277,7 +266,7 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     }
 
     private void onUpdate() {
-
+        Toast.makeText(this, "ยังไม่่พร้อมใช้งาน", Toast.LENGTH_SHORT).show();
     }
 
     private void onSelectTime() {

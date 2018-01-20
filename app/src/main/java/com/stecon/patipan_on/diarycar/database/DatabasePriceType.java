@@ -22,7 +22,7 @@ public class DatabasePriceType {
 
     public static String strSqlCreate = "CREATE TABLE " + TABLE_NAME
             + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COL_TYPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + COL_TYPE_ID + " INTEGER,"
             + COL_TYPE_NAME_TH + " TEXT,"
             + COL_TYPE_NAME_EN + " TEXT,"
             + COL_DATE_CREATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"

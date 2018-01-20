@@ -16,10 +16,9 @@ public class DatabaseServiceRecords {
     public static final String COL_ODOMETER = "odometer";
     public static final String COL_FUEL_LEVEL = "fuel_level";
     public static final String COL_SERVICE_COST = "service_cost";
-
-
     public static final String COL_LATITUDE = "latitude";
     public static final String COL_LONGITUDE = "longitude";
+    public static final String COL_LOCATION_NAME = "location_name";
     public static final String COL_NOTE = "note";
     public static final String COL_TRANSACTION_DATE = "transaction_date";
     public static final String COL_DATE_CREATE= "create_date";

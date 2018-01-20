@@ -45,14 +45,14 @@ public class MyAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (view == null) {
-            view = inflater.inflate(R.layout.custom_list_one, parent, false);
-        }
-        TextView textView = (TextView) view.findViewById(R.id.tvOilDate);
-        textView.setText(strDate[position]);
-
-        TextView textView1 = (TextView) view.findViewById(R.id.tvOilMoney);
-        textView1.setText(strMoney[position] + " บาท");
+//        if (view == null) {
+//            view = inflater.inflate(R.layout.custom_list_one, parent, false);
+//        }
+//        TextView textView = (TextView) view.findViewById(R.id.tvOilDate);
+//        textView.setText(strDate[position]);
+//
+//        TextView textView1 = (TextView) view.findViewById(R.id.tvOilMoney);
+//        textView1.setText(strMoney[position] + " บาท");
 
         return view;
     }

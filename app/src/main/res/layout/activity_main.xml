@@ -7,10 +7,10 @@
 
 
     <TextView
-        android:id="@+id/tvMainTitle"
+        android:id="@+id/tvMainLicensePlate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/head_menu_main"
+        android:text="@string/license_plate"
         android:textSize="@dimen/head_1"
         android:layout_marginTop="10dp"
         android:layout_alignParentTop="true"
@@ -32,19 +32,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/head_oil"
-        android:layout_marginBottom="68dp"
-        android:layout_above="@+id/btnPriceOther"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <Button
-        android:id="@+id/btnPriceOther"
+        android:id="@+id/btnGoService"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/head_price_service"
-        android:layout_marginBottom="117dp"
-        android:layout_alignParentBottom="true"
+        android:layout_marginTop="67dp"
+        android:layout_below="@+id/btnGoOil"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/btnExitLicensePlate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="Exit" />
 
 </RelativeLayout>

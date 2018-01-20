@@ -83,7 +83,7 @@
     <string name="arrival_date">วันที่กลับ:</string>
     <string name="arrival_time">เวลาที่กลับ:</string>
     <string name="parking_fee">สถานที่จอดรถ</string>
-    
+
     serviceRecord
     <string name="service_date">วันที่ใช้บริการ :</string>
     <string name="service_time">เวลาที่ใช้บริการ :</string>

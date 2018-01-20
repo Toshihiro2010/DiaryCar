@@ -11,21 +11,25 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.controller.MyLocationFirst;
 import com.stecon.patipan_on.diarycar.controller.MySendToServer;
+import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, MyLocationFirst.OnNextLocationFunction {
 
     private Button btnGoDiary;
     private Button btnGoOil;
-    private Button btnGoPriceOther;
-    private TextView txtTvMainTitle;
+    private Button btnGoService;
+    private TextView tvMainLicensePlate;
+    private Button btnGoExit;
 
     private String strLicensePlate;
 
     private MyCallBack myCallBack = null;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
 
     @Override
@@ -49,10 +53,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStart();
         sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
         strLicensePlate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
+        editor = sharedPreferences.edit();
         if (strLicensePlate.equals("")) {
             Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
             startActivity(intent);
         }
+        tvMainLicensePlate.setText(strLicensePlate);
 
     }
 
@@ -67,14 +73,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void bindWidGet() {
         btnGoDiary = (Button) findViewById(R.id.btnGoDiary);
         btnGoOil = (Button) findViewById(R.id.btnGoOil);
-        btnGoPriceOther = (Button) findViewById(R.id.btnPriceOther);
-        txtTvMainTitle = (TextView) findViewById(R.id.tvMainTitle);
+        btnGoService = (Button) findViewById(R.id.btnGoService);
+        tvMainLicensePlate = (TextView) findViewById(R.id.tvMainLicensePlate);
+        btnGoExit = (Button) findViewById(R.id.btnExitLicensePlate);
     }
 
     private void myOnClick() {
         btnGoDiary.setOnClickListener(this);
         btnGoOil.setOnClickListener(this);
-        btnGoPriceOther.setOnClickListener(this);
+        btnGoService.setOnClickListener(this);
+        btnGoExit.setOnClickListener(this);
 
     }
 
@@ -90,20 +98,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(getApplicationContext(), OilListActivity.class);
             startActivity(intent);
 
-        } else if (v == btnGoPriceOther) {
-
-//            MySendToServer mySendToServer = new MySendToServer(MainActivity.this);
-//            mySendToServer.syncToServer();
-
-            //myCustomTest();
-
-            MyLocationFirst myLocationFirst = new MyLocationFirst(MainActivity.this);
-            myLocationFirst.registerOnextLocationFunction(MainActivity.this);
-            myLocationFirst.onGeocodingGpsStaty();
-
-
-
+        } else if (v == btnGoService) {
+            Intent intent = new Intent(MainActivity.this, ServiceListActivity.class);
+            startActivity(intent);
+        } else if (v == btnGoExit) {
+            onExit();
         }
+    }
+
+    private void onExit() {
+        editor.remove(MyAppConfig.licenPlate);
+        editor.commit();
+        Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
+        startActivity(intent);
+        finish();
+
     }
 
     private void myCustomTest() {

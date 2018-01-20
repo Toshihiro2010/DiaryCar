@@ -36,7 +36,7 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
         strLicensePlate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
 
         if (!strLicensePlate.equals("")) {
-            Intent intent = new Intent(LicensePlateActivity.this, TripStartActivity.class);
+            Intent intent = new Intent(LicensePlateActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }

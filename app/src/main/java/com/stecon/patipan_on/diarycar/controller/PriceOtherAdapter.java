@@ -3,17 +3,13 @@ package com.stecon.patipan_on.diarycar.controller;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.stecon.patipan_on.diarycar.OilJournalActivity;
 import com.stecon.patipan_on.diarycar.PriceOtherActivity;
 import com.stecon.patipan_on.diarycar.R;
 import com.stecon.patipan_on.diarycar.model.ItemClickListener;
-import com.stecon.patipan_on.diarycar.model.PostInfoViewHolder;
 import com.stecon.patipan_on.diarycar.model.PriceOtherViewHolder;
 import com.stecon.patipan_on.diarycar.model.TripCostModel;
 

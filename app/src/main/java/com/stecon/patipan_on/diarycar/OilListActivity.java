@@ -12,9 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.stecon.patipan_on.diarycar.controller.PostInfoAdapter;
+import com.stecon.patipan_on.diarycar.controller.OilAdapter;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.model.MyDateModify;
@@ -124,8 +123,8 @@ public class OilListActivity extends AppCompatActivity {
 
         }
 
-        PostInfoAdapter postInfoAdapter = new PostInfoAdapter(OilListActivity.this,arrayList);
-        oilRecycleList.setAdapter(postInfoAdapter);
+        OilAdapter oilAdapter = new OilAdapter(OilListActivity.this,arrayList);
+        oilRecycleList.setAdapter(oilAdapter);
 
 
 

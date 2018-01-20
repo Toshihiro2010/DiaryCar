@@ -22,7 +22,7 @@
             tools:replace="android:value" />
 
         <activity
-            android:name=".ServiceRecordsActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,7 +37,7 @@
             android:name=".CarDiaryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".LicensePlateActivity"
+            android:name=".ServiceListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".MyRecycleView"
@@ -69,7 +69,11 @@
         <activity
             android:name=".VehicleMainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".LicensePlateActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".ServiceRecordsActivity"
             android:screenOrientation="portrait" />
     </application>
 
