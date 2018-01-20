@@ -30,6 +30,7 @@ import com.stecon.patipan_on.diarycar.controller.MyAddPermissionLocation;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.controller.MyLocationFirst;
 import com.stecon.patipan_on.diarycar.database.DatabaseServiceRecords;
+import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.MyDateTimeModify;
 
 import java.text.SimpleDateFormat;
@@ -322,8 +323,8 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     @Override
     protected void onStart() {
         super.onStart();
-        SharedPreferences sp = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
-        strLicensePlate = sp.getString(LicensePlateActivity.licenPlate, "");
+        SharedPreferences sp = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
+        strLicensePlate = sp.getString(MyAppConfig.licenPlate, "");
         tvLicensePlate.setText(strLicensePlate);
         Log.d("licensePlate => ", strLicensePlate + " / 555");
         if (strLicensePlate.equals("")) {

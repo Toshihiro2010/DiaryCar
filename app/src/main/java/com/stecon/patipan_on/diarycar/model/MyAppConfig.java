@@ -6,7 +6,7 @@ package com.stecon.patipan_on.diarycar.model;
 
 public class MyAppConfig {
 
-    public static final String P_NAME = "App_Config";
+    public static final String P_NAME = "my_custom_app_data";
     public static final String licenPlate = "licensePlate";
     public static final String trip_id = "trip_id";
     public static final String activity_code = "ActivityCode";

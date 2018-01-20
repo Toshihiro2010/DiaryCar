@@ -24,16 +24,20 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
     private String strLicensePlate;
 
 
-    public static final String P_NAME = "App_Config";
-    public static String licenPlate = "licensePlate";
+
+
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_licen_plate);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
-        strLicensePlate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
+        sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        strLicensePlate = sharedPreferences.getString(MyAppConfig.licenPlate, "");
 
         if (!strLicensePlate.equals("")) {
             Intent intent = new Intent(LicensePlateActivity.this, MainActivity.class);
@@ -66,9 +70,7 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void mySharePreferences() {
-        SharedPreferences sp = getSharedPreferences(P_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString(licenPlate, strLicensePlate);
+        editor.putString(MyAppConfig.licenPlate, strLicensePlate);
         editor.commit();
 
     }

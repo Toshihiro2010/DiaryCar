@@ -38,6 +38,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         bindWidGet();
+
+        sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
+        strLicensePlate = sharedPreferences.getString(MyAppConfig.licenPlate, "");
+        editor = sharedPreferences.edit();
+        Toast.makeText(this, strLicensePlate, Toast.LENGTH_SHORT).show();
+        if (strLicensePlate.equals("")) {
+            Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
+            startActivity(intent);
+        }
+        tvMainLicensePlate.setText(strLicensePlate);
+
+
+
         myOnClick();
         if (isNetworkAvailable()) {
             Log.d("Internet => ", "Conntected");
@@ -51,14 +64,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
-        strLicensePlate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
-        editor = sharedPreferences.edit();
-        if (strLicensePlate.equals("")) {
-            Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
-            startActivity(intent);
-        }
-        tvMainLicensePlate.setText(strLicensePlate);
+//        sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
+//        strLicensePlate = sharedPreferences.getString(MyAppConfig.licenPlate, "");
+//        editor = sharedPreferences.edit();
+//        if (strLicensePlate.equals("")) {
+//            Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
+//            startActivity(intent);
+//        }
+//        tvMainLicensePlate.setText(strLicensePlate);
 
     }
 

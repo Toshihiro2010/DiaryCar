@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
+import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -168,8 +169,8 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
     protected void onStart() {
         super.onStart();
 
-        SharedPreferences sp = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
-        strLicensePlate = sp.getString(LicensePlateActivity.licenPlate, "");
+        SharedPreferences sp = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
+        strLicensePlate = sp.getString(MyAppConfig.licenPlate, "");
         if (strLicensePlate.equals("")) {
             CustomAlertDialog customAlertDialog = new CustomAlertDialog(this);
             customAlertDialog.setTitle("No LicensePlate");

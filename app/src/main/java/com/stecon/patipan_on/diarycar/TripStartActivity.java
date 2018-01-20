@@ -88,11 +88,11 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_start);
 
-        sharedPreferences = getSharedPreferences(LicensePlateActivity.P_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
 
-        str_licenseplate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
+        str_licenseplate = sharedPreferences.getString(MyAppConfig.licenPlate, "");
 
         bindWidget();
         Date date = new Date();
@@ -247,7 +247,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void myGetText() {
-        str_licenseplate = sharedPreferences.getString(LicensePlateActivity.licenPlate, "");
+        str_licenseplate = sharedPreferences.getString(MyAppConfig.licenPlate, "");
         strReservationNumber = edtReservationNumber.getText().toString().trim();
         strPurpose = edtPurpose.getText().toString().trim();
         strDepartureOdometer = edtDepartureOdometer.getText().toString().trim();

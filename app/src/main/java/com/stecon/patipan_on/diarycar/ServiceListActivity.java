@@ -73,6 +73,7 @@ public class ServiceListActivity extends AppCompatActivity {
         String strSql = "SELECT * FROM "
                 + DatabaseServiceRecords.TABLE_NAME
                 + " ORDER BY " + DatabaseServiceRecords.COL_ID + " DESC";
+
         Cursor cursor = sqLiteDatabase.rawQuery(strSql, null);
 
         if (cursor != null) {
