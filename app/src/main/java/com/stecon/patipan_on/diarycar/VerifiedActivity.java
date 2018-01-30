@@ -71,7 +71,7 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
 
         bindWidget();
         Date date = new Date();
-        myTestHttp();
+        //myTestHttp();
 
         String timeStamp = new SimpleDateFormat("dd/MM/yyyy").format(date);
         myDateModify = new MyDateModify(timeStamp);
@@ -114,7 +114,7 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
         strIdCard = edtIdCard.getText().toString().trim();
         strMember = edtMember.getText().toString().trim().toLowerCase();
         if (strDateShow.equals("") || strIdCard.equals("") || strMember.equals("")) {
-            Toast.makeText(this, "กรุณากรอกข้อมูลให้ครบ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.message_please_input_data), Toast.LENGTH_SHORT).show();
         }else{
             //พรุ่งนี้ทดสอบ Doin background นะ ไอ้เบนซ์ มิงทำ error ให้มันแสดง UI ม่ได้ จะลองใช้ Background ดุ Ok
             Boolean checkId = myCheckdate();
@@ -123,7 +123,7 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
                 SynUser synUser = new SynUser();
                 synUser.execute();
             } else {
-                Toast.makeText(this, "เลขบัตรประชาชนไม่ถูกต้อง", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.message_id_card_wrong), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -280,10 +280,11 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
         protected void onPostExecute(Response s) {
             super.onPostExecute(s);
             if (s.code() != 200) {
-                Toast.makeText(VerifiedActivity.this, "ข้อมูลไม่ถูกต้อง", Toast.LENGTH_SHORT).show();
+                Toast.makeText(VerifiedActivity.this, getResources().getString(R.string.message_data_wrong), Toast.LENGTH_SHORT).show();
                 onUserSave(s);
             } else {
-                Toast.makeText(VerifiedActivity.this, "ข้อมูลถูกต้อง", Toast.LENGTH_SHORT).show();
+                Toast.makeText(VerifiedActivity.this, getResources().getString(R.string.message_data_correct), Toast.LENGTH_SHORT).show();
+
             }
             
 

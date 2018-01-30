@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -63,6 +64,7 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     private String strServiceTime;
     private String strNote;
     private String strDateTime;
+    private int serviceStatus;
 
     private Double douOdometer;
     private Double douFuelLevel;
@@ -70,7 +72,7 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
 
     private Double latitude;
     private Double longitude;
-    private int serviceId;
+    private int data_id;
     private int intServicePosion;
 
     private int mode = 0; //0 คือ Insert , 2 คือ Update
@@ -88,6 +90,10 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     private MyDbHelper myDbHelper;
     private SQLiteDatabase sqLiteDatabase;
 
+    private ArrayAdapter<String> stringArrayAdapter;
+
+    private int counterCheck = 0; // use on switch check
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,30 +104,92 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
         myDbHelper = new MyDbHelper(ServiceRecordsActivity.this);
         sqLiteDatabase = myDbHelper.getWritableDatabase();
         if (bundle != null) {
-            serviceId = bundle.getInt("data_id");
+            data_id = bundle.getInt("data_id");
         }
-        if (serviceId != 0) {
+        if (data_id != 0) {
             mode = 2;
         }
 
-
         bindWidGet();
         btnOnClick();
-        onDateTimeModify();
 
         switchGps.setOnCheckedChangeListener(this);
 
         final String serviceName[] = {"test", "Hello", "world"};
-        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, serviceName);
+        stringArrayAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, serviceName);
         spinnerService.setAdapter(stringArrayAdapter);
+
+        if (data_id != 0) {
+            Log.d("id = > ", data_id + " ");
+            mode = 2;
+            mySetQueryText();
+        } else {
+            Log.d("id = > ", "No id");
+            onDateTimeStartModify();
+            spinnerService.setAdapter(stringArrayAdapter);
+        }
+
 
     }
 
-    private void onDateTimeModify() {
+    private void mySetQueryText() {
+        String strSql = "SELECT * FROM " + DatabaseServiceRecords.TABLE_NAME + " WHERE " + DatabaseServiceRecords.COL_ID + " = " + data_id;
+
+        Cursor cursor = sqLiteDatabase.rawQuery(strSql, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+
+            intServicePosion = cursor.getInt(cursor.getColumnIndex(DatabaseServiceRecords.COL_SERVICE_ID));
+            strLicensePlate = cursor.getString(cursor.getColumnIndex(DatabaseServiceRecords.COL_LICENSE_PLATE));
+            douOdometer = cursor.getDouble(cursor.getColumnIndex(DatabaseServiceRecords.COL_ODOMETER));
+            douFuelLevel = cursor.getDouble(cursor.getColumnIndex(DatabaseServiceRecords.COL_FUEL_LEVEL));
+            douServiceCost = cursor.getDouble(cursor.getColumnIndex(DatabaseServiceRecords.COL_SERVICE_COST));
+            latitude = cursor.getDouble(cursor.getColumnIndex(DatabaseServiceRecords.COL_LATITUDE));
+            longitude = cursor.getDouble(cursor.getColumnIndex(DatabaseServiceRecords.COL_LONGITUDE));
+            strNote = cursor.getString(cursor.getColumnIndex(DatabaseServiceRecords.COL_NOTE));
+            strDateTime = cursor.getString(cursor.getColumnIndex(DatabaseServiceRecords.COL_TRANSACTION_DATE));
+            serviceStatus = cursor.getInt(cursor.getColumnIndex(DatabaseServiceRecords.COL_STATUS));
+            //strLocationName = cursor.getString(cursor.getColumnIndex(DatabaseServiceRecords.COL_LOCATION_NAME));
+
+            if (douOdometer != null) {
+                strOdometer = String.valueOf(douOdometer);
+            }
+            if (douFuelLevel != null) {
+                strFuel = String.valueOf(douFuelLevel);
+            }
+            if (douServiceCost != null) {
+                strServiceCost = String.valueOf(douServiceCost);
+            }
+
+            spinnerService.setSelection(intServicePosion);
+            edtServiceOdometer.setText(strOdometer);
+            edtServiceFuel.setText(strFuel);
+            edtServiceCost.setText(strServiceCost);
+
+            Log.d("date => ", strDateTime);
+            myDateTimeModify = new MyDateTimeModify();
+            myDateTimeModify.customDateTimeModifySqlite(strDateTime);
+
+            strServiceDate = myDateTimeModify.getStrDate();
+            strServiceTime = myDateTimeModify.getStrTime();
+            tvServiceDate.setText(strServiceDate);
+            tvServiceTime.setText(strServiceTime);
+
+            if (latitude != 0 || longitude != 0) {
+                counterCheck = 1;
+                switchGps.setChecked(true);
+            }else{
+                counterCheck = 0;
+            }
+            spinnerService.setSelection(intServicePosion);
+        }
+    }
+
+    private void onDateTimeStartModify() {
         Date date = new Date();
         String timeStamp = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(date);
 
-        Log.d("timeStamp => ", timeStamp);
         myDateTimeModify = new MyDateTimeModify(timeStamp);
         strServiceDate = myDateTimeModify.getStrDate();
         strServiceTime = myDateTimeModify.getStrTime();
@@ -169,7 +237,7 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     @Override
     public void onNewNextFunction() {
         myLocationFirst = new MyLocationFirst(ServiceRecordsActivity.this);
-        myLocationFirst.registerOnextLocationFunction(ServiceRecordsActivity.this);
+        myLocationFirst.registerOnNextLocationFunction(ServiceRecordsActivity.this);
         myLocationFirst.onLocationStart();
     }
 
@@ -209,7 +277,6 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
 
     private void onSave() {
         serviceGetText();
-//        Log.d("text => ", spinnerService.getSelectedItemPosition() + " ");
         Boolean checkText = customCheckText();
         if (checkText) {
             douOdometer = Double.valueOf(strOdometer);
@@ -222,7 +289,8 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
                 onUpdate();
             }
         } else {
-            Toast.makeText(this, "Input ไม่ถูกต้อง", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.message_please_input_data), Toast.LENGTH_SHORT).show();
+
         }
 
     }
@@ -249,11 +317,13 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
 
 
         sqLiteDatabase.insert(DatabaseServiceRecords.TABLE_NAME, null, contentValues);
+
         finish();
 
     }
 
     private void serviceGetText() {
+
         strOdometer = edtServiceOdometer.getText().toString().trim();
         strFuel = edtServiceFuel.getText().toString().trim();
         strServiceCost = edtServiceCost.getText().toString().trim();
@@ -267,7 +337,26 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     }
 
     private void onUpdate() {
-        Toast.makeText(this, "ยังไม่่พร้อมใช้งาน", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "ยังไม่่พร้อมใช้งาน", Toast.LENGTH_SHORT).show();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseServiceRecords.COL_SERVICE_ID, intServicePosion);
+        contentValues.put(DatabaseServiceRecords.COL_LICENSE_PLATE, strLicensePlate);
+        contentValues.put(DatabaseServiceRecords.COL_ODOMETER, douOdometer);
+        contentValues.put(DatabaseServiceRecords.COL_FUEL_LEVEL, douFuelLevel);
+        contentValues.put(DatabaseServiceRecords.COL_SERVICE_COST, douServiceCost);
+        contentValues.put(DatabaseServiceRecords.COL_LATITUDE, latitude);
+        contentValues.put(DatabaseServiceRecords.COL_LONGITUDE, longitude);
+        contentValues.put(DatabaseServiceRecords.COL_TRANSACTION_DATE, strDateTime);
+
+        contentValues.put(DatabaseServiceRecords.COL_DATE_UPDATE, dateFormat.format(date));
+        sqLiteDatabase.update(DatabaseServiceRecords.TABLE_NAME, contentValues, DatabaseServiceRecords.COL_ID + " = ? ", new String[]{String.valueOf(data_id)});
+
+        Toast.makeText(this, getResources().getString(R.string.message_save_success), Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     private void onSelectTime() {
@@ -279,7 +368,7 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
                 myDateTimeModify.setMinute(minute);
 
                 strServiceTime = myDateTimeModify.getStrTime();
-                tvServiceTime.setText(strServiceTime + " น.");
+                tvServiceTime.setText(strServiceTime + getResources().getString(R.string.short_minute));
 
             }
         },myDateTimeModify.getHour(),myDateTimeModify.getMinute(),false);
@@ -307,12 +396,20 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (switchGps == buttonView) {
             if (isChecked) {
-                tvLinearLayout.setVisibility(View.INVISIBLE);
-                myAddPermissionLocation = new MyAddPermissionLocation(ServiceRecordsActivity.this);
-                myAddPermissionLocation.setOnNextFunction(ServiceRecordsActivity.this);
-                myAddPermissionLocation.setOnCustomClickDialog(ServiceRecordsActivity.this);
-                myAddPermissionLocation.checkLocation();
+                if (counterCheck > 0) {
+                    tvLinearLayout.setVisibility(View.INVISIBLE);
+                    counterCheck--;
+
+                }else{
+                    tvLinearLayout.setVisibility(View.INVISIBLE);
+                    myAddPermissionLocation = new MyAddPermissionLocation(ServiceRecordsActivity.this);
+                    myAddPermissionLocation.setOnNextFunction(ServiceRecordsActivity.this);
+                    myAddPermissionLocation.setOnCustomClickDialog(ServiceRecordsActivity.this);
+                    myAddPermissionLocation.checkLocation();
+                }
             } else {
+                latitude = 0.0;
+                longitude = 0.0;
                 edtLocationService.setText("");
                 tvLinearLayout.setVisibility(View.VISIBLE);
 
@@ -323,30 +420,34 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     @Override
     protected void onStart() {
         super.onStart();
-        SharedPreferences sp = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
-        strLicensePlate = sp.getString(MyAppConfig.licenPlate, "");
+        myOnCustomCheckLicensePlate();
         tvLicensePlate.setText(strLicensePlate);
-        Log.d("licensePlate => ", strLicensePlate + " / 555");
-        if (strLicensePlate.equals("")) {
-            CustomAlertDialog customAlertDialog = new CustomAlertDialog(this);
-            customAlertDialog.setTitle("No LicensePlate");
-            customAlertDialog.setMessage("You should in put LicensePlate............");
-            customAlertDialog.myDefaultDialog();
-            customAlertDialog.show();
-            customAlertDialog.setOnMyDialogActivity(new CustomAlertDialog.OnMyDialogActivity() {
-                @Override
-                public void onMyDialogPosititve() {
-                    Log.d("progress => ", "onMyDialogPosititve");
-                    Intent intent = new Intent(ServiceRecordsActivity.this, LicensePlateActivity.class);
-                    startActivity(intent);
+    }
 
-                }
+    public void myOnCustomCheckLicensePlate() {
+        if (mode == 0) {
+            sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
+            strLicensePlate = sharedPreferences.getString(MyAppConfig.licensePlate, "");
+            if (strLicensePlate.equals("")) {
+                CustomAlertDialog customAlertDialog = new CustomAlertDialog(this);
+                customAlertDialog.setTitle(getResources().getString(R.string.message_no_license_plate));
+                customAlertDialog.setMessage(getResources().getString(R.string.message_should_input_license_plate));
+                customAlertDialog.myDefaultDialog();
+                customAlertDialog.show();
+                customAlertDialog.setOnMyDialogActivity(new CustomAlertDialog.OnMyDialogActivity() {
+                    @Override
+                    public void onMyDialogPosititve() {
+                        Intent intent = new Intent(ServiceRecordsActivity.this, LicensePlateActivity.class);
+                        startActivity(intent);
 
-                @Override
-                public void onMyDialogNegative() {
-                    onStart();
-                }
-            });
+                    }
+
+                    @Override
+                    public void onMyDialogNegative() {
+                        onStart();
+                    }
+                });
+            }
         }
     }
 }

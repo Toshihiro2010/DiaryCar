@@ -247,7 +247,6 @@ public class MySendToServer {
                 double unit_price = cursorFuel.getDouble(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_UNIT_PRICE));
                 double volume = cursorFuel.getDouble(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_VOLUME));
                 double total_rpice = cursorFuel.getDouble(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_TOTAL_PRICE));
-                int partial_fillup = cursorFuel.getInt(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_PARTIAL_FILL_UP));
                 String payment_type = cursorFuel.getString(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_PAYMENT_TYPE));
                 double latitude = cursorFuel.getDouble(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_LATITUDE));
                 double longitude = cursorFuel.getDouble(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_LONGITUDE));
@@ -261,7 +260,7 @@ public class MySendToServer {
                 String update_by = cursorFuel.getString(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_UPDATE_BY));
                 int status = cursorFuel.getInt(cursorTripCost.getColumnIndex(DatabaseOilJournal.COL_STATUS));
 
-                OilDataModel oilDataModel = new OilDataModel(id, odometer, unit_price, volume, fueltype, total_rpice, partial_fillup, payment_type, latitude, longitude, note, transaction_date,location_date, create_date, update_date, create_by, update_by,status);
+                OilDataModel oilDataModel = new OilDataModel(id, odometer, unit_price, volume, fueltype, total_rpice, payment_type, latitude, longitude, note, transaction_date,location_date, create_date, update_date, create_by, update_by,status);
 
                 oilDataModelArrayList.add(oilDataModel);
 

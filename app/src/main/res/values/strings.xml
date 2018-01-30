@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Vehicle Journal</string>
-    <string name="head_car">บันทึกการใช้รถ</string>
-    <string name="head_oil">บันทึกการเติมน้ำมัน</string>
-    <string name="head_price_service">ค่าใช้จ่ายซ่อมบำรุง</string>
-    <string name="license_plate">เลขทะเบียน :</string>
+
+    <string name="head_car">Vehicle Journal</string>
+    <string name="head_oil">Vehicle Fuel</string>
+    <string name="head_price_service">Vehicle Service</string>
+    <string name="license_plate">License Plate :</string>
     <string name="input_license_plate">กรอกเลขทะเบียนรถยนต์</string>
     <string name="cost">ค่าใช้จ่าย :</string>
-
 
     <string name="head_menu_main">เมนูการบันทึก</string>
 
@@ -15,16 +15,15 @@
     <string name="oil_money">จำนวนเงิน</string>
     <string name="oil_volume">ปริมาณเชื้อเพลิง</string>
     <string name="oil_distance">มาตรวัดระยะทาง</string>
-    <string name="litemeter">ลิตร</string>
+    <string name="lit">ลิตร</string>
     <string name="oil_type">ประเภทเชื้อเพลิง :</string>
     <string name="oil_full">เต็มถัง</string>
     <string name="oil_pay">การชำระเงิน :</string>
     <string name="oil_mark">Note</string>
-    <string name="ok">Ok</string>
-    <string name="cancel">cancel</string>
 
-
-    <string name="button_save_oil">บันทึกข้อมูล</string>
+    button
+    <string name="button_save">บันทึกรายการ</string>
+    <string name="button_cancel">ยกเลิก</string>
     <string name="button_list_oil">ประวัติการเติมน้ำมัน</string>
 
     <string name="car_title">จุดประสงค์การใช้รถ*</string>
@@ -38,7 +37,6 @@
     <string name="km">Km</string>
 
     <string name="login">LogIn</string>
-    <!--<string name="bath" translatable="false">บาท</string>-->
     <string name="bath">บาท</string>
 
 
@@ -50,6 +48,15 @@
     <string name="category">ประเภท</string>
     <string name="cost_information">ข้อมูลค่าใช้จ่าย</string>
     <string name="detail">รายละเอียด</string>
+
+    other
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="loading">Loading.............</string>
+    <string name="short_minute"> น. </string>
+    <string name="no_text">No text</string>
+    <string name="program_not_process">Program Not Process</string>
+    <string name="add">Add</string>
 
 
     priceOtherActivity
@@ -78,6 +85,7 @@
     <string name="btn_end_trp">สิ้นสุดการเดินทาง</string>
 
     endTrip
+    <string name="default_dialog_title">End Trip</string>
     <string name="odometer_num">เลขไมล์:</string>
     <string name="arrival_location">สถานที่จุดหมาย</string>
     <string name="arrival_date">วันที่กลับ:</string>
@@ -89,6 +97,35 @@
     <string name="service_time">เวลาที่ใช้บริการ :</string>
     <string name="service_location">สถานที่ใช้บริการ :</string>
     <string name="service_type">ประเภทของการซ่อมบำรุง :</string>
+
+
+    customAlertDialog
+    <string name="default_custom_alert_dialog_title">You should in put title</string>
+    <string name="default_custom_alert_dialog_message">You should in put message............</string>
+
+    customProgressDialog
+    <string name="default_custom_progress_dialog_title">Please Wait</string>
+
+    myAddPermission
+    <string name="default_myaddpermission_allow_gps">you need to allow access to GPS</string>
+
+    locationFirst
+    <string name="default_my_location_fist_title"> Finding Location GPS </string>
+
+    custom_message
+    <string name="message_end_trip">End Trip</string>
+    <string name="message_you_want_ent_trip">You want End Trip</string>
+    <string name="message_please_input_data">Please input data</string>
+    <string name="message_no_license_plate">No LicensePlate</string>
+    <string name="message_should_input_license_plate">You should in put LicensePlate............</string>
+    <string name="message_save_data_title">Save Data</string>
+    <string name="message_save_success">Save Success</string>
+    <string name="message_no_trip">No Trip Data</string>
+    <string name="message_add_trip">Please Add Trip</string>
+    <string name="message_error">Error</string>
+    <string name="message_id_card_wrong">ID Card is wrong</string>
+    <string name="message_data_wrong">Data is Wrong</string>
+    <string name="message_data_correct">Data is Correct</string>
 
 
     <string-array name="oil_array">
@@ -110,4 +147,8 @@
         <item>ค่าปรับ</item>
         <item>อื่นๆ</item>
     </string-array>
+    <string name="custom_exit">exit</string>
+    <string name="register">ลงทะเบียน</string>
+    <string name="button_access">เข้าใช้งาน</string>
+
 </resources>

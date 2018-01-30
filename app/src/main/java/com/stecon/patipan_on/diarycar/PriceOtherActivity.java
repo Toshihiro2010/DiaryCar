@@ -140,12 +140,12 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
             strNote = edtNoteDetail.getText().toString().trim();
 
             if (strPrice.equals("") || strNote.equals("")) {
-                Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.message_please_input_data), Toast.LENGTH_SHORT).show();
             } else {
                 progressDialog = new ProgressDialog(PriceOtherActivity.this);
                 progressDialog.setCancelable(false);
-                progressDialog.setTitle("Save Data");
-                progressDialog.setMessage("Loading......");
+                progressDialog.setTitle(getResources().getString(R.string.message_save_data_title));
+                progressDialog.setMessage(getResources().getString(R.string.loading));
                 progressDialog.show();
 
                 if (mode == 0) {
@@ -190,7 +190,7 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
         contentValues.put(DatabaseTripCost.COL_NOTE, strNote);
 
         sqLiteDatabase.insert(DatabaseTripCost.TABLE_NAME, null, contentValues);
-        Toast.makeText(this, "insert Sucess", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.message_save_success), Toast.LENGTH_SHORT).show();
         mySetEmptyText();
         progressDialog.dismiss();
 
@@ -208,7 +208,7 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onMyDialogPosititve() {
-        Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(PriceOtherActivity.this, TripStartActivity.class);
         intent.putExtra(MyAppConfig.activity_code, 99);
         startActivity(intent);
@@ -217,7 +217,7 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onMyDialogNegative() {
-        Toast.makeText(this, "No", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "No", Toast.LENGTH_SHORT).show();
         finish();
     }
 
@@ -229,7 +229,8 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
         trip_id = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
         MyAppConfig.setNum_trip_id(trip_id);
         if (trip_id == 0) {
-            customAlertDialog = new CustomAlertDialog(PriceOtherActivity.this, "No Trip id", "Please add Trip");
+            customAlertDialog = new CustomAlertDialog(PriceOtherActivity.this, getResources().getString(R.string.message_no_trip), getResources().getString(R.string.message_add_trip));
+
             customAlertDialog.myDefaultDialog();
             customAlertDialog.setOnMyDialogActivity(PriceOtherActivity.this);
             customAlertDialog.show();

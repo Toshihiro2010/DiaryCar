@@ -56,12 +56,12 @@ public class OilAdapter extends RecyclerView.Adapter<OilViewHolder> implements I
         Double total_price = oilDataModel.getTotal_price();
         oilViewHolder.tvTotalMoney.setText(total_price.toString() + " " + context.getResources().getString(R.string.bath));
 
-        String fueltype_amount = oilDataModel.getFuel_type() + " : " + df.format(oilDataModel.getVolume()) + " " + context.getResources().getString(R.string.litemeter);
+        String fueltype_amount = oilDataModel.getFuel_type() + " : " + df.format(oilDataModel.getVolume()) + " " + context.getResources().getString(R.string.lit);
         oilViewHolder.tvFuelAmount.setText(fueltype_amount);
 
         String tvDetail = context.getResources().getString(R.string.bath)
                 + df.format(oilDataModel.getUnit_price()) + "/"
-                + context.getResources().getString(R.string.litemeter) + " "
+                + context.getResources().getString(R.string.lit) + " "
                 + oilDataModel.getPayment_type();
         oilViewHolder.tvDetail.setText(tvDetail);
 

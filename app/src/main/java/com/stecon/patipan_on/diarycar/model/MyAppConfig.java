@@ -7,10 +7,11 @@ package com.stecon.patipan_on.diarycar.model;
 public class MyAppConfig {
 
     public static final String P_NAME = "my_custom_app_data";
-    public static final String licenPlate = "licensePlate";
+    public static final String licensePlate = "licensePlate";
     public static final String trip_id = "trip_id";
     public static final String activity_code = "ActivityCode";
     public static final String language_app = "Language_app";
+    public static final String pin_code = "pin_code";
 
     public static long num_trip_id = 0;
 

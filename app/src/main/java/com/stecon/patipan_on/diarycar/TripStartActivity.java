@@ -92,7 +92,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         editor = sharedPreferences.edit();
 
 
-        str_licenseplate = sharedPreferences.getString(MyAppConfig.licenPlate, "");
+        str_licenseplate = sharedPreferences.getString(MyAppConfig.licensePlate, "");
 
         bindWidget();
         Date date = new Date();
@@ -120,7 +120,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
 
     private void myStartSetText() {
         tvDepartureDate.setText(tvDay + "/" + tvMonth + "/" + tvYear);
-        tvDepartureTime.setText(tvHour + "." + tvMinute + " น.");
+        tvDepartureTime.setText(tvHour + "." + tvMinute + " " + getResources().getString(R.string.short_minute));
 
     }
 
@@ -187,7 +187,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
                 } else {
                     temp = String.valueOf(minute);
                 }
-                tvDepartureTime.setText(hourOfDay + "." + temp + " น.");
+                tvDepartureTime.setText(hourOfDay + "." + temp + getResources().getString(R.string.short_minute));
 
             }
         },tvHour,tvMinute,false);
@@ -233,7 +233,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
 
     private boolean myCheck() {
         if (strReservationNumber.equals("") || strPurpose.equals("") || strDepartureOdometer.equals("") || strFuelLevel.equals("") || strDepartureDateTime.equals("")) {
-            Toast.makeText(this, "กรุณากรอกข้อมูลให้ครบ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.message_please_input_data), Toast.LENGTH_SHORT).show();
             return false;
         } else {
             return true;
@@ -247,7 +247,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void myGetText() {
-        str_licenseplate = sharedPreferences.getString(MyAppConfig.licenPlate, "");
+        str_licenseplate = sharedPreferences.getString(MyAppConfig.licensePlate, "");
         strReservationNumber = edtReservationNumber.getText().toString().trim();
         strPurpose = edtPurpose.getText().toString().trim();
         strDepartureOdometer = edtDepartureOdometer.getText().toString().trim();
@@ -299,11 +299,12 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onPositiveMyDialog() {
-        Toast.makeText(this, "UsE GPS POSITIVE", Toast.LENGTH_SHORT).show();
+        Log.d("gps => ", "Positive");
     }
 
     @Override
     public void onNegativeMyDialog() {
+        Log.d("gps => ", "onNegativeMyDialog");
         if (switchLocation.isChecked()) {
             switchLocation.setChecked(false);
             tvLinearLocation.setVisibility(View.VISIBLE);
@@ -315,7 +316,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     public void onNewNextFunction() {
 
         myLocationFirst = new MyLocationFirst(TripStartActivity.this);
-        myLocationFirst.registerOnextLocationFunction(TripStartActivity.this);
+        myLocationFirst.registerOnNextLocationFunction(TripStartActivity.this);
         myLocationFirst.onLocationStart();
     }
 

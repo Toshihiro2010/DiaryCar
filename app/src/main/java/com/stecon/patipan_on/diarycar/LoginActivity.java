@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         strUsername = edtUsername.getText().toString().trim();
         strPassword = edtPassword.getText().toString().trim();
         if (strUsername.equals("") || strPassword.equals("")) {
-            Toast.makeText(this, "กรุณา กรอกข้อมูลให้ครับ นะครับ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.message_please_input_data), Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, strUsername + " /=> " + strPassword, Toast.LENGTH_SHORT).show();
         }

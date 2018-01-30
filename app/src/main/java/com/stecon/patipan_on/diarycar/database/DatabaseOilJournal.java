@@ -21,7 +21,6 @@ public class DatabaseOilJournal {
     public static final String COL_FUEL_TYPE = "fuel_type";
     public static final String COL_VOLUME = "volume";
     public static final String COL_TOTAL_PRICE = "total_price";
-    public static final String COL_PARTIAL_FILL_UP = "partial_fillup";
     public static final String COL_PAYMENT_TYPE = "payment_type";
     public static final String COL_LATITUDE = "latitude";
     public static final String COL_LONGITUDE = "longitude";
@@ -46,7 +45,6 @@ public class DatabaseOilJournal {
             + COL_FUEL_TYPE + " TEXT,"
             + COL_VOLUME + " REAL,"
             + COL_TOTAL_PRICE + " REAL,"
-            + COL_PARTIAL_FILL_UP + " INTEGER,"
             + COL_PAYMENT_TYPE + " TEXT,"
             + COL_LATITUDE+ " REAL,"
             + COL_LONGITUDE + " REAL,"

@@ -70,7 +70,7 @@ public class CarDiaryActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void endTrip() {
-        customAlertDialog = new CustomAlertDialog(CarDiaryActivity.this,"End Trip","You want End Trip");
+        customAlertDialog = new CustomAlertDialog(CarDiaryActivity.this, getResources().getString(R.string.message_end_trip), getResources().getString(R.string.message_you_want_ent_trip));
         customAlertDialog.myDefaultDialog();
         customAlertDialog.show();
         customAlertDialog.setOnMyDialogActivity(this);
@@ -87,7 +87,6 @@ public class CarDiaryActivity extends AppCompatActivity implements View.OnClickL
         tripEndDialog.registerOnNextListener(new TripEndDialog.OnNextListener() {
             @Override
             public void onStartNextListener() {
-                Log.d("listener => ", " Onnext Listener");
                 sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
                 editor = sharedPreferences.edit();
                 editor.remove(MyAppConfig.trip_id);

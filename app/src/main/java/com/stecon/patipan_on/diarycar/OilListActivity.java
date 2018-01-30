@@ -81,7 +81,6 @@ public class OilListActivity extends AppCompatActivity {
                 double unit_price = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_UNIT_PRICE));
                 double volume = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_VOLUME));
                 double total_rpice = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_TOTAL_PRICE));
-                int partial_fillup = cursor.getInt(cursor.getColumnIndex(DatabaseOilJournal.COL_PARTIAL_FILL_UP));
                 String payment_type = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_PAYMENT_TYPE));
                 double latitude = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_LATITUDE));
                 double longitude = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_LONGITUDE));
@@ -90,7 +89,7 @@ public class OilListActivity extends AppCompatActivity {
                 String tempDate = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_TRANSACTION_DATE));
                 String[] customDate = MyDateModify.getStrsDateTimeFromSqlite(tempDate);
 
-                OilDataModel oilDataModel = new OilDataModel(id,odometer, unit_price, volume,fueltype, total_rpice, partial_fillup, payment_type, latitude, longitude, note, customDate[0]);
+                OilDataModel oilDataModel = new OilDataModel(id,odometer, unit_price, volume,fueltype, total_rpice, payment_type, latitude, longitude, note, customDate[0]);
                 arrayList.add(oilDataModel);
 
 

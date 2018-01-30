@@ -2,6 +2,8 @@ package com.stecon.patipan_on.diarycar.model;
 
 import android.util.Log;
 
+import java.util.concurrent.ExecutionException;
+
 /**
  * Created by patipan_on on 1/13/2018.
  */
@@ -24,9 +26,9 @@ public class MyDateTimeModify {
 
         int first = strDate.indexOf("/");
         int last = strDate.lastIndexOf("/");
-        this.day = Integer.parseInt(strInput.substring(0, first));
-        this.month = Integer.parseInt(strInput.substring(first + 1, last));
-        this.year = Integer.parseInt(strInput.substring(last+1 , dateTimeIndex));
+        this.day = Integer.parseInt(strDate.substring(0, first));
+        this.month = Integer.parseInt(strDate.substring(first + 1, last));
+        this.year = Integer.parseInt(strDate.substring(last+1 , dateTimeIndex));
 
         int cutIndexTime = strTime.indexOf(":");
 
@@ -40,6 +42,27 @@ public class MyDateTimeModify {
 
     }
 
+    public void customDateTimeModifySqlite(String strInput) {
+        //format (yyyy-mm-dd ##:##)
+        int dateTimeIndex = strInput.indexOf(" ");
+        String strDate = strInput.substring(0, dateTimeIndex);
+        String strTime = strInput.substring(dateTimeIndex + 1);
+
+        int first = strDate.indexOf("-");
+        int last = strDate.lastIndexOf("-");
+
+        this.year = Integer.parseInt(strDate.substring(0, first));
+        this.month = Integer.parseInt(strDate.substring(first + 1, last));
+        this.day = Integer.parseInt(strDate.substring(last + 1));
+
+        int firstTime = strTime.indexOf(":");
+        int lastTime = strTime.lastIndexOf(":");
+
+        this.hour = Integer.parseInt(strTime.substring(0, firstTime));
+        this.minute = Integer.parseInt(strTime.substring(firstTime + 1, lastTime));
+
+
+    }
 
     public String getStrDate() {
         String tempDate = this.day + "/" + this.month + "/" + this.year;
@@ -66,6 +89,7 @@ public class MyDateTimeModify {
 
         return myDateTime;
     }
+
 
 
 

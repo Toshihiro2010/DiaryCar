@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
 
+import com.stecon.patipan_on.diarycar.R;
+
 /**
  * Created by patipan_on on 11/28/2017.
  */
@@ -22,18 +24,18 @@ public class CustomAlertDialog {
 
     public CustomAlertDialog(Context context) {
         this.context = context;
-        this.title = "You should in put title";
-        this.message = "You should in put message............";
-        this.positiveMessage = "Ok";
-        this.negativeMessage = "Cancel";
+        this.title = context.getResources().getString(R.string.default_custom_alert_dialog_title);
+        this.message = context.getResources().getString(R.string.default_custom_alert_dialog_message);
+        this.positiveMessage = context.getResources().getString(R.string.ok);
+        this.negativeMessage = context.getResources().getString(R.string.cancel);
     }
 
     public CustomAlertDialog(Context context, String title, String message) {
         this.context = context;
         this.message = message;
         this.title = title;
-        this.positiveMessage = "Ok";
-        this.negativeMessage = "Cancel";
+        this.positiveMessage = context.getResources().getString(R.string.ok);
+        this.negativeMessage = context.getResources().getString(R.string.cancel);
     }
 
     public CustomAlertDialog(Context context, String title, String message, String positiveMessage, String negativeMessage) {
@@ -77,7 +79,6 @@ public class CustomAlertDialog {
         builder.setPositiveButton(positiveMessage, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.d("CustomDialog =>", "Ok");
                 if (onMyDialogActivity != null) {
                     onMyDialogActivity.onMyDialogPosititve();
 
@@ -90,7 +91,6 @@ public class CustomAlertDialog {
         builder.setNegativeButton(negativeMessage, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.d("CustomDialog =>", "No");
                 if (onMyDialogActivity != null) {
                     onMyDialogActivity.onMyDialogNegative();
                 }
@@ -103,12 +103,6 @@ public class CustomAlertDialog {
     public void show() {
         builder.show();
     }
-
-    public void myOnDismiss() {
-
-    }
-
-
 
 
     public interface OnMyDialogActivity {

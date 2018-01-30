@@ -78,9 +78,9 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceViewHolder> impl
 
     @Override
     public void onClick(View view, int position) {
-//        Intent intent = new Intent(context, ServiceRecordsActivity.class);
-//        intent.putExtra("data_id", serviceRecordModelArrayList.get(position).getId());
-//        context.startActivity(intent);
-        Toast.makeText(context, "ยังไม่พร้อมใช้งาน", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(context, ServiceRecordsActivity.class);
+        intent.putExtra("data_id", serviceRecordModelArrayList.get(position).getId());
+        context.startActivity(intent);
+        //Toast.makeText(context, "ยังไม่พร้อมใช้งาน", Toast.LENGTH_SHORT).show();
     }
 }

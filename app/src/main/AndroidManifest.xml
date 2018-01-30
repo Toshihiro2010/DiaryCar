@@ -5,8 +5,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -23,9 +21,7 @@
             android:value="@integer/google_play_services_version"
             tools:replace="android:value" />
 
-        <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait">
+        <activity android:name=".PinCodeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,19 +29,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".OilDiaryActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".CarDiaryActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ServiceListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".MyRecycleView"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".CarListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".OilListActivity"
@@ -69,14 +56,13 @@
             android:name=".PriceOtherList"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".VehicleMainActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".LicensePlateActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".ServiceRecordsActivity"
+        <activity
+            android:name=".ServiceRecordsActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".SettingActivity" />
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

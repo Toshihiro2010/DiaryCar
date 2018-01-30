@@ -17,7 +17,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.R;
-import com.stecon.patipan_on.diarycar.TripStartActivity;
 import com.stecon.patipan_on.diarycar.database.DatabaseTripDetail;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.MyDateTimeModify;
@@ -66,7 +65,7 @@ public class TripEndDialog implements View.OnClickListener {
         this.context = context;
         dialog = new Dialog(context);
         dialog.setContentView(R.layout.custom_trip_dialog);
-        dialog.setTitle("End Trip");
+        dialog.setTitle(context.getResources().getString(R.string.default_dialog_title));
 
         tvArrivalDate = (TextView) dialog.findViewById(R.id.tvArrivalDate);
         tvArrivalTime = (TextView) dialog.findViewById(R.id.tvArrivalTime);
@@ -75,7 +74,7 @@ public class TripEndDialog implements View.OnClickListener {
         edtArrivalParkingLocation = (EditText) dialog.findViewById(R.id.edtArrivalParkingLocation);
         edtArrivalOdometer = (EditText) dialog.findViewById(R.id.edtArrivalOdometer);
         edtTripNote = (EditText) dialog.findViewById(R.id.edtEndNote);
-        btnCancel = (Button) dialog.findViewById(R.id.btnCacel);
+        btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
         btnOk = (Button) dialog.findViewById(R.id.btnOk);
 
         btnSelectDate.setOnClickListener(this);
@@ -129,7 +128,7 @@ public class TripEndDialog implements View.OnClickListener {
                 myDateTimeModify.setMinute(minute);
 
                 strTvArrivalTime = myDateTimeModify.getStrTime();
-                tvArrivalTime.setText(strTvArrivalTime + " น.");
+                tvArrivalTime.setText(strTvArrivalTime + context.getResources().getString(R.string.short_minute));
 
             }
         },myDateTimeModify.getHour(),myDateTimeModify.getMinute(),false);
@@ -146,7 +145,7 @@ public class TripEndDialog implements View.OnClickListener {
 
         } else if (v == btnCancel) {
             dialog.dismiss();
-            Toast.makeText(context, "cancel", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getResources().getString(R.string.cancel), Toast.LENGTH_SHORT).show();
         } else if (v == btnOk) {
             onDialogOk();
         }
@@ -157,7 +156,8 @@ public class TripEndDialog implements View.OnClickListener {
     private void onDialogOk() {
         dialogGetText();
         if (strArrivalParkingLocation.equals("") || strArrivalOdometer.equals("") || strTvArrivalDate.equals("") || strTvArrivalTime.equals("") || strTripNote.equals("")) {
-            Toast.makeText(context, "No Text", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getResources().getString(R.string.no_text), Toast.LENGTH_SHORT).show();
+
         } else {
             customOnLocation();
         }
@@ -168,7 +168,7 @@ public class TripEndDialog implements View.OnClickListener {
         arrivalOdometerDouble = Double.valueOf(strArrivalOdometer);
         myLocationFirst = new MyLocationFirst(context);
         myLocationFirst.onLocationStart();
-        myLocationFirst.registerOnextLocationFunction(new MyLocationFirst.OnNextLocationFunction() {
+        myLocationFirst.registerOnNextLocationFunction(new MyLocationFirst.OnNextLocationFunction() {
             @Override
             public void onStartNextFunction() {
                 latitude = myLocationFirst.getLatitude();
@@ -190,7 +190,8 @@ public class TripEndDialog implements View.OnClickListener {
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
         long tripId = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
         if (tripId == 0) {
-            Toast.makeText(context, "Program not Process", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getResources().getString(R.string.program_not_process), Toast.LENGTH_SHORT).show();
+
         } else {
 
             ContentValues contentValues = new ContentValues();

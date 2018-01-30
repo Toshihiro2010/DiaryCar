@@ -131,6 +131,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:ems="10"
+                android:inputType="numberDecimal"
                 android:textSize="@dimen/h5" />
 
         </LinearLayout>
@@ -151,13 +152,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+
                 android:layout_weight="1" />
 
             <Button
                 android:id="@+id/btnSelectServiceDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/select" />
+                android:background="@android:drawable/ic_menu_today"
+                />
 
         </LinearLayout>
 
@@ -183,7 +186,7 @@
                 android:id="@+id/btnSelectServiceTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/select" />
+                />
         </LinearLayout>
 
     </LinearLayout>

@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.stecon.patipan_on.diarycar.R;
+
 import java.util.List;
 
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
@@ -46,7 +48,7 @@ public class MyLocationFirst {
         if (SmartLocation.with(context).location().state().locationServicesEnabled()) {
 
             customProgreessDialog = new CustomProgreessDialog(context);
-            customProgreessDialog.setTitle("Finding Location GPS");
+            customProgreessDialog.setTitle(context.getResources().getString(R.string.default_my_location_fist_title));
             customProgreessDialog.myDialog();
             LocationParams locationParams = new LocationParams.Builder()
                     .setAccuracy(LocationAccuracy.HIGH)
@@ -70,7 +72,6 @@ public class MyLocationFirst {
                     });
 
         } else {
-            Toast.makeText(context, "You allow GPS Open", Toast.LENGTH_SHORT).show();
             Log.d("GPS=>", "you should allow GPS");
         }
     }
@@ -122,7 +123,7 @@ public class MyLocationFirst {
 
     }
 
-    public void registerOnextLocationFunction(OnNextLocationFunction listener) {
+    public void registerOnNextLocationFunction(OnNextLocationFunction listener) {
         this.onNextLocationFunction = listener;
     }
 

@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -48,17 +47,16 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
     private TextView tvShowVolume;
 
     private Button btnOilSave;
+    private Button btnOilCancel;
 
     private Spinner spinnerOil;
     private Spinner spinnerPayMentType;
 
-    private CheckBox chkOilFull;
 
     //getDataCheck
     private String strOdometer;
     private String strUnitPrice;
     private String strMoneyTotal;
-
 
     //getValueToDataToSQLite
     private String strNote;
@@ -92,6 +90,9 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
     private int id;
     private int mode = 0;
 
+    //status to server 0 = no , 1 = yes , 2 = edit
+    private int statusToServer = 0;
+
 
 
     @Override
@@ -110,14 +111,11 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         sqLiteDatabase = myDbHelper.getWritableDatabase();
         mySetSpinner();
         if (id != 0) {
-            mode = 2;
             mySetQueryText();
-        } else {
-
+            mode = 2;
         }
         btnOilSave.setOnClickListener(this);
-        btnOilSave.setOnClickListener(this);
-
+        btnOilCancel.setOnClickListener(this);
         edtUnitPrice.addTextChangedListener(this);
         edtMoneyTotal.addTextChangedListener(this);
 
@@ -136,7 +134,7 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
             strNote = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_NOTE));
             strFuelType = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_FUEL_TYPE));
             strPaymentType = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_PAYMENT_TYPE));
-            partialFillUp = cursor.getInt(cursor.getColumnIndex(DatabaseOilJournal.COL_PARTIAL_FILL_UP));
+            statusToServer = cursor.getInt(cursor.getColumnIndex(DatabaseOilJournal.COL_STATUS));
 
 
 
@@ -154,13 +152,10 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
             }
             ArrayAdapter<CharSequence> moneyPayType = ArrayAdapter.createFromResource(this, R.array.money_pay_array, R.layout.support_simple_spinner_dropdown_item);
             if (!strPaymentType.equals(null)) {
-                int spinnerPostion = moneyPayType.getPosition(strPaymentType);
-                spinnerPayMentType.setSelection(spinnerPostion);
+                int spinnerPosition = moneyPayType.getPosition(strPaymentType);
+                spinnerPayMentType.setSelection(spinnerPosition);
             } else {
                 spinnerPayMentType.setAdapter(moneyPayType);
-            }
-            if (partialFillUp == 1) {
-                chkOilFull.setChecked(true);
             }
         }
     }
@@ -170,11 +165,11 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         super.onStart();
 
         SharedPreferences sp = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
-        strLicensePlate = sp.getString(MyAppConfig.licenPlate, "");
+        strLicensePlate = sp.getString(MyAppConfig.licensePlate, "");
         if (strLicensePlate.equals("")) {
             CustomAlertDialog customAlertDialog = new CustomAlertDialog(this);
-            customAlertDialog.setTitle("No LicensePlate");
-            customAlertDialog.setMessage("You should in put LicensePlate............");
+            customAlertDialog.setTitle(getResources().getString(R.string.message_no_license_plate));
+            customAlertDialog.setMessage(getResources().getString(R.string.message_should_input_license_plate));
             customAlertDialog.myDefaultDialog();
             customAlertDialog.show();
             customAlertDialog.setOnMyDialogActivity(OilJournalActivity.this);
@@ -195,10 +190,10 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         edtMoneyTotal = (EditText) findViewById(R.id.edtMoneyTotal);
         spinnerOil = (Spinner) findViewById(R.id.spinnerOil);
         btnOilSave = (Button) findViewById(R.id.btnOilSave);
-        chkOilFull = (CheckBox) findViewById(R.id.chkOilFull);
         spinnerPayMentType = (Spinner) findViewById(R.id.spinnerMoneyPay);
         edtNote = (EditText) findViewById(R.id.edtNote);
         tvShowVolume = (TextView) findViewById(R.id.txtVolumeShow);
+        btnOilCancel = (Button) findViewById(R.id.btnOilCancel);
     }
 
 
@@ -207,8 +202,8 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
 
         if (v == btnOilSave) {
             progressDialog = new ProgressDialog(OilJournalActivity.this);
-            progressDialog.setMessage("Loadding..........");
-            progressDialog.setTitle("Save Data");
+            progressDialog.setMessage(getResources().getString(R.string.loading));
+            progressDialog.setTitle(getResources().getString(R.string.message_save_data_title));
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setCancelable(false);
             progressDialog.show();
@@ -216,7 +211,7 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
             Log.d("check => ", check.toString());
             if (!check) {
                 progressDialog.dismiss();
-                Toast.makeText(this, "กรุณากรอกข้อมูลที่จำเป็นให้ครับ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.message_please_input_data), Toast.LENGTH_SHORT).show();
             } else {
                 //MainSave
                 processCalculate();
@@ -226,6 +221,9 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
                     onEditSQLite();
                 }
             }
+        } else if (v == btnOilCancel) {
+            mySetEmptyText();
+            finish();
         }
     }
 
@@ -257,24 +255,16 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void locationServiceUnavailabled() {
-        Toast.makeText(this, "Eroor", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.message_error), Toast.LENGTH_SHORT).show();
     }
 
     private Boolean myCheckData() {
         myGetData();
-
-        if (chkOilFull.isChecked()) {
-            partialFillUp = 1;
-        } else {
-            partialFillUp = 0;
-        }
         if (strOdometer.equals("") || strUnitPrice.equals("") || strMoneyTotal.equals("") || strFuelType.equals("") || strPaymentType.equals("")) {
 
-            Log.d("Return => ", "false");
             return false;
         } else {
             douOdometer = Double.valueOf(strOdometer);
-            Log.d("Return => ", "true");
             return true;
         }
     }
@@ -284,7 +274,6 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         strFuelType = spinnerOil.getSelectedItem().toString().trim();
         strPaymentType = spinnerPayMentType.getSelectedItem().toString().trim();
         strNote = edtNote.getText().toString().trim();
-
         strMoneyTotal = edtMoneyTotal.getText().toString().trim();
         strUnitPrice = edtUnitPrice.getText().toString().trim();
     }
@@ -321,10 +310,14 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         contentValues.put(DatabaseOilJournal.COL_FUEL_TYPE, strFuelType);
         contentValues.put(DatabaseOilJournal.COL_VOLUME, douVolume);
         contentValues.put(DatabaseOilJournal.COL_TOTAL_PRICE, douMoneytTotal);
-        contentValues.put(DatabaseOilJournal.COL_PARTIAL_FILL_UP, partialFillUp);
         contentValues.put(DatabaseOilJournal.COL_PAYMENT_TYPE, strPaymentType);
         contentValues.put(DatabaseOilJournal.COL_NOTE, strNote);
         contentValues.put(DatabaseOilJournal.COL_DATE_UPDATE, dateFormat.format(date));
+
+        if (statusToServer == 1) {
+            statusToServer = 2;
+            contentValues.put(DatabaseOilJournal.COL_STATUS, statusToServer);
+        }
 
         sqLiteDatabase.update(DatabaseOilJournal.TABLE_NAME, contentValues, DatabaseOilJournal.COL_ID + " = ? ", new String[]{String.valueOf(id)});
         mySetEmptyText();
@@ -341,7 +334,6 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         contentValues.put(DatabaseOilJournal.COL_FUEL_TYPE, strFuelType);
         contentValues.put(DatabaseOilJournal.COL_VOLUME, douVolume);
         contentValues.put(DatabaseOilJournal.COL_TOTAL_PRICE, douMoneytTotal);
-        contentValues.put(DatabaseOilJournal.COL_PARTIAL_FILL_UP, partialFillUp);
         contentValues.put(DatabaseOilJournal.COL_PAYMENT_TYPE, strPaymentType);
         contentValues.put(DatabaseOilJournal.COL_LATITUDE, latitude);
         contentValues.put(DatabaseOilJournal.COL_LONGITUDE, longitude);
@@ -358,11 +350,7 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         edtUnitPrice.setText("");
         edtMoneyTotal.setText("");
         edtNote.setText("");
-        if (chkOilFull.isChecked()) {
-            chkOilFull.setChecked(false);
-
-        }
-        tvShowVolume.setText("0 ลิตร");
+        tvShowVolume.setText("0 " + getResources().getString(R.string.lit));
 
         mySetSpinner();
         progressDialog.dismiss();
@@ -418,19 +406,8 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         douVolume = douMoneytTotal / douUnitPrice;
         DecimalFormat df = new DecimalFormat("#.000");
         tempShowVoulume = df.format(douVolume);
-        tvShowVolume.setText(tempShowVoulume + " ลิตร");
+        tvShowVolume.setText(tempShowVoulume + " " + getResources().getString(R.string.lit));
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d("OnActivity => ", "onDestroy");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d("OnActivity => ", "onStop");
-    }
 }

@@ -24,29 +24,18 @@
 
     <Button
         android:id="@+id/btnPriceOtherTrip"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="106dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="105dp"
         android:text="@string/btn_price_other"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/btnEndTrip"
         app:layout_constraintRight_toRightOf="@+id/btnEndTrip"
-        app:layout_constraintTop_toBottomOf="@+id/btnEndTrip"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        app:layout_constraintTop_toBottomOf="@+id/btnEndTrip" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="85dp"
-        android:text="Button"
-        app:layout_constraintLeft_toLeftOf="@+id/btnPriceOtherTrip"
-        app:layout_constraintRight_toRightOf="@+id/btnPriceOtherTrip"
-        app:layout_constraintTop_toBottomOf="@+id/btnPriceOtherTrip"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+
 </android.support.constraint.ConstraintLayout>

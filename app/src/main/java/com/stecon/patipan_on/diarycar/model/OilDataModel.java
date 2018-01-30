@@ -31,7 +31,6 @@ public class OilDataModel {
     private double total_price;
 
 
-    private int partial_fillup;
 
     private String payment_type;
 
@@ -63,13 +62,12 @@ public class OilDataModel {
 
     private int status;
 
-    public OilDataModel(int id, double odometer, double unit_price, double volume,String fuel_type,double total_price, int partial_fillup, String payment_type, double latitude, double longitude, String note, String transaction_date) {
+    public OilDataModel(int id, double odometer, double unit_price, double volume,String fuel_type,double total_price, String payment_type, double latitude, double longitude, String note, String transaction_date) {
         this.id = id;
         this.odometer = odometer;
         this.unit_price = unit_price;
         this.volume = volume;
         this.total_price = total_price;
-        this.partial_fillup = partial_fillup;
         this.payment_type = payment_type;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -82,14 +80,13 @@ public class OilDataModel {
 
     }
 
-    public OilDataModel(int id, double odometer, double unit_price, double volume, String fuel_type, double total_price, int partial_fillup, String payment_type, double latitude, double longitude, String note, String transaction_date, String strLocation, String date_create, String date_update, String create_by, String update_by , int status) {
+    public OilDataModel(int id, double odometer, double unit_price, double volume, String fuel_type, double total_price, String payment_type, double latitude, double longitude, String note, String transaction_date, String strLocation, String date_create, String date_update, String create_by, String update_by , int status) {
         this.id = id;
         this.odometer = odometer;
         this.unit_price = unit_price;
         this.volume = volume;
         this.fuel_type = fuel_type;
         this.total_price = total_price;
-        this.partial_fillup = partial_fillup;
         this.payment_type = payment_type;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -144,10 +141,6 @@ public class OilDataModel {
         return total_price;
     }
 
-    public int getPartial_fillup() {
-        return partial_fillup;
-    }
-
     public String getPayment_type() {
         return payment_type;
     }
@@ -184,9 +177,6 @@ public class OilDataModel {
         this.total_price = total_price;
     }
 
-    public void setPartial_fillup(int partial_fillup) {
-        this.partial_fillup = partial_fillup;
-    }
 
     public void setPayment_type(String payment_type) {
         this.payment_type = payment_type;

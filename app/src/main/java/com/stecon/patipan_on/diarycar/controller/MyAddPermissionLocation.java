@@ -10,6 +10,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import com.stecon.patipan_on.diarycar.R;
+
 /**
  * Created by patipan_on on 12/7/2017.
  */
@@ -41,7 +43,7 @@ public class MyAddPermissionLocation {
         int locationCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION);
         if (locationCheck != PackageManager.PERMISSION_GRANTED) {
             if (!ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                showMessageOKCancel("you need to allow accrss to GPS ", new DialogInterface.OnClickListener() {
+                showMessageOKCancel("you need to allow accrss to GPS", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ActivityCompat.requestPermissions((Activity) context,
@@ -74,17 +76,14 @@ public class MyAddPermissionLocation {
             onNextFunction.onNewNextFunction();
         }
 
-
-        Log.d("Location = > ", "Start Location");
-
     }
 
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener noListener) {
 
         new AlertDialog.Builder(context)
                 .setMessage(message)
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Cancel", noListener)
+                .setPositiveButton(context.getResources().getString(R.string.ok), okListener)
+                .setNegativeButton(context.getResources().getString(R.string.cancel), noListener)
                 .create()
                 .show();
     }

@@ -7,7 +7,32 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">#ff0000</item>
+        <item name="colorButtonNormal">#2c2b40</item>
     </style>
+
+    <style name="ButtonOkTheme" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">#065417</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="ButtonCancelTheme" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">#ff0000</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="ButtonInputDelete" parent="Widget.AppCompat.Button.Colored">
+
+        <item name="android:imageButtonStyle">@drawable/custom_layer_list</item>
+    </style>
+
+
+
+
+
+
+
+
 
 
 </resources>
