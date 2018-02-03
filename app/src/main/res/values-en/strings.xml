@@ -155,4 +155,7 @@
     <string name="button_cancel">ยกเลิก</string>
     <string name="register">ลงทะเบียน</string>
     <string name="button_access">Access</string>
+    <string name="title_setting">Setting</string>
+    <string name="message_change_car">You want Change Car</string>
+    <string name="message_title_change_car">Change Car</string>
 </resources>

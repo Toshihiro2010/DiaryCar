@@ -14,6 +14,7 @@ import com.stecon.patipan_on.diarycar.database.DatabaseServiceRecords;
 import com.stecon.patipan_on.diarycar.database.DatabaseStatusToServer;
 import com.stecon.patipan_on.diarycar.database.DatabaseTripCost;
 import com.stecon.patipan_on.diarycar.database.DatabaseTripDetail;
+import com.stecon.patipan_on.diarycar.database.DatabaseUser;
 import com.stecon.patipan_on.diarycar.database.DatabaseVehicleMaster;
 
 /**
@@ -35,6 +36,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
     public String statusToServerTable = DatabaseStatusToServer.TABLE_NAME;
     public String priceTypeTable = DatabasePriceType.TABLE_NAME;
     public String vehicleMasterTable = DatabaseVehicleMaster.TABLE_NAME;
+    public String userMasterTable = DatabaseUser.TABLE_NAME;
 
     private String strSqlCar = DatabaseCarDiary.strInsert;
     private String strSqlCreateOil = DatabaseOilJournal.strSqlCreate;
@@ -46,6 +48,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
     private String strSqlCreateStatusToServer = DatabaseStatusToServer.strSqlCreate;
     private String strSqlCreatePriceType = DatabasePriceType.strSqlCreate;
     private String strSqlCreateVehicleMaster = DatabaseVehicleMaster.strSqlCreate;
+    private String strSqlCreateUser = DatabaseUser.strCreate;
 
 
     public MyDbHelper(Context context) {
@@ -65,6 +68,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
         db.execSQL(strSqlCreatePriceType);
         db.execSQL(strSqlCreateServiceMaster);
         db.execSQL(strSqlCreateVehicleMaster);
+        db.execSQL(strSqlCreateUser);
 
     }
 
@@ -82,6 +86,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + priceTypeTable);
         db.execSQL("DROP TABLE IF EXISTS " + serviceMasterTable);
         db.execSQL("DROP TABLE IF EXISTS " + vehicleMasterTable);
+        db.execSQL("DROP TABLE IF EXISTS " + userMasterTable);
         onCreate(db);
 
 //        switch (oldVersion) {

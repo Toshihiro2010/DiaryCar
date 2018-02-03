@@ -153,4 +153,7 @@
     <string name="button_save">บันทึกรายการ</string>
     <string name="register">Register</string>
     <string name="button_access">เข้าใช้งาน</string>
+    <string name="title_setting">ตั้งค่า</string>
+    <string name="message_title_change_car">เปลี่ยนรถ</string>
+    <string name="message_change_car">คุณต้องการเปลี่ยนรถใช่หรือไม่</string>
 </resources>

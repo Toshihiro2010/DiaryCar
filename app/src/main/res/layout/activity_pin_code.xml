@@ -8,7 +8,7 @@
     tools:context="com.stecon.patipan_on.diarycar.PinCodeActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/txtPinTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -16,14 +16,14 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:text="@string/txt_pin_title"
         android:textSize="@dimen/h2"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgPinTitle"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginEnd="8dp"
@@ -35,10 +35,10 @@
         android:tint="#000000"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/txtPinTitle" />
 
     <TextView
-        android:id="@+id/textView16"
+        android:id="@+id/tvMessagePin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -48,7 +48,7 @@
         android:text="Please input pin Code"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imgPinTitle"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp" />
 
@@ -64,7 +64,7 @@
         android:padding="32dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView16"
+        app:layout_constraintTop_toBottomOf="@+id/tvMessagePin"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp">
 

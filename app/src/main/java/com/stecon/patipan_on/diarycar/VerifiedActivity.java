@@ -217,7 +217,7 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
                 JsonArray jsonArray = (JsonArray) new JsonParser().parse(dataResponse);
                 int json_length = jsonArray.size();
 
-               for(int i = 0 ; i < json_length ; i++) {
+                for(int i = 0 ; i < json_length ; i++) {
                    //Log.d("test=> ", jsonArray.get(i) + "");
                    MonitorInfo monitorInfo = new Gson().fromJson(jsonArray.get(i), MonitorInfo.class);
                    Log.d("test=> ", monitorInfo.getProductName());

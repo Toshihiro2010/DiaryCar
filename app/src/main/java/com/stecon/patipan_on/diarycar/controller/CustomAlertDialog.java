@@ -76,6 +76,7 @@ public class CustomAlertDialog {
         builder.setCancelable(true);
         builder.setTitle(title);
         builder.setMessage(message);
+        
         builder.setPositiveButton(positiveMessage, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

@@ -14,9 +14,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.controller.MyLocationFirst;
 import com.stecon.patipan_on.diarycar.controller.MySendToServer;
@@ -24,7 +26,7 @@ import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, MyLocationFirst.OnNextLocationFunction {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, MyLocationFirst.OnNextLocationFunction, CustomAlertDialog.OnMyDialogActivity {
 
     private Button btnGoDiary;
     private Button btnGoOil;
@@ -34,9 +36,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnEng;
     private Button btnThai;
 
+
     private String strLicensePlate;
 
-    private MyCallBack myCallBack = null;
+    private ImageButton imgVehicleJournal;
+    private ImageButton imgPriceJournal;
+    private ImageButton imgSetting;
+    private ImageButton imgChangeCar;
+
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -44,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_test_main);
         Log.d("activity => ", " onCreate");
 
         Bundle bundle = savedInstanceState;
@@ -93,15 +100,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SQLiteDatabase sqLiteDatabase = myDbHelper.getWritableDatabase();
         Log.d("myDbHelper => ", myDbHelper.toString());
         Log.d("sqLiteDatabase => ", sqLiteDatabase + " ");
-//        //String strPath = "/data/data/com.stecon.patipan_on.lettertracking/databases/Letter";
-//        //String strPath = "/data/data/com.stecon.patipan_on.diarycar/databases/CAR";
-//        //String strPath = "/data/custom_db/Letter";
-//        String strPath = "/data/data/com.stecon.patipan_on.lettertracking/databases/Letter";
-//        //SQLiteDatabase dbCustom = SQLiteDatabase.openDatabase(strPath, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-//        SQLiteDatabase dbCustom = SQLiteDatabase.openDatabase(strPath, null, SQLiteDatabase.OPEN_READWRITE);
-//        Log.d("dbCustom => ", dbCustom + " ");
-//        Cursor cursor2 = dbCustom.rawQuery("SELECT * FROM User", null);
-
 
     }
 
@@ -114,103 +112,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void bindWidGet() {
-        btnGoDiary = (Button) findViewById(R.id.btnGoDiary);
-        btnGoOil = (Button) findViewById(R.id.btnGoOil);
-        btnGoService = (Button) findViewById(R.id.btnGoService);
+
         tvMainLicensePlate = (TextView) findViewById(R.id.tvMainLicensePlate);
-        btnGoExit = (Button) findViewById(R.id.btnExitLicensePlate);
-        btnEng = (Button) findViewById(R.id.btnToEng);
-        btnThai = (Button) findViewById(R.id.btnToThai);
+
+        imgVehicleJournal = (ImageButton) findViewById(R.id.imgVehicleJournal);
+        imgPriceJournal = (ImageButton) findViewById(R.id.imgPriceJournal);
+        imgChangeCar = (ImageButton) findViewById(R.id.imgChangeCar);
+        imgSetting = (ImageButton) findViewById(R.id.imgSettingMain);
     }
 
     private void myOnClick() {
-        btnGoDiary.setOnClickListener(this);
-        btnGoOil.setOnClickListener(this);
-        btnGoService.setOnClickListener(this);
-        btnGoExit.setOnClickListener(this);
-        btnThai.setOnClickListener(this);
-        btnEng.setOnClickListener(this);
+        imgVehicleJournal.setOnClickListener(this);
+        imgPriceJournal.setOnClickListener(this);
+        imgChangeCar.setOnClickListener(this);
+        imgSetting.setOnClickListener(this);
+
+
     }
 
     @Override
     public void onClick(View v) {
-        if (v == btnGoDiary) {
+        if (v == imgVehicleJournal) {
             Intent intent = new Intent(this, TripStartActivity.class);
             startActivity(intent);
 
-        } else if (v == btnGoOil) {
-            Intent intent = new Intent(getApplicationContext(), OilListActivity.class);
+        } else if (v == imgPriceJournal) {
+            Intent intent = new Intent(getApplicationContext(), PriceAllActivity.class);
             startActivity(intent);
 
-        } else if (v == btnGoService) {
-            Intent intent = new Intent(MainActivity.this, ServiceListActivity.class);
+        } else if (v == imgSetting) {
+            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
             startActivity(intent);
-        } else if (v == btnGoExit) {
+        } else if (v == imgChangeCar) {
             onExit();
-        } else if (v == btnEng) {
-            customEng();
-        } else if (v == btnThai) {
-            customThai();
         }
     }
 
-    private void customThai() {
-        Log.d("click => ", "Thai");
-        String strTh = "th";
-        Locale locale = new Locale(strTh);
-        Locale.setDefault(locale);
 
-        Resources resources = getResources();
-        Configuration configuration = new Configuration();
-
-        Log.d("Jellybean => ", Build.VERSION_CODES.JELLY_BEAN_MR1 + " ");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            configuration.setLocale(locale);
-        }else{
-            configuration.locale = locale;
-        }
-        getResources().updateConfiguration(configuration, resources.getDisplayMetrics());
-
-        Bundle bundle = new Bundle();
-        bundle.putString("license_plate", tvMainLicensePlate.getText().toString().trim());
-        onDestroy();
-        onCreate(null);
-        onRestoreInstanceState(bundle);
-
-
-
-    }
-
-    private void customEng() {
-        Log.d("click => ", "ENG");
-
-        Locale locale = Locale.ENGLISH;
-        Configuration config = new Configuration();
-        Locale.setDefault(locale);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            config.setLocale(locale);
-        }else{
-            config.locale = locale;
-        }
-        getResources().updateConfiguration(config, null);
-
-        Bundle bundle = new Bundle();
-        bundle.putString("license_plate", tvMainLicensePlate.getText().toString().trim());
-        onDestroy();
-        onCreate(null);
-        onRestoreInstanceState(bundle);
-
-    }
 
     private void onExit() {
-        editor.remove(MyAppConfig.licensePlate);
-        editor.commit();
-        Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
-        startActivity(intent);
-        finish();
+        String titleChangCar = this.getResources().getString(R.string.message_title_change_car);
+        String messageChangCar = this.getResources().getString(R.string.message_change_car);
 
 
+        CustomAlertDialog customAlertDialog = new CustomAlertDialog(MainActivity.this, titleChangCar, messageChangCar);
+        customAlertDialog.myDefaultDialog();
+        customAlertDialog.setOnMyDialogActivity(this);
+        customAlertDialog.show();
     }
 
     private void myCustomTest() {
@@ -224,14 +172,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-    public interface MyCallBack {
-        void callBack();
-    }
-
-    public void registerMyCallBack(MyCallBack listener) {
-        this.myCallBack = listener;
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -251,5 +191,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onMyDialogPosititve() {
+        editor.remove(MyAppConfig.licensePlate);
+        editor.commit();
+        Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onMyDialogNegative() {
+
     }
 }

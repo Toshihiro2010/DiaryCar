@@ -8,7 +8,7 @@ public class DatabaseStatusToServer {
 
     public static final String TABLE_NAME = "StatusToServer";
 
-    public static String COL_ID = "_id";
+    public static final String COL_ID = "_id";
 
     public static final String COL_STATUS = "status";
     public static final String COL_MESSAGE = "message";

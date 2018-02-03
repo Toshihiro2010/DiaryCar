@@ -126,6 +126,8 @@
     <string name="message_id_card_wrong">ID Card is wrong</string>
     <string name="message_data_wrong">Data is Wrong</string>
     <string name="message_data_correct">Data is Correct</string>
+    <string name="message_title_change_car">เปลี่ยนรถ</string>
+    <string name="message_change_car">คุณต้องการเปลี่ยนรถใช่หรือไม่</string>
 
 
     <string-array name="oil_array">
@@ -150,5 +152,18 @@
     <string name="custom_exit">exit</string>
     <string name="register">ลงทะเบียน</string>
     <string name="button_access">เข้าใช้งาน</string>
+
+
+    <string name="txt_pin_add_input">กรุณาเพิ่ม Pin </string>
+    <string name="txt_pin_input">กรุณาใส่ Pin</string>
+    <string name="txt_pin_confirm">กรุณาใส่ Pin เพื่อยืนยัน</string>
+    <string name="txt_pin_error">หมายเลข Pin ไม่ถูกต้อง</string>
+    <string name="txt_pin_title">PIN</string>
+    <string name="txt_pin_new">กรุณาใส่ Pin ใหม่</string>
+    <string name="txt_pin_correct">Pin ถูกต้อง</string>
+    <string name="txt_change_car">เปลี่ยนรถ</string>
+    <string name="txt_vehicle_journal">บันทึกการใช้รถ</string>
+    <string name="title_setting">ตั้งค่า</string>
+
 
 </resources>
