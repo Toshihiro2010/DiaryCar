@@ -1,14 +1,22 @@
 package com.stecon.patipan_on.diarycar;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+
+import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,34 +39,74 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     private Button btnEng;
     private Button btnThai;
 
+    private RadioGroup radioLanguageGroup;
+    private RadioButton radioEng;
+    private RadioButton radioThai;
+
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
+    private String strLanguage;
+
+    private String strEng = "EN";
+    private String strThai = "TH";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
+        strLanguage = sharedPreferences.getString(MyAppConfig.language_app, "");
         bindWidGet();
         setOnClick();
+
+
 
 //        SyncData syncData = new SyncData();
 //        syncData.execute();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setRadioChecked();
+    }
+
+    private void setRadioChecked() {
+        if (strLanguage.equals(strEng)) {
+            radioEng.setChecked(true);
+        } else if (strLanguage.equals(strThai)) {
+            radioThai.setChecked(true);
+        }
+    }
+
     private void setOnClick() {
         btnEng.setOnClickListener(this);
         btnThai.setOnClickListener(this);
+        radioEng.setOnClickListener(this);
+        radioThai.setOnClickListener(this);
+
+
     }
 
     private void bindWidGet() {
         btnEng = (Button) findViewById(R.id.btnToEng);
         btnThai = (Button) findViewById(R.id.btnToThai);
+        radioLanguageGroup = (RadioGroup) findViewById(R.id.radioLanguageGroup);
+        radioEng = (RadioButton) findViewById(R.id.radioEng);
+        radioThai = (RadioButton) findViewById(R.id.radioThai);
     }
 
     @Override
     public void onClick(View v) {
-        if (v == btnEng) {
+        if (v == btnEng || v == radioEng) {
             customEng();
-        } else if (v == btnThai) {
+            radioEng.setChecked(true);
+        } else if (v == btnThai || v == radioThai) {
             customThai();
+            radioThai.setChecked(true);
         }
     }
 
@@ -118,8 +166,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     private void customThai() {
         Log.d("click => ", "Thai");
-        String strTh = "TH";
-        Locale locale = new Locale(strTh);
+        Locale locale = new Locale(strThai);
         Locale.setDefault(locale);
 
         Resources resources = getResources();
@@ -133,11 +180,11 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         }
         getResources().updateConfiguration(configuration, resources.getDisplayMetrics());
 
-        Bundle bundle = new Bundle();
-        //bundle.putString("license_plate", tvMainLicensePlate.getText().toString().trim());
         onDestroy();
         onCreate(null);
-        onRestoreInstanceState(bundle);
+
+        editor.putString(MyAppConfig.language_app, strThai);
+        editor.commit();
 
 
 
@@ -147,6 +194,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         Log.d("click => ", "ENG");
 
         Locale locale = Locale.ENGLISH;
+        //Locale locale = new Locale("EN");
         Configuration config = new Configuration();
         Locale.setDefault(locale);
 
@@ -156,12 +204,11 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             config.locale = locale;
         }
         getResources().updateConfiguration(config, null);
-
-        Bundle bundle = new Bundle();
-        //bundle.putString("license_plate", tvMainLicensePlate.getText().toString().trim());
         onDestroy();
         onCreate(null);
-        onRestoreInstanceState(bundle);
-
+        editor.putString(MyAppConfig.language_app, strEng);
+        editor.commit();
     }
+
+
 }

@@ -164,6 +164,11 @@
     <string name="txt_change_car">เปลี่ยนรถ</string>
     <string name="txt_vehicle_journal">บันทึกการใช้รถ</string>
     <string name="title_setting">ตั้งค่า</string>
+    <string name="button_save_oil">บันทึกข้อมูล</string>
+    <string name="txt_change_pin_code">เปลี่ยน Pin</string>
+    <string name="txt_thai">ภาษาไทย</string>
+    <string name="txt_eng">ภาษาอังกฤษ</string>
+    <string name="title_activity_price_all2">PriceAllActivity2</string>
 
 
 </resources>

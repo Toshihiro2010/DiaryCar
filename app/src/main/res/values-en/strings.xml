@@ -81,7 +81,7 @@
     <string name="tip_location_name">สถานที่เริ่มการเดินทาง</string>
 
     carTripMain
-    <string name="btn_price_other">ค่าใช้จ่ายในการเดินทาง</string>
+    <string name="btn_price_other">Cost Of Trip</string>
     <string name="btn_end_trp">สิ้นสุดการเดินทาง</string>
 
     endTrip
@@ -158,4 +158,9 @@
     <string name="title_setting">Setting</string>
     <string name="message_change_car">You want Change Car</string>
     <string name="message_title_change_car">Change Car</string>
+    <string name="txt_change_car">Change Car</string>
+    <string name="txt_vehicle_journal">Vehicle Journal</string>
+    <string name="button_save">บันทึกรายการ</string>
+
+
 </resources>

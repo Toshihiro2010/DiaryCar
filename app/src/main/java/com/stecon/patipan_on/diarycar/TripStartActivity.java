@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,8 +32,11 @@ import com.stecon.patipan_on.diarycar.database.DatabaseTripDetail;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.MyDateModify;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class TripStartActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, MyAddPermissionLocation.OnCustomClickDialog, MyAddPermissionLocation.OnNextFunction, MyLocationFirst.OnNextLocationFunction {
 
@@ -106,16 +111,16 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         tvDay = myDateModify.getDay();
 
         myStartSetText();
-        myBtnOnClick();
+        myOnClick();
 
-        switchLocation.setOnCheckedChangeListener(this);
     }
 
 
-    private void myBtnOnClick() {
+    private void myOnClick() {
         btnSelectDepartureTime.setOnClickListener(this);
         btnSelectDepartureDate.setOnClickListener(this);
         btnGoToMain.setOnClickListener(this);
+        switchLocation.setOnCheckedChangeListener(this);
     }
 
     private void myStartSetText() {
@@ -264,14 +269,13 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         if (buttonView == switchLocation) {
             Log.d("buttonView ", "True");
             if (isChecked) {
-                tvLinearLocation.setVisibility(View.INVISIBLE);
                 myAddPermissionLocation = new MyAddPermissionLocation(TripStartActivity.this);
                 myAddPermissionLocation.setOnNextFunction(TripStartActivity.this);
                 myAddPermissionLocation.setOnCustomClickDialog(TripStartActivity.this);
                 myAddPermissionLocation.checkLocation();
 
             } else {
-                tvLinearLocation.setVisibility(View.VISIBLE);
+                edtNameLocation.setText("");
 
             }
         }
@@ -300,6 +304,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onPositiveMyDialog() {
         Log.d("gps => ", "Positive");
+
     }
 
     @Override
@@ -307,7 +312,6 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         Log.d("gps => ", "onNegativeMyDialog");
         if (switchLocation.isChecked()) {
             switchLocation.setChecked(false);
-            tvLinearLocation.setVisibility(View.VISIBLE);
             Toast.makeText(this, "No Open GPS ", Toast.LENGTH_SHORT).show();
         }
     }
@@ -324,6 +328,29 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     public void onStartNextFunction() {
         latitude = myLocationFirst.getLatitude();
         longtiude = myLocationFirst.getLongitude();
+
+        Geocoder geocoder = new Geocoder(TripStartActivity.this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longtiude, 1);
+
+            if (addresses != null) {
+                String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                String city = addresses.get(0).getLocality();
+                String state = addresses.get(0).getAdminArea();
+                String country = addresses.get(0).getCountryName();
+                String postalCode = addresses.get(0).getPostalCode();
+                String knownName = addresses.get(0).getFeatureName();
+                edtNameLocation.setText(address + " " + city + " " + state + " " + country);
+
+            } else {
+
+//                        oilDataModel.setStrLocation("No location");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         Log.d("latitude/longtitude => ", latitude + " / " + longtiude);
     }
 }

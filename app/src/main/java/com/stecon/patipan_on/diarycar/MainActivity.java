@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private String strLicensePlate;
+    private String strLanguage;
 
     private ImageButton imgVehicleJournal;
     private ImageButton imgPriceJournal;
@@ -56,15 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Bundle bundle = savedInstanceState;
         bindWidGet();
-        if (bundle != null) {
-//            String temp = bundle.getString("license_plate");
-//            Log.d("temp => ", temp);
-//            tvMainLicensePlate.setText(temp);
-//            Log.d("bundle => ", bundle.toString());
-            Log.d("bundle => ", "not null");
-        } else {
-            Log.d("bundle => ", "null");
-        }
+
         sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
@@ -94,6 +87,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         onCustomSetLicensePlate();
+
+        strLanguage = sharedPreferences.getString(MyAppConfig.language_app, "");
+        Log.d("str_lang => ", strLanguage);
+        Log.d("onStart => ", "onStart");
+        if (strLanguage != "") {
+            Locale locale = new Locale(strLanguage);
+            Resources resources = getResources();
+            Configuration configuration = new Configuration();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                configuration.setLocale(locale);
+            } else {
+                configuration.locale = locale;
+            }
+            getResources().updateConfiguration(configuration, resources.getDisplayMetrics());
+            Bundle bundle = new Bundle();
+            onDestroy();
+            onCreate(null);
+            onRestoreInstanceState(bundle);
+        } else {
+            Log.d("str_lang => ", "empty");
+        }
+
 
 
         MyDbHelper myDbHelper = new MyDbHelper(MainActivity.this);
@@ -137,7 +152,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
 
         } else if (v == imgPriceJournal) {
-            Intent intent = new Intent(getApplicationContext(), PriceAllActivity.class);
+            //Intent intent = new Intent(getApplicationContext(), PriceAllActivity.class);
+            Intent intent = new Intent(getApplicationContext(), PriceAllActivity2.class);
             startActivity(intent);
 
         } else if (v == imgSetting) {

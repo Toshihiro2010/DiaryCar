@@ -8,7 +8,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">#ff0000</item>
-        <item name="colorButtonNormal">#2c2b40</item>
+        <item name="colorButtonNormal">#af74f7</item>
     </style>
 
     <style name="ButtonOkTheme" parent="Widget.AppCompat.Button.Colored">
@@ -21,18 +21,19 @@
         <item name="android:textColor">#ffffff</item>
     </style>
 
+    <style name="ButtonThaiTheme" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:drawable">@drawable/thai_flag</item>
+    </style>
+
     <style name="ButtonInputDelete" parent="Widget.AppCompat.Button.Colored">
 
         <item name="android:imageButtonStyle">@drawable/custom_layer_list</item>
     </style>
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-
-
-
-
-
-
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 </resources>

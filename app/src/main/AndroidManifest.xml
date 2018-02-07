@@ -41,7 +41,7 @@
             android:name=".LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".OilJournalActivity"
+            android:name=".PinCodeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".PriceOtherActivity"
@@ -62,12 +62,14 @@
             android:name=".ServiceRecordsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PinCodeActivity"
+            android:name=".OilJournalActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".SettingActivity" />
+        <activity android:name=".PriceAllActivity" />
         <activity
-            android:name=".SettingActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".PriceAllActivity"></activity>
+            android:name=".PriceAllActivity2"
+            android:label="@string/title_activity_price_all2"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
