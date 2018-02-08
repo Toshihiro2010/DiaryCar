@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.stecon.patipan_on.diarycar.PriceOtherActivity;
+import com.stecon.patipan_on.diarycar.PriceCostJournalActivity;
 import com.stecon.patipan_on.diarycar.R;
 import com.stecon.patipan_on.diarycar.model.ItemClickListener;
 import com.stecon.patipan_on.diarycar.model.PriceOtherViewHolder;
@@ -66,7 +66,7 @@ public class PriceOtherAdapter extends RecyclerView.Adapter<PriceOtherViewHolder
 
     @Override
     public void onClick(View view, int i) {
-        Intent intent = new Intent(context, PriceOtherActivity.class);
+        Intent intent = new Intent(context, PriceCostJournalActivity.class);
         intent.putExtra("data_id", tripCostModelArrayList.get(i).getId());
         context.startActivity(intent);
     }

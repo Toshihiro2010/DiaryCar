@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/car_background"
     tools:context="com.stecon.patipan_on.diarycar.PriceAllActivity2">
 
     <android.support.design.widget.AppBarLayout
@@ -20,7 +21,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
+
     <include layout="@layout/content_price_all2" />
-    <include layout="@layout/float_action_layout"/>
+    <include layout="@layout/float_action_layout" />
 
 </android.support.design.widget.CoordinatorLayout>

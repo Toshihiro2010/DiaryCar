@@ -7,50 +7,45 @@
     android:layout_height="match_parent"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_price_all2"
     >
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/fab_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="228dp"
+        android:layout_height="495dp"
         android:layout_gravity="bottom|right"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        fab:menu_backgroundColor="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp">
+        app:layout_constraintRight_toRightOf="parent"
+        fab:menu_backgroundColor="@android:color/transparent">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_item"
+            android:id="@+id/float_button_menu_fuel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_dialog_email"
-            fab:fab_label="Attachment"
+            android:src="@drawable/ic_ev_station_white_24dp"
+            fab:fab_label="น้ำมัน"
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_item1"
+            android:id="@+id/float_button_menu_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_dialog_map"
-            fab:fab_label="Audio"
+            android:src="@drawable/ic_directions_car_white_24dp"
+            fab:fab_label="ค่าใช้จ่ายในการเเดินทาง"
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_item2"
+            android:id="@+id/float_button_menu_service"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_camera"
-            fab:fab_label="Camera"
+            android:src="@drawable/ic_build_white_24dp"
+            fab:fab_label="ซ่อมบำรุง"
             fab:fab_size="mini" />
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_item3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_dialog_email"
-            fab:fab_label="Location"
-            fab:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>
 

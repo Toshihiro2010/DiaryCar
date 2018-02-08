@@ -96,7 +96,7 @@ public class PriceOtherList extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         if (v == btnPriceAdd) {
-            Intent intent = new Intent(PriceOtherList.this, PriceOtherActivity.class);
+            Intent intent = new Intent(PriceOtherList.this, PriceCostJournalActivity.class);
             startActivity(intent);
         }
     }

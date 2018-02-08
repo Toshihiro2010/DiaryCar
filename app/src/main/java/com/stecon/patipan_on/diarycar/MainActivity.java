@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -48,11 +49,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_main);
+//        toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        toolbar.setTitle("MainMenu");
+
+//        setSupportActionBar(toolbar);
         Log.d("activity => ", " onCreate");
 
         Bundle bundle = savedInstanceState;
@@ -73,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onCustomSetLicensePlate() {
         strLicensePlate = sharedPreferences.getString(MyAppConfig.licensePlate, "");
+        Log.d("strLicensePlate => ", strLicensePlate);
         if (strLicensePlate.equals("")) {
             strLicensePlate = getResources().getString(R.string.message_no_license_plate);
             Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
@@ -80,14 +87,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else{
 
         }
+//        toolbar.setSubtitle(strLicensePlate);
         tvMainLicensePlate.setText(strLicensePlate);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        onCustomSetLicensePlate();
-
         strLanguage = sharedPreferences.getString(MyAppConfig.language_app, "");
         Log.d("str_lang => ", strLanguage);
         Log.d("onStart => ", "onStart");
@@ -104,10 +110,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Bundle bundle = new Bundle();
             onDestroy();
             onCreate(null);
-            onRestoreInstanceState(bundle);
+//            onSaveInstanceState(bundle);
+//            onRestoreInstanceState(bundle);
         } else {
             Log.d("str_lang => ", "empty");
         }
+
+        onCustomSetLicensePlate();
 
 
 

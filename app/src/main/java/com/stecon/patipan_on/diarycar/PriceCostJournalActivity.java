@@ -26,7 +26,7 @@ import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class PriceOtherActivity extends AppCompatActivity implements View.OnClickListener, CustomAlertDialog.OnMyDialogActivity {
+public class PriceCostJournalActivity extends AppCompatActivity implements View.OnClickListener, CustomAlertDialog.OnMyDialogActivity {
 
     private Spinner spinnerPriceType;
     private EditText edtTitle;
@@ -62,7 +62,7 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
 
         bindWidget();
         Bundle bundle = getIntent().getExtras();
-        myDbHelper = new MyDbHelper(PriceOtherActivity.this);
+        myDbHelper = new MyDbHelper(PriceCostJournalActivity.this);
         sqLiteDatabase = myDbHelper.getWritableDatabase();
 
         if (bundle != null) {
@@ -118,7 +118,7 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
 
     private void mySetSpinner() {
 
-        priceTypeArrayAdapter = ArrayAdapter.createFromResource(PriceOtherActivity.this, R.array.price_other_array, R.layout.support_simple_spinner_dropdown_item);
+        priceTypeArrayAdapter = ArrayAdapter.createFromResource(PriceCostJournalActivity.this, R.array.price_other_array, R.layout.support_simple_spinner_dropdown_item);
         spinnerPriceType.setAdapter(priceTypeArrayAdapter);
 
     }
@@ -142,7 +142,7 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
             if (strPrice.equals("") || strNote.equals("")) {
                 Toast.makeText(this, getResources().getString(R.string.message_please_input_data), Toast.LENGTH_SHORT).show();
             } else {
-                progressDialog = new ProgressDialog(PriceOtherActivity.this);
+                progressDialog = new ProgressDialog(PriceCostJournalActivity.this);
                 progressDialog.setCancelable(false);
                 progressDialog.setTitle(getResources().getString(R.string.message_save_data_title));
                 progressDialog.setMessage(getResources().getString(R.string.loading));
@@ -209,7 +209,7 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onMyDialogPosititve() {
         //Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(PriceOtherActivity.this, TripStartActivity.class);
+        Intent intent = new Intent(PriceCostJournalActivity.this, TripStartActivity.class);
         intent.putExtra(MyAppConfig.activity_code, 99);
         startActivity(intent);
 
@@ -229,10 +229,10 @@ public class PriceOtherActivity extends AppCompatActivity implements View.OnClic
         trip_id = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
         MyAppConfig.setNum_trip_id(trip_id);
         if (trip_id == 0) {
-            customAlertDialog = new CustomAlertDialog(PriceOtherActivity.this, getResources().getString(R.string.message_no_trip), getResources().getString(R.string.message_add_trip));
+            customAlertDialog = new CustomAlertDialog(PriceCostJournalActivity.this, getResources().getString(R.string.message_no_trip), getResources().getString(R.string.message_add_trip));
 
             customAlertDialog.myDefaultDialog();
-            customAlertDialog.setOnMyDialogActivity(PriceOtherActivity.this);
+            customAlertDialog.setOnMyDialogActivity(PriceCostJournalActivity.this);
             customAlertDialog.show();
         }
     }

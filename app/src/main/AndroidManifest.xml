@@ -44,7 +44,7 @@
             android:name=".PinCodeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PriceOtherActivity"
+            android:name=".PriceCostJournalActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".VerifiedActivity"
