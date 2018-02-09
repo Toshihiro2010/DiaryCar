@@ -243,6 +243,7 @@ public class MySendToServer {
                     cursorFuel.moveToFirst();
                 }
                 int id = cursorFuel.getInt(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_ID));
+                String license_plate = cursorFuel.getString(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_LICENSE_PLATE));
                 double odometer = cursorFuel.getDouble(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_ODOMETER));
                 double unit_price = cursorFuel.getDouble(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_UNIT_PRICE));
                 double volume = cursorFuel.getDouble(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_VOLUME));
@@ -260,7 +261,7 @@ public class MySendToServer {
                 String update_by = cursorFuel.getString(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_UPDATE_BY));
                 int status = cursorFuel.getInt(cursorTripCost.getColumnIndex(DatabaseOilJournal.COL_STATUS));
 
-                OilDataModel oilDataModel = new OilDataModel(id, odometer, unit_price, volume, fueltype, total_rpice, payment_type, latitude, longitude, note, transaction_date,location_date, create_date, update_date, create_by, update_by,status);
+                OilDataModel oilDataModel = new OilDataModel(id, license_plate, odometer, unit_price, volume, fueltype, total_rpice, payment_type, latitude, longitude, note, transaction_date,location_date, create_date, update_date, create_by, update_by,status);
 
                 oilDataModelArrayList.add(oilDataModel);
 

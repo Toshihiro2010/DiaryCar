@@ -48,7 +48,7 @@ public class PriceAllActivity2 extends AppCompatActivity implements View.OnClick
         setSupportActionBar(toolbar);
         onSetUpFloatAction();
 
-        CustomViewPagerAdapter customViewPagerAdapter = new CustomViewPagerAdapter(getSupportFragmentManager(),PriceAllActivity2.this);
+        CustomViewPagerAdapter customViewPagerAdapter = new CustomViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(customViewPagerAdapter);
 
 

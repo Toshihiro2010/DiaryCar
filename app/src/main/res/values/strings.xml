@@ -79,6 +79,7 @@
     <string name="head_location_trip">ตำแหน่งการเดินทาง</string>
     <string name="tip_location_title">ใช้ตำแหน่ง GPS  </string>
     <string name="tip_location_name">สถานที่เริ่มการเดินทาง</string>
+    <string name="btn_start_trip">เริ่มเดินทาง</string>
 
     carTripMain
     <string name="btn_price_other">ค่าใช้จ่ายในการเดินทาง</string>

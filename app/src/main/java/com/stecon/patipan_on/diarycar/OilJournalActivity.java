@@ -5,9 +5,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.location.Location;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -22,7 +25,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
+import com.stecon.patipan_on.diarycar.controller.MyAddPermissionLocation;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
+import com.stecon.patipan_on.diarycar.controller.MyLocationFirst;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 
@@ -36,7 +41,7 @@ import io.nlopez.smartlocation.location.config.LocationAccuracy;
 import io.nlopez.smartlocation.location.config.LocationParams;
 import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider;
 
-public class OilJournalActivity extends AppCompatActivity implements View.OnClickListener, OnLocationUpdatedListener, CustomAlertDialog.OnMyDialogActivity, TextWatcher {
+public class OilJournalActivity extends AppCompatActivity implements View.OnClickListener, OnLocationUpdatedListener, CustomAlertDialog.OnMyDialogActivity, TextWatcher, MyAddPermissionLocation.OnNextFunction, MyAddPermissionLocation.OnCustomClickDialog {
 
     //view
     private EditText edtOdometer;
@@ -93,6 +98,9 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
     //status to server 0 = no , 1 = yes , 2 = edit
     private int statusToServer = 0;
 
+    private MyAddPermissionLocation myAddPermissionLocation;
+    private MyLocationFirst myLocationFirst;
+
 
 
     @Override
@@ -106,6 +114,12 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         } catch (NullPointerException e) {
             Log.d("id => ", id + " ");
         }
+
+        myAddPermissionLocation = new MyAddPermissionLocation(OilJournalActivity.this);
+        myAddPermissionLocation.setOnNextFunction(OilJournalActivity.this);
+        myAddPermissionLocation.setOnCustomClickDialog(OilJournalActivity.this);
+        myAddPermissionLocation.checkLocation();
+
 
         myDbHelper = new MyDbHelper(OilJournalActivity.this);
         sqLiteDatabase = myDbHelper.getWritableDatabase();
@@ -210,11 +224,12 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
             Boolean check = myCheckData();
             Log.d("check => ", check.toString());
             if (!check) {
+                //Cancel Save
                 progressDialog.dismiss();
                 Toast.makeText(this, getResources().getString(R.string.message_please_input_data), Toast.LENGTH_SHORT).show();
             } else {
                 //MainSave
-                processCalculate();
+                processCalculate(); // calculate Voulume fuel
                 if (mode == 0) {
                     myLocation();
                 } else if (mode == 2) {
@@ -410,4 +425,34 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+    @Override
+    public void onNewNextFunction() {
+        myAddPermissionLocation.setStatusLocation(true);
+    }
+
+    @Override
+    public void onPositiveMyDialog() {
+
+    }
+
+    @Override
+    public void onNegativeMyDialog() {
+        Toast.makeText(this, "No Open GPS ", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MyAddPermissionLocation.REQUEST_CODE_ASK_PERMISSIONS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Open GPS", Toast.LENGTH_SHORT).show();
+                onNewNextFunction();
+
+            } else {
+                onNegativeMyDialog();
+
+            }
+        }
+    }
 }

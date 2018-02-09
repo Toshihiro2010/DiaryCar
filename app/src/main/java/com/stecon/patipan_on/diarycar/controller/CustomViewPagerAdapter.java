@@ -1,11 +1,10 @@
 package com.stecon.patipan_on.diarycar.controller;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.stecon.patipan_on.diarycar.PriceAllActivity2;
+import com.stecon.patipan_on.diarycar.PriceOtherFragment;
 import com.stecon.patipan_on.diarycar.custom_fragment.FuelFragment;
 import com.stecon.patipan_on.diarycar.custom_fragment.OneFragment;
 
@@ -16,12 +15,10 @@ import com.stecon.patipan_on.diarycar.custom_fragment.OneFragment;
 public class CustomViewPagerAdapter extends FragmentPagerAdapter{
 
     private final int PAGE_NUM = 2;
-    private Context context;
 
 
-    public CustomViewPagerAdapter(FragmentManager fm, Context context) {
+    public CustomViewPagerAdapter(FragmentManager fm) {
         super(fm);
-        this.context = context;
     }
 
     @Override
@@ -31,8 +28,8 @@ public class CustomViewPagerAdapter extends FragmentPagerAdapter{
             FuelFragment fuelFragment = new FuelFragment();
             return fuelFragment.newInstance();
         } else if (position == 1) {
-            OneFragment oneFragment = new OneFragment();
-            return oneFragment.newInstance();
+            PriceOtherFragment priceOtherFragment = new PriceOtherFragment();
+            return priceOtherFragment.newInstance();
         }
         return null;
     }

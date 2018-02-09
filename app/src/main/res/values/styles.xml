@@ -7,7 +7,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColor">#ff0000</item>
+        <item name="android:textColor">@color/text_default_color</item>
         <item name="colorButtonNormal">#af74f7</item>
     </style>
 
@@ -17,7 +17,7 @@
     </style>
 
     <style name="ButtonCancelTheme" parent="Widget.AppCompat.Button.Colored">
-        <item name="colorButtonNormal">#ff0000</item>
+        <item name="colorButtonNormal">@color/cancel_dialog_background</item>
         <item name="android:textColor">#ffffff</item>
     </style>
 
@@ -25,6 +25,8 @@
         <item name="android:textColor">#ffffff</item>
         <item name="android:drawable">@drawable/thai_flag</item>
     </style>
+
+
 
     <style name="ButtonInputDelete" parent="Widget.AppCompat.Button.Colored">
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/theme_background"
+    android:background="@drawable/car_background"
     tools:context="com.stecon.patipan_on.diarycar.TripStartActivity">
 
     <LinearLayout
@@ -119,6 +119,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
@@ -134,17 +135,19 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1" />
 
-            <Button
-                android:id="@+id/btnDepartureSelectDate"
+
+            <ImageButton
+                android:id="@+id/imgBtnDepartureSelectDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/select" />
+                android:src="@drawable/ic_today_white_24dp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
@@ -160,11 +163,11 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1" />
 
-            <Button
-                android:id="@+id/btnDepartureSelectTime"
+            <ImageButton
+                android:id="@+id/imgBtnDepartureSelectTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/select" />
+                android:src="@drawable/ic_alarm_white_24dp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -175,14 +178,15 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:text="Ok"
+        android:text="@string/btn_start_trip"
+        android:theme="@style/ButtonOkTheme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="8dp" />
+        app:layout_constraintRight_toRightOf="parent" />
 
     <LinearLayout
         android:layout_width="0dp"

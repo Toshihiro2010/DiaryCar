@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -46,9 +47,11 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     private EditText edtFuelLevel;
     private EditText edtNameLocation;
 
-    private Button btnSelectDepartureDate;
-    private Button btnSelectDepartureTime;
+    private ImageButton imgBtnDepartureSelectDate;
+    private ImageButton imgBtnDepartureSelectTime;
     private Button btnGoToMain;
+
+
 
     private TextView tvDepartureDate;
     private TextView tvDepartureTime;
@@ -117,8 +120,8 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
 
 
     private void myOnClick() {
-        btnSelectDepartureTime.setOnClickListener(this);
-        btnSelectDepartureDate.setOnClickListener(this);
+        imgBtnDepartureSelectDate.setOnClickListener(this);
+        imgBtnDepartureSelectTime.setOnClickListener(this);
         btnGoToMain.setOnClickListener(this);
         switchLocation.setOnCheckedChangeListener(this);
     }
@@ -134,8 +137,6 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         edtPurpose = (EditText) findViewById(R.id.edtPurpose);
         edtDepartureOdometer = (EditText) findViewById(R.id.edtDapartureOdometer);
         edtFuelLevel = (EditText) findViewById(R.id.edtFuelLevel);
-        btnSelectDepartureDate = (Button) findViewById(R.id.btnDepartureSelectDate);
-        btnSelectDepartureTime = (Button) findViewById(R.id.btnDepartureSelectTime);
         tvDepartureDate = (TextView) findViewById(R.id.tvDepartureDate);
         tvDepartureTime = (TextView) findViewById(R.id.tvDepartureTime);
         btnGoToMain = (Button) findViewById(R.id.btnGoToMain);
@@ -143,13 +144,15 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         txtNameLocation = (TextView) findViewById(R.id.txtNameLocation);
         edtNameLocation = (EditText) findViewById(R.id.edtNameLocation);
         tvLinearLocation = (LinearLayout) findViewById(R.id.tvLinearLocation);
+        imgBtnDepartureSelectDate = (ImageButton) findViewById(R.id.imgBtnDepartureSelectDate);
+        imgBtnDepartureSelectTime = (ImageButton) findViewById(R.id.imgBtnDepartureSelectTime);
     }
 
     @Override
     public void onClick(View v) {
-        if (v == btnSelectDepartureDate) {
+        if (v == imgBtnDepartureSelectDate) {
             mySelectDate();
-        } else if (v == btnSelectDepartureTime) {
+        } else if (v == imgBtnDepartureSelectTime) {
             mySelectTime();
         } else if (v == btnGoToMain) {
             onSQLiteSaveData();
@@ -340,11 +343,11 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
                 String country = addresses.get(0).getCountryName();
                 String postalCode = addresses.get(0).getPostalCode();
                 String knownName = addresses.get(0).getFeatureName();
-                edtNameLocation.setText(address + " " + city + " " + state + " " + country);
+                String temp = address + " " + city + " " + state + " " + country;
+                edtNameLocation.setText(temp);
+                Toast.makeText(TripStartActivity.this, temp, Toast.LENGTH_SHORT).show();
 
             } else {
-
-//                        oilDataModel.setStrLocation("No location");
             }
         } catch (IOException e) {
             e.printStackTrace();

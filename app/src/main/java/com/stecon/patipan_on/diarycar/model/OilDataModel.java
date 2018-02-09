@@ -14,50 +14,21 @@ import java.util.ArrayList;
 public class OilDataModel {
 
     private int id;
-
-
+    private String license_plate;
     private double odometer;
-
-
     private double unit_price;
-
-
     private double volume;
-
-
     private String fuel_type;
-
-
     private double total_price;
-
-
-
     private String payment_type;
-
-
     private double latitude;
-
-
     private double longitude;
-
-
     private String note;
-
-
     private String transaction_date;
-
-
     private String strLocation;
-
-
     private String date_create;
-
-
     private String date_update;
-
     private String create_by;
-
-
     private String update_by;
 
     private int status;
@@ -79,9 +50,9 @@ public class OilDataModel {
     public OilDataModel() {
 
     }
-
-    public OilDataModel(int id, double odometer, double unit_price, double volume, String fuel_type, double total_price, String payment_type, double latitude, double longitude, String note, String transaction_date, String strLocation, String date_create, String date_update, String create_by, String update_by , int status) {
+    public OilDataModel(int id, String license_plate, double odometer, double unit_price, double volume, String fuel_type, double total_price, String payment_type, double latitude, double longitude, String note, String transaction_date, String strLocation, String date_create, String date_update, String create_by, String update_by, int status) {
         this.id = id;
+        this.license_plate = license_plate;
         this.odometer = odometer;
         this.unit_price = unit_price;
         this.volume = volume;
@@ -100,6 +71,13 @@ public class OilDataModel {
         this.status = status;
     }
 
+    public String getLicense_plate() {
+        return license_plate;
+    }
+
+    public void setLicense_plate(String license_plate) {
+        this.license_plate = license_plate;
+    }
 
     public String getStrLocation() {
         return strLocation;

@@ -158,5 +158,9 @@
     <string name="message_change_car">คุณต้องการเปลี่ยนรถใช่หรือไม่</string>
     <string name="txt_change_car">เปลี่ยนรถ</string>
     <string name="txt_vehicle_journal">บันทึกการใช้รถ</string>
+    <string name="txt_thai">ภาษาไทย</string>
+    <string name="txt_eng">ภาษาอังกฤษ</string>
+    <string name="txt_change_pin_code">เปลี่ยน Pin</string>
+    <string name="btn_start_trip">เริ่มเดินทาง</string>
 
 </resources>

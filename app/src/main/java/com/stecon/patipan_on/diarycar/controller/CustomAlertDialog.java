@@ -73,10 +73,12 @@ public class CustomAlertDialog {
     public void myDefaultDialog() {
 
         builder = new AlertDialog.Builder(context);
+
         builder.setCancelable(true);
         builder.setTitle(title);
         builder.setMessage(message);
-        
+
+
         builder.setPositiveButton(positiveMessage, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

@@ -35,7 +35,7 @@ public class PriceCostJournalActivity extends AppCompatActivity implements View.
     private Button btnSavePriceOther;
 
 
-    private long trip_id;
+    private long trip_id = 0;
     private String strPriceType;
     private String strTitle;
     private String strPrice;
@@ -226,14 +226,14 @@ public class PriceCostJournalActivity extends AppCompatActivity implements View.
         super.onStart();
         Log.d("OnActivity => ", "OnStart");
         SharedPreferences sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
-        trip_id = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
-        MyAppConfig.setNum_trip_id(trip_id);
-        if (trip_id == 0) {
-            customAlertDialog = new CustomAlertDialog(PriceCostJournalActivity.this, getResources().getString(R.string.message_no_trip), getResources().getString(R.string.message_add_trip));
-
-            customAlertDialog.myDefaultDialog();
-            customAlertDialog.setOnMyDialogActivity(PriceCostJournalActivity.this);
-            customAlertDialog.show();
-        }
+//        trip_id = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
+//        MyAppConfig.setNum_trip_id(trip_id);
+//        if (trip_id == 0) {
+//            customAlertDialog = new CustomAlertDialog(PriceCostJournalActivity.this, getResources().getString(R.string.message_no_trip), getResources().getString(R.string.message_add_trip));
+//
+//            customAlertDialog.myDefaultDialog();
+//            customAlertDialog.setOnMyDialogActivity(PriceCostJournalActivity.this);
+//            customAlertDialog.show();
+//        }
     }
 }

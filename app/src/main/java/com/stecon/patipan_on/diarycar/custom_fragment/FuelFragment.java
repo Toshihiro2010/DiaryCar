@@ -1,6 +1,7 @@
 package com.stecon.patipan_on.diarycar.custom_fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
@@ -13,12 +14,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.OilListActivity;
 import com.stecon.patipan_on.diarycar.R;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.controller.OilAdapter;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
+import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.MyDateModify;
 import com.stecon.patipan_on.diarycar.model.OilDataModel;
 
@@ -72,8 +75,14 @@ public class FuelFragment extends Fragment {
         List<Address> addresses;
         arrayList = new ArrayList<>();
 
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
+        String licensePlate = sharedPreferences.getString(MyAppConfig.licensePlate, "");
+        if (licensePlate.equals("")) {
+            return;
+        }
         String strSql = "SELECT * FROM "
                 + DatabaseOilJournal.TABLE_NAME
+                + " WHERE " + DatabaseOilJournal.COL_LICENSE_PLATE + " = '" + licensePlate + "'"
                 + " ORDER BY " + DatabaseOilJournal.COL_ID + " DESC";
         Cursor cursor = sqLiteDatabase.rawQuery(strSql, null);
 
@@ -108,13 +117,12 @@ public class FuelFragment extends Fragment {
                         String city = addresses.get(0).getLocality();
                         String state = addresses.get(0).getAdminArea();
                         String country = addresses.get(0).getCountryName();
-                        String postalCode = addresses.get(0).getPostalCode();
-                        String knownName = addresses.get(0).getFeatureName();
+//                        String postalCode = addresses.get(0).getPostalCode();
+//                        String knownName = addresses.get(0).getFeatureName();
                         oilDataModel.setStrLocation(address + " " + city + " " + state + " " + country);
 
                     } else {
-
-//                        oilDataModel.setStrLocation("No location");
+                        oilDataModel.setStrLocation("Location Not found.");
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

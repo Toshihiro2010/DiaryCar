@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -34,8 +37,11 @@ import com.stecon.patipan_on.diarycar.database.DatabaseServiceRecords;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.MyDateTimeModify;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPermissionLocation.OnNextFunction, MyAddPermissionLocation.OnCustomClickDialog, MyLocationFirst.OnNextLocationFunction, View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -47,8 +53,9 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     private TextView tvServiceDate;
     private TextView tvServiceTime;
 
-    private Button btnSelectDate;
-    private Button btnSelectTime;
+    private ImageButton imgBtnSelectDate;
+    private ImageButton imgBtnSelectTime;
+
     private Button btnServiceSave;
     private LinearLayout tvLinearLayout;
     private Switch switchGps;
@@ -199,8 +206,8 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
 
     private void btnOnClick() {
         btnServiceSave.setOnClickListener(this);
-        btnSelectTime.setOnClickListener(this);
-        btnSelectDate.setOnClickListener(this);
+        imgBtnSelectDate.setOnClickListener(this);
+        imgBtnSelectTime.setOnClickListener(this);
     }
 
 
@@ -212,12 +219,13 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
         edtServiceCost = (EditText) findViewById(R.id.edtServiceCost);
         tvServiceDate = (TextView) findViewById(R.id.tvServiceDate);
         tvServiceTime = (TextView) findViewById(R.id.tvServiceTime);
-        btnSelectDate = (Button) findViewById(R.id.btnSelectServiceDate);
-        btnSelectTime = (Button) findViewById(R.id.btnSelectServiceTime);
         tvLinearLayout = (LinearLayout) findViewById(R.id.tvLinearServiceLocation);
         switchGps = (Switch) findViewById(R.id.switchServiceGps);
         edtLocationService = (EditText) findViewById(R.id.edtServiceLocation);
         btnServiceSave = (Button) findViewById(R.id.btnServiceSave);
+
+        imgBtnSelectDate = (ImageButton) findViewById(R.id.imgBtnSelectDate);
+        imgBtnSelectTime = (ImageButton) findViewById(R.id.imgBtnSelectServiceTime);
 
     }
 
@@ -226,11 +234,34 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MyAddPermissionLocation.REQUEST_CODE_ASK_PERMISSIONS) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "onRequestPermissionsResult Open GPS ", Toast.LENGTH_SHORT).show();
+                onNewNextFunction();
+//                Toast.makeText(this, "onRequestPermissionsResult Open GPS ", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "onRequestPermissionsResult No Open GPS", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this, "onRequestPermissionsResult No Open GPS", Toast.LENGTH_SHORT).show();
                 switchGps.setChecked(false);
             }
+        }
+    }
+
+    private void findLocationFromGps() {
+        Geocoder geocoder = new Geocoder(ServiceRecordsActivity.this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+
+            if (addresses != null) {
+                String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                String city = addresses.get(0).getLocality();
+                String state = addresses.get(0).getAdminArea();
+                String country = addresses.get(0).getCountryName();
+                String postalCode = addresses.get(0).getPostalCode();
+                String knownName = addresses.get(0).getFeatureName();
+                edtLocationService.setText(address + " " + city + " " + state + " " + country);
+
+            } else {
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -251,8 +282,6 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
         if (switchGps.isChecked()) {
             switchGps.setChecked(false);
             edtLocationService.setText("");
-            tvLinearLayout.setVisibility(View.VISIBLE);
-            Toast.makeText(this, "No Open GPS ", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -261,14 +290,14 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     public void onStartNextFunction() {
         latitude = myLocationFirst.getLatitude();
         longitude = myLocationFirst.getLongitude();
-        Log.d("latitude/longtitude => ", latitude + " / " + longitude);
+        findLocationFromGps();
     }
 
     @Override
     public void onClick(View v) {
-        if (v == btnSelectDate) {
+        if (v == imgBtnSelectDate) {
             onSelectDate();
-        } else if (v == btnSelectTime) {
+        } else if (v == imgBtnSelectTime) {
             onSelectTime();
         } else if (v == btnServiceSave) {
             onSave();
@@ -397,11 +426,9 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
         if (switchGps == buttonView) {
             if (isChecked) {
                 if (counterCheck > 0) {
-                    tvLinearLayout.setVisibility(View.INVISIBLE);
                     counterCheck--;
 
                 }else{
-                    tvLinearLayout.setVisibility(View.INVISIBLE);
                     myAddPermissionLocation = new MyAddPermissionLocation(ServiceRecordsActivity.this);
                     myAddPermissionLocation.setOnNextFunction(ServiceRecordsActivity.this);
                     myAddPermissionLocation.setOnCustomClickDialog(ServiceRecordsActivity.this);
@@ -411,7 +438,6 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
                 latitude = 0.0;
                 longitude = 0.0;
                 edtLocationService.setText("");
-                tvLinearLayout.setVisibility(View.VISIBLE);
 
             }
         }
