@@ -18,7 +18,6 @@ import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.controller.TripEndDialog;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
-import com.stecon.patipan_on.diarycar.model.OilDataModel;
 
 import java.util.ArrayList;
 
@@ -77,7 +76,7 @@ public class CarDiaryActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
-    public void onMyDialogPosititve() {
+    public void onMyDialogPositive() {
         onUpdateDBEndTrip();
     }
 

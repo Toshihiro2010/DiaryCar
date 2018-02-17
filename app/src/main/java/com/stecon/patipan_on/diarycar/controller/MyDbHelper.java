@@ -6,13 +6,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.stecon.patipan_on.diarycar.database.DatabaseCarDiary;
+import com.stecon.patipan_on.diarycar.database.DatabaseFuelType;
 import com.stecon.patipan_on.diarycar.database.DatabaseLog;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
+import com.stecon.patipan_on.diarycar.database.DatabasePriceCost;
 import com.stecon.patipan_on.diarycar.database.DatabasePriceType;
 import com.stecon.patipan_on.diarycar.database.DatabaseServiceMaster;
 import com.stecon.patipan_on.diarycar.database.DatabaseServiceRecords;
 import com.stecon.patipan_on.diarycar.database.DatabaseStatusToServer;
-import com.stecon.patipan_on.diarycar.database.DatabaseTripCost;
 import com.stecon.patipan_on.diarycar.database.DatabaseTripDetail;
 import com.stecon.patipan_on.diarycar.database.DatabaseUser;
 import com.stecon.patipan_on.diarycar.database.DatabaseVehicleMaster;
@@ -28,7 +29,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
 
     public String oilTable = DatabaseOilJournal.TABLE_NAME;
     public String carTable = DatabaseCarDiary.TABLE_NAME;
-    public String tripCostTable = DatabaseTripCost.TABLE_NAME;
+    public String tripCostTable = DatabasePriceCost.TABLE_NAME;
     public String tripTable = DatabaseTripDetail.TABLE_NAME;
     public String logTable = DatabaseLog.TABLE_NAME;
     public String serviceRecordTable = DatabaseServiceRecords.TABLE_NAME;
@@ -37,10 +38,11 @@ public class MyDbHelper extends SQLiteOpenHelper {
     public String priceTypeTable = DatabasePriceType.TABLE_NAME;
     public String vehicleMasterTable = DatabaseVehicleMaster.TABLE_NAME;
     public String userMasterTable = DatabaseUser.TABLE_NAME;
+    public String fuelTypTable = DatabaseFuelType.TABLE_NAME;
 
     private String strSqlCar = DatabaseCarDiary.strInsert;
     private String strSqlCreateOil = DatabaseOilJournal.strSqlCreate;
-    private String strSqlCreateTripCost = DatabaseTripCost.strSqlCreate;
+    private String strSqlCreateTripCost = DatabasePriceCost.strSqlCreate;
     private String strSqlCreateTrip = DatabaseTripDetail.strSqlCreate;
     private String strSqlCreateLog = DatabaseLog.strSqlCreate;
     private String strSqlCreateServiceRecord = DatabaseServiceRecords.strSqlCreate;
@@ -49,6 +51,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
     private String strSqlCreatePriceType = DatabasePriceType.strSqlCreate;
     private String strSqlCreateVehicleMaster = DatabaseVehicleMaster.strSqlCreate;
     private String strSqlCreateUser = DatabaseUser.strCreate;
+    private String strSqlCreateFuelType = DatabaseFuelType.strSqlCreate;
 
 
     public MyDbHelper(Context context) {
@@ -69,6 +72,14 @@ public class MyDbHelper extends SQLiteOpenHelper {
         db.execSQL(strSqlCreateServiceMaster);
         db.execSQL(strSqlCreateVehicleMaster);
         db.execSQL(strSqlCreateUser);
+        db.execSQL(strSqlCreateFuelType);
+
+        String fuelSystem[] = DatabaseFuelType.myFuelDefault();
+        for(int i = 0 ; i < fuelSystem.length ; i++) {
+            String strInsertTemp = fuelSystem[i];
+            db.execSQL(strInsertTemp);
+        }
+
 
     }
 

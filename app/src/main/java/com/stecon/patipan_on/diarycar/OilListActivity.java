@@ -76,20 +76,20 @@ public class OilListActivity extends AppCompatActivity {
 
             for (int i = 0 ; i < cursor.getCount(); i++) {
 
-                int id = cursor.getInt(cursor.getColumnIndex("_id"));
+                int id = cursor.getInt(cursor.getColumnIndex(DatabaseOilJournal.COL_ID));
                 double odometer = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_ODOMETER));
                 double unit_price = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_UNIT_PRICE));
                 double volume = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_VOLUME));
-                double total_rpice = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_TOTAL_PRICE));
+                double total_price = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_TOTAL_PRICE));
                 String payment_type = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_PAYMENT_TYPE));
                 double latitude = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_LATITUDE));
                 double longitude = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_LONGITUDE));
                 String note = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_NOTE));
-                String fueltype = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_FUEL_TYPE));
+                int fueltype = cursor.getInt(cursor.getColumnIndex(DatabaseOilJournal.COL_FUEL_TYPE));
                 String tempDate = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_TRANSACTION_DATE));
                 String[] customDate = MyDateModify.getStrsDateTimeFromSqlite(tempDate);
 
-                OilDataModel oilDataModel = new OilDataModel(id,odometer, unit_price, volume,fueltype, total_rpice, payment_type, latitude, longitude, note, customDate[0]);
+                OilDataModel oilDataModel = new OilDataModel(id,odometer, unit_price, volume,fueltype, total_price, payment_type, latitude, longitude, note, customDate[0]);
                 arrayList.add(oilDataModel);
 
 

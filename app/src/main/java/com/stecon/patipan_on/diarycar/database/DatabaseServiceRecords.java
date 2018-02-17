@@ -36,6 +36,7 @@ public class DatabaseServiceRecords {
             + COL_SERVICE_COST + " REAL,"
             + COL_LATITUDE+ " REAL,"
             + COL_LONGITUDE + " REAL,"
+            + COL_LOCATION_NAME + " TEXT,"
             + COL_NOTE + " TEXT,"
             + COL_TRANSACTION_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
             + COL_DATE_CREATE + " DATETIME DEFAULT CURRENT_TIMESTAMP,"

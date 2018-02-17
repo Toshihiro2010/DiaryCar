@@ -5,6 +5,7 @@ package com.stecon.patipan_on.diarycar.controller;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class OilAdapter extends RecyclerView.Adapter<OilViewHolder> implements I
 
         DecimalFormat df = new DecimalFormat("#.00");
         OilDataModel oilDataModel = dataModels.get(position);
+
         String date = oilDataModel.getTransaction_date();
         oilViewHolder.tvDate.setText(date.toString());
 
@@ -56,8 +58,9 @@ public class OilAdapter extends RecyclerView.Adapter<OilViewHolder> implements I
         Double total_price = oilDataModel.getTotal_price();
         oilViewHolder.tvTotalMoney.setText(total_price.toString() + " " + context.getResources().getString(R.string.bath));
 
-        String fueltype_amount = oilDataModel.getFuel_type() + " : " + df.format(oilDataModel.getVolume()) + " " + context.getResources().getString(R.string.lit);
-        oilViewHolder.tvFuelAmount.setText(fueltype_amount);
+        //String fueltype_amount = oilDataModel.getFuel_type() + " : " + df.format(oilDataModel.getVolume()) + " " + context.getResources().getString(R.string.lit);
+        String fuel_type_amount = oilDataModel.getFuel_type_name() + " : " + df.format(oilDataModel.getVolume()) + " " + context.getResources().getString(R.string.lit);
+        oilViewHolder.tvFuelAmount.setText(fuel_type_amount);
 
         String tvDetail = context.getResources().getString(R.string.bath)
                 + df.format(oilDataModel.getUnit_price()) + "/"
@@ -89,5 +92,6 @@ public class OilAdapter extends RecyclerView.Adapter<OilViewHolder> implements I
         Intent intent = new Intent(context, OilJournalActivity.class);
         intent.putExtra("data_id", dataModels.get(i).getId());
         context.startActivity(intent);
+
     }
 }

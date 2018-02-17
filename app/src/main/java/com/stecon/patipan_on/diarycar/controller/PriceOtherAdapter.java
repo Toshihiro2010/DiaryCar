@@ -11,7 +11,7 @@ import com.stecon.patipan_on.diarycar.PriceCostJournalActivity;
 import com.stecon.patipan_on.diarycar.R;
 import com.stecon.patipan_on.diarycar.model.ItemClickListener;
 import com.stecon.patipan_on.diarycar.model.PriceOtherViewHolder;
-import com.stecon.patipan_on.diarycar.model.TripCostModel;
+import com.stecon.patipan_on.diarycar.model.PriceCostModel;
 
 import java.util.ArrayList;
 
@@ -22,12 +22,12 @@ import java.util.ArrayList;
 public class PriceOtherAdapter extends RecyclerView.Adapter<PriceOtherViewHolder> implements ItemClickListener {
 
     Context context;
-    ArrayList<TripCostModel> tripCostModelArrayList;
+    ArrayList<PriceCostModel> priceCostModelArrayList;
 
 
-    public PriceOtherAdapter(Context context, ArrayList<TripCostModel> tripCostModelArrayList) {
+    public PriceOtherAdapter(Context context, ArrayList<PriceCostModel> priceCostModelArrayList) {
         this.context = context;
-        this.tripCostModelArrayList = tripCostModelArrayList;
+        this.priceCostModelArrayList = priceCostModelArrayList;
     }
 
     @Override
@@ -42,16 +42,16 @@ public class PriceOtherAdapter extends RecyclerView.Adapter<PriceOtherViewHolder
     public void onBindViewHolder(PriceOtherViewHolder holder, int position) {
 
         PriceOtherViewHolder priceOtherViewHolder = holder;
-        String strDate = tripCostModelArrayList.get(position).getTransaction_date();
+        String strDate = priceCostModelArrayList.get(position).getTransaction_date();
         holder.tvPriceDate.setText(strDate);
 
-        String strPriceType = tripCostModelArrayList.get(position).getPrice_type();
+        String strPriceType = priceCostModelArrayList.get(position).getPrice_type();
         holder.tvPriceType.setText(strPriceType);
 
-        String strPriceTitle = tripCostModelArrayList.get(position).getTitle();
+        String strPriceTitle = priceCostModelArrayList.get(position).getTitle();
         holder.tvPriceTitle.setText(strPriceTitle);
 
-        Double priceMoneyDouble = tripCostModelArrayList.get(position).getMoney();
+        Double priceMoneyDouble = priceCostModelArrayList.get(position).getMoney();
         holder.tvPriceMoney.setText(priceMoneyDouble + " " + context.getResources().getString(R.string.bath));
 
         priceOtherViewHolder.setOnClickListener(this);
@@ -61,13 +61,13 @@ public class PriceOtherAdapter extends RecyclerView.Adapter<PriceOtherViewHolder
 
     @Override
     public int getItemCount() {
-        return tripCostModelArrayList.size();
+        return priceCostModelArrayList.size();
     }
 
     @Override
     public void onClick(View view, int i) {
         Intent intent = new Intent(context, PriceCostJournalActivity.class);
-        intent.putExtra("data_id", tripCostModelArrayList.get(i).getId());
+        intent.putExtra("data_id", priceCostModelArrayList.get(i).getId());
         context.startActivity(intent);
     }
 }

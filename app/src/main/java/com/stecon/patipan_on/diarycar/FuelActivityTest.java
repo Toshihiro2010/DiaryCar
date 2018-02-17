@@ -27,11 +27,9 @@ import com.stecon.patipan_on.diarycar.controller.MyAddPermissionLocation;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.controller.MyLocationFirst;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
-import com.stecon.patipan_on.diarycar.database.query_model.FuelDataQuerySQLIte;
 import com.stecon.patipan_on.diarycar.database.query_model.FuelTypeQuerySQLite;
 import com.stecon.patipan_on.diarycar.model.FuelTypeModel;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
-import com.stecon.patipan_on.diarycar.model.OilDataModel;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -39,7 +37,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
-public class OilJournalActivity extends AppCompatActivity implements View.OnClickListener, CustomAlertDialog.OnMyDialogActivity, TextWatcher, MyAddPermissionLocation.OnNextFunction {
+public class FuelActivityTest extends AppCompatActivity implements View.OnClickListener, CustomAlertDialog.OnMyDialogActivity, TextWatcher, MyAddPermissionLocation.OnNextFunction {
 
     //view
     private EditText edtOdometer;
@@ -114,8 +112,8 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
             Log.d("id => ", id + " ");
         }
 
-        myAddPermissionLocation = new MyAddPermissionLocation(OilJournalActivity.this);
-        myAddPermissionLocation.setOnNextFunction(OilJournalActivity.this);
+        myAddPermissionLocation = new MyAddPermissionLocation(FuelActivityTest.this);
+        myAddPermissionLocation.setOnNextFunction(FuelActivityTest.this);
         myAddPermissionLocation.setOnCustomClickDialog(new MyAddPermissionLocation.OnCustomClickDialog() {
             @Override
             public void onPositiveMyDialog() {
@@ -124,7 +122,7 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
 
             @Override
             public void onNegativeMyDialog() {
-                Toast.makeText(OilJournalActivity.this, "No Open GPS ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FuelActivityTest.this, "No Open GPS ", Toast.LENGTH_SHORT).show();
                 finish();
 
             }
@@ -132,7 +130,7 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         myAddPermissionLocation.checkLocation();
 
 
-        myDbHelper = new MyDbHelper(OilJournalActivity.this);
+        myDbHelper = new MyDbHelper(FuelActivityTest.this);
         sqLiteDatabase = myDbHelper.getWritableDatabase();
 
         onSetSpinnerDataFromDB();
@@ -160,44 +158,55 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void mySetQueryText() {
-        FuelDataQuerySQLIte fuelDataQuerySQLIte = new FuelDataQuerySQLIte(OilJournalActivity.this);
-        OilDataModel oilDataModel = fuelDataQuerySQLIte.getFuelDataById(id);
-        douOdometer = oilDataModel.getOdometer();
-        douUnitPrice = oilDataModel.getUnit_price();
-        douMoneyTotal = oilDataModel.getTotal_price();
-        douVolume = oilDataModel.getVolume();
-        strNote = oilDataModel.getNote();
-        strFuelType = oilDataModel.getFuel_type_name();
-        fuelTypePosition = oilDataModel.getFuel_type();
-        strPaymentType = oilDataModel.getPayment_type();
-        statusToServer = oilDataModel.getStatus();
+        String strSql = "SELECT * FROM " + DatabaseOilJournal.TABLE_NAME + " WHERE " + DatabaseOilJournal.COL_ID + " = " + id;
+        cursor = sqLiteDatabase.rawQuery(strSql , null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
 
-        edtOdometer.setText(douOdometer + "");
-        edtUnitPrice.setText(douUnitPrice + "");
-        edtMoneyTotal.setText(douMoneyTotal + "");
-        tvShowVolume.setText(douVolume + "");
-        edtNote.setText(strNote);
+            douOdometer = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_ODOMETER));
+            douUnitPrice = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_UNIT_PRICE));
+            douMoneyTotal = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_TOTAL_PRICE));
+            douVolume = cursor.getDouble(cursor.getColumnIndex(DatabaseOilJournal.COL_VOLUME));
+            strNote = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_NOTE));
+//            strFuelType = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_FUEL_TYPE));
+            strPaymentType = cursor.getString(cursor.getColumnIndex(DatabaseOilJournal.COL_PAYMENT_TYPE));
+            statusToServer = cursor.getInt(cursor.getColumnIndex(DatabaseOilJournal.COL_STATUS));
+            fuelTypePosition = cursor.getInt(cursor.getColumnIndex(DatabaseOilJournal.COL_FUEL_TYPE));
 
-        int tempPosition = -1;
-        for(int i = 0 ; i < fuelTypeModelArrayList.size(); i++) {
-            if (fuelTypePosition == fuelTypeModelArrayList.get(i).getType_id()) {
-                tempPosition = i;
-                break;
+
+
+
+            edtOdometer.setText(douOdometer + "");
+            edtUnitPrice.setText(douUnitPrice + "");
+            edtMoneyTotal.setText(douMoneyTotal + "");
+            tvShowVolume.setText(douVolume + "");
+            edtNote.setText(strNote);
+
+
+            //ArrayAdapter<CharSequence> oilList = ArrayAdapter.createFromResource(this, R.array.oil_array, R.layout.support_simple_spinner_dropdown_item);
+            //oilArray = getResources().getStringArray(R.array.oil_array);
+            //ArrayList<String> oilArrayList = new ArrayList<>(Arrays.asList(oilArray));
+            CustomSpinnerAdapter customSpinnerAdapter = new CustomSpinnerAdapter(FuelActivityTest.this, fuelTypeModelArrayList);
+
+
+            spinnerOil.setAdapter(customSpinnerAdapter);
+            if (!strPaymentType.equals(null)) {
+                //int spinnerPosition = stringArrayAdapter.getPosition(strPaymentType);
+                spinnerOil.setSelection(fuelTypePosition);
+            } else {
+                spinnerOil.setAdapter(customSpinnerAdapter);
             }
-        }
 
-        if (tempPosition != -1) {
-            spinnerOil.setSelection(tempPosition);
-        }
 
-        //ArrayAdapter<CharSequence> moneyPayType = ArrayAdapter.createFromResource(this, R.array.money_pay_array, R.layout.support_simple_spinner_dropdown_item);
-        String moneyPayMentArray[] = getResources().getStringArray(R.array.money_pay_array);
-        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, moneyPayMentArray);
-        if (!strPaymentType.equals(null)) {
-            int spinnerPosition = stringArrayAdapter.getPosition(strPaymentType);
-            spinnerPayMentType.setSelection(spinnerPosition);
-        } else {
-            spinnerPayMentType.setAdapter(stringArrayAdapter);
+            //ArrayAdapter<CharSequence> moneyPayType = ArrayAdapter.createFromResource(this, R.array.money_pay_array, R.layout.support_simple_spinner_dropdown_item);
+            String moneyPayMentArray[] = getResources().getStringArray(R.array.money_pay_array);
+            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, moneyPayMentArray);
+            if (!strPaymentType.equals(null)) {
+                int spinnerPosition = stringArrayAdapter.getPosition(strPaymentType);
+                spinnerPayMentType.setSelection(spinnerPosition);
+            } else {
+                spinnerPayMentType.setAdapter(stringArrayAdapter);
+            }
         }
     }
 
@@ -217,10 +226,6 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
     protected void onStart() {
         super.onStart();
 
-        myCheckLicensePlte();
-    }
-
-    private void myCheckLicensePlte() {
         SharedPreferences sp = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
         strLicensePlate = sp.getString(MyAppConfig.licensePlate, "");
         if (strLicensePlate.equals("")) {
@@ -229,7 +234,7 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
             customAlertDialog.setMessage(getResources().getString(R.string.message_should_input_license_plate));
             customAlertDialog.myDefaultDialog();
             customAlertDialog.show();
-            customAlertDialog.setOnMyDialogActivity(OilJournalActivity.this);
+            customAlertDialog.setOnMyDialogActivity(FuelActivityTest.this);
         }
     }
 
@@ -238,10 +243,12 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         //ArrayAdapter<CharSequence> oilList = ArrayAdapter.createFromResource(this, R.array.oil_array, R.layout.custom_spinner_tv2);
         //ArrayAdapter<CharSequence> moneyPayType = ArrayAdapter.createFromResource(this, R.array.money_pay_array, R.layout.support_simple_spinner_dropdown_item);
         ArrayAdapter<CharSequence> moneyPayType = ArrayAdapter.createFromResource(this, R.array.money_pay_array, R.layout.custom_spinner_tv2);
+        //spinnerOil.setAdapter(oilList);
         spinnerPayMentType.setAdapter(moneyPayType);
 
 
-        CustomSpinnerAdapter customSpinnerAdapter = new CustomSpinnerAdapter(OilJournalActivity.this, fuelTypeModelArrayList);
+
+        CustomSpinnerAdapter customSpinnerAdapter = new CustomSpinnerAdapter(FuelActivityTest.this, fuelTypeModelArrayList);
         spinnerOil.setAdapter(customSpinnerAdapter);
 
     }
@@ -272,17 +279,17 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
     private void myOnSaveData() {
         Boolean check = myCheckData();
         if (!check) {
-            //Cancel Save
-            Toast.makeText(this, getResources().getString(R.string.message_please_input_data), Toast.LENGTH_SHORT).show();
-        } else {
-            //MainSave
-            processCalculate(); // calculate Volume fuel
-            if (mode == 0) {
-                myMainInsert();
-            } else if (mode == 2) {
-                onEditSQLite();
+                //Cancel Save
+                Toast.makeText(this, getResources().getString(R.string.message_please_input_data), Toast.LENGTH_SHORT).show();
+            } else {
+                //MainSave
+                processCalculate(); // calculate Volume fuel
+                if (mode == 0) {
+                    myMainIsert();
+                } else if (mode == 2) {
+                    onEditSQLite();
+                }
             }
-        }
     }
 
     private void processCalculate() {
@@ -291,7 +298,7 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
         douVolume = douMoneyTotal / douUnitPrice;
     }
 
-    private void myMainInsert() {
+    private void myMainIsert() {
         myLocationFirst = new MyLocationFirst(this);
         myLocationFirst.onLocationStart();
         myLocationFirst.registerOnNextLocationFunction(new MyLocationFirst.OnNextLocationFunction() {
@@ -307,7 +314,7 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
 
     private Boolean myCheckData() {
         myGetData();
-        if (strOdometer.equals("") || strUnitPrice.equals("") || strMoneyTotal.equals("") || strPaymentType.equals("")){
+        if (strOdometer.equals("") || strUnitPrice.equals("") || strMoneyTotal.equals("") || strPaymentType.equals("") || strFuelType.equals("")){
             return false;
         } else {
             douOdometer = Double.valueOf(strOdometer);
@@ -324,8 +331,14 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
 
         int tempPositionSpinnerFuel = spinnerOil.getSelectedItemPosition();
         fuelTypePosition = fuelTypeModelArrayList.get(tempPositionSpinnerFuel).getType_id();
-
+        strFuelType = myGetFindFuelType(fuelTypePosition);
     }
+
+    private String myGetFindFuelType(int fuelTypePosition) {
+        String temp = fuelTypeModelArrayList.get(fuelTypePosition).getType_name_th();
+        return temp;
+    }
+
 
     private void onEditSQLite() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -384,7 +397,7 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onMyDialogPositive() {
         Log.d("progress => ", "onMyDialogPositive");
-        Intent intent = new Intent(OilJournalActivity.this, LicensePlateActivity.class);
+        Intent intent = new Intent(FuelActivityTest.this, LicensePlateActivity.class);
         startActivity(intent);
 
     }

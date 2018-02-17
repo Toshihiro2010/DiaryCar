@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_price_all2"
+    tools:showIn="@layout/activity_price_all"
     >
 
     <com.github.clans.fab.FloatingActionMenu

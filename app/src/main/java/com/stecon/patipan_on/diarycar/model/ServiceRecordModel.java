@@ -14,6 +14,7 @@ public class ServiceRecordModel {
     private Double service_cost;
     private Double latitude;
     private Double longitude;
+    private String location_name;
     private String note;
     private String transaction_date;
     private String date_create;
@@ -22,7 +23,7 @@ public class ServiceRecordModel {
     private String update_by;
     private int status;
 
-    public ServiceRecordModel(int id, int service_id, String license_plate, Double odometer, Double fuel_level, Double service_cost, Double latitude, Double longitude, String note, String transaction_date, String date_create, String date_update, String create_by, String update_by, int status) {
+    public ServiceRecordModel(int id, int service_id, String license_plate, Double odometer, Double fuel_level, Double service_cost, Double latitude, Double longitude, String location_name, String note, String transaction_date, String date_create, String date_update, String create_by, String update_by, int status) {
         this.id = id;
         this.service_id = service_id;
         this.license_plate = license_plate;
@@ -31,6 +32,7 @@ public class ServiceRecordModel {
         this.service_cost = service_cost;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.location_name = location_name;
         this.note = note;
         this.transaction_date = transaction_date;
         this.date_create = date_create;
@@ -135,6 +137,14 @@ public class ServiceRecordModel {
 
     public void setTransaction_date(String transaction_date) {
         this.transaction_date = transaction_date;
+    }
+
+    public String getLocation_name() {
+        return location_name;
+    }
+
+    public void setLocation_name(String location_name) {
+        this.location_name = location_name;
     }
 
     public String getDate_create() {

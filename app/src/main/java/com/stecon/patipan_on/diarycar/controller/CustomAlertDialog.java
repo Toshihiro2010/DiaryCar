@@ -3,7 +3,6 @@ package com.stecon.patipan_on.diarycar.controller;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 
 import com.stecon.patipan_on.diarycar.R;
 
@@ -78,12 +77,11 @@ public class CustomAlertDialog {
         builder.setTitle(title);
         builder.setMessage(message);
 
-
         builder.setPositiveButton(positiveMessage, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (onMyDialogActivity != null) {
-                    onMyDialogActivity.onMyDialogPosititve();
+                    onMyDialogActivity.onMyDialogPositive();
 
 
                 }
@@ -109,7 +107,7 @@ public class CustomAlertDialog {
 
 
     public interface OnMyDialogActivity {
-        public void onMyDialogPosititve();
+        public void onMyDialogPositive();
         public void onMyDialogNegative();
     }
 

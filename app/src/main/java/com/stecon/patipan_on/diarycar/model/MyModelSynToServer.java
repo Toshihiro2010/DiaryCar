@@ -11,13 +11,13 @@ public class MyModelSynToServer {
     private String date_sync;
     private String sync_by;
     private ArrayList<TripDetailModel> tripDetail;
-    private ArrayList<TripCostModel> tripCost;
+    private ArrayList<PriceCostModel> tripCost;
     private ArrayList<OilDataModel> fuelData;
     private ArrayList<LogModel> logData;
     private ArrayList<ServiceRecordModel> serviceData;
 
 
-    public MyModelSynToServer(String date_sync, String sync_by, ArrayList<TripDetailModel> tripDetail, ArrayList<TripCostModel> tripCost, ArrayList<OilDataModel> fuelData, ArrayList<LogModel> logData, ArrayList<ServiceRecordModel> serviceData) {
+    public MyModelSynToServer(String date_sync, String sync_by, ArrayList<TripDetailModel> tripDetail, ArrayList<PriceCostModel> tripCost, ArrayList<OilDataModel> fuelData, ArrayList<LogModel> logData, ArrayList<ServiceRecordModel> serviceData) {
         this.date_sync = date_sync;
         this.sync_by = sync_by;
         this.tripDetail = tripDetail;
@@ -54,11 +54,11 @@ public class MyModelSynToServer {
         this.tripDetail = tripDetail;
     }
 
-    public ArrayList<TripCostModel> getTripCost() {
+    public ArrayList<PriceCostModel> getTripCost() {
         return tripCost;
     }
 
-    public void setTripCost(ArrayList<TripCostModel> tripCost) {
+    public void setTripCost(ArrayList<PriceCostModel> tripCost) {
         this.tripCost = tripCost;
     }
 

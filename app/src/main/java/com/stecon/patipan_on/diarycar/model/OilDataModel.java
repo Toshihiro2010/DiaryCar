@@ -18,7 +18,7 @@ public class OilDataModel {
     private double odometer;
     private double unit_price;
     private double volume;
-    private String fuel_type;
+    private int fuel_type;
     private double total_price;
     private String payment_type;
     private double latitude;
@@ -33,7 +33,17 @@ public class OilDataModel {
 
     private int status;
 
-    public OilDataModel(int id, double odometer, double unit_price, double volume,String fuel_type,double total_price, String payment_type, double latitude, double longitude, String note, String transaction_date) {
+    private String fuel_type_name;
+
+    public String getFuel_type_name() {
+        return fuel_type_name;
+    }
+
+    public void setFuel_type_name(String fuel_type_name) {
+        this.fuel_type_name = fuel_type_name;
+    }
+
+    public OilDataModel(int id, double odometer, double unit_price, double volume, int fuel_type, double total_price, String payment_type, double latitude, double longitude, String note, String transaction_date) {
         this.id = id;
         this.odometer = odometer;
         this.unit_price = unit_price;
@@ -50,7 +60,7 @@ public class OilDataModel {
     public OilDataModel() {
 
     }
-    public OilDataModel(int id, String license_plate, double odometer, double unit_price, double volume, String fuel_type, double total_price, String payment_type, double latitude, double longitude, String note, String transaction_date, String strLocation, String date_create, String date_update, String create_by, String update_by, int status) {
+    public OilDataModel(int id, String license_plate, double odometer, double unit_price, double volume, int fuel_type, double total_price, String payment_type, double latitude, double longitude, String note, String transaction_date, String strLocation, String date_create, String date_update, String create_by, String update_by, int status) {
         this.id = id;
         this.license_plate = license_plate;
         this.odometer = odometer;
@@ -95,11 +105,11 @@ public class OilDataModel {
         this.id = id;
     }
 
-    public String getFuel_type() {
+    public int getFuel_type() {
         return fuel_type;
     }
 
-    public void setFuel_type(String fuel_type) {
+    public void setFuel_type(int fuel_type) {
         this.fuel_type = fuel_type;
     }
 

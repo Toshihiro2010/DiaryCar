@@ -7,29 +7,64 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="colorButtonNormal">@color/default_color_button</item>
         <item name="android:textColor">@color/text_default_color</item>
-        <item name="colorButtonNormal">#af74f7</item>
+
+        <item name="editTextStyle">@style/EditTextCustomTheme</item>
+        <item name="android:editTextStyle">@style/EditTextCustomTheme</item>
+        <item name="android:alertDialogStyle">@style/AlertDialogCustomTheme</item>
+        <item name="android:alertDialogTheme">@style/AlertDialogCustomTheme</item>
+
+
     </style>
 
+    <!--button OK-->
     <style name="ButtonOkTheme" parent="Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">#065417</item>
         <item name="android:textColor">#ffffff</item>
     </style>
 
+    <!--button Cancel-->
     <style name="ButtonCancelTheme" parent="Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/cancel_dialog_background</item>
         <item name="android:textColor">#ffffff</item>
     </style>
 
+    <!--button Ok-->
     <style name="ButtonThaiTheme" parent="Widget.AppCompat.Button.Colored">
         <item name="android:textColor">#ffffff</item>
         <item name="android:drawable">@drawable/thai_flag</item>
     </style>
 
+    <!--EditText Ok-->
+    <style name="EditTextCustomTheme" parent="Widget.AppCompat.EditText">
+        <item name="android:textColorHint">@color/common_signin_btn_dark_text_disabled</item>
+        <item name="editTextColor">@color/text_default_color</item>
+        <item name="android:textColor">@color/text_default_color</item>
+    </style>
+
+    <!--<style name="EditTextCustomTheme2" parent="Widget.AppCompat.EditText">-->
+    <!--<item name="android:textColorHint">@color/common_signin_btn_dark_text_disabled</item>-->
+    <!--<item name="editTextColor">@color/text_default_color</item>-->
+    <!--<item name="android:textColor">@color/text_default_color</item>-->
+    <!--</style>-->
+
+    <!--<style name="SwitchCustomTheme" parent=""-->
+
+    <style name="TextViewCustomTheme" parent="Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:textColor">@color/text_default_color</item>
+    </style>
+
+    <style name="AlertDialogCustomTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!--<item name="android:textColor">#ffffff</item>-->
+        <item name="android:color">#FFFFFF</item>
+        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="android:background">#000000</item>
+    </style>
 
 
     <style name="ButtonInputDelete" parent="Widget.AppCompat.Button.Colored">
-
         <item name="android:imageButtonStyle">@drawable/custom_layer_list</item>
     </style>
 

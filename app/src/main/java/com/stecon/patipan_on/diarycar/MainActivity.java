@@ -17,13 +17,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.controller.MyLocationFirst;
 import com.stecon.patipan_on.diarycar.controller.MySendToServer;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
+import com.stecon.patipan_on.diarycar.model.PinCodeStatic;
 
 import java.util.Locale;
 
@@ -54,12 +54,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_main);
+        setContentView(R.layout.activity_main);
 //        toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        toolbar.setTitle("MainMenu");
-
+//
 //        setSupportActionBar(toolbar);
-        Log.d("activity => ", " onCreate");
+
 
         Bundle bundle = savedInstanceState;
         bindWidGet();
@@ -125,6 +125,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("myDbHelper => ", myDbHelper.toString());
         Log.d("sqLiteDatabase => ", sqLiteDatabase + " ");
 
+        //onCheckPinFirst();
+
+    }
+
+    private void onCheckPinFirst() {
+        String pincode = PinCodeStatic.getPinNumber();
+        if (pincode == null) {
+            Intent intent = new Intent(MainActivity.this, PinCodeActivity.class);
+            intent.putExtra(PinCodeActivity.PIN_MODE, 0);
+            startActivity(intent);
+        }
     }
 
     private boolean isNetworkAvailable() {
@@ -162,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         } else if (v == imgPriceJournal) {
             //Intent intent = new Intent(getApplicationContext(), PriceAllActivity.class);
-            Intent intent = new Intent(getApplicationContext(), PriceAllActivity2.class);
+            Intent intent = new Intent(getApplicationContext(), PriceAllActivity.class);
             startActivity(intent);
 
         } else if (v == imgSetting) {
@@ -219,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onMyDialogPosititve() {
+    public void onMyDialogPositive() {
         editor.remove(MyAppConfig.licensePlate);
         editor.commit();
         Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);

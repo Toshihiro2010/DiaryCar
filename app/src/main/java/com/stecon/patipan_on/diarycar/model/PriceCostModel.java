@@ -4,10 +4,10 @@ package com.stecon.patipan_on.diarycar.model;
  * Created by patipan_on on 12/21/2017.
  */
 
-public class TripCostModel {
+public class PriceCostModel {
 
     private int id;
-    private int trip_id;
+    private String license_plate;
     private String price_type;
     private String title;
     private Double money;
@@ -19,9 +19,9 @@ public class TripCostModel {
     private String update_by;
     private int status;
 
-    public TripCostModel(int id ,int trip_id, String price_type, String title, Double money, String note, String transaction_date) {
+    public PriceCostModel(int id , String license_plate, String price_type, String title, Double money, String note, String transaction_date) {
         this.id = id;
-        this.trip_id = trip_id;
+        this.license_plate = license_plate;
         this.price_type = price_type;
         this.title = title;
         this.money = money;
@@ -29,9 +29,9 @@ public class TripCostModel {
         this.transaction_date = transaction_date;
     }
 
-    public TripCostModel(int id, int trip_id, String price_type, String title, Double money, String note, String transaction_date, String date_create, String date_update, String create_by, String update_by, int status) {
+    public PriceCostModel(int id, String license_plate, String price_type, String title, Double money, String note, String transaction_date, String date_create, String date_update, String create_by, String update_by, int status) {
         this.id = id;
-        this.trip_id = trip_id;
+        this.license_plate = license_plate;
         this.price_type = price_type;
         this.title = title;
         this.money = money;
@@ -52,12 +52,12 @@ public class TripCostModel {
         this.id = id;
     }
 
-    public int getTrip_id() {
-        return trip_id;
+    public String getTrip_id() {
+        return license_plate;
     }
 
-    public void setTrip_id(int trip_id) {
-        this.trip_id = trip_id;
+    public void setTrip_id(String trip_id) {
+        this.license_plate = trip_id;
     }
 
     public String getPrice_type() {

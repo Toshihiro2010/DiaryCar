@@ -14,7 +14,7 @@ public class ServiceViewHolder extends RecyclerView.ViewHolder implements View.O
 
     public TextView tvServiceDate;
     public TextView tvServiceOdometer;
-    public TextView tvLicensePlate;
+    public TextView tvServiceLocationName;
     public TextView tvServiceCost;
     public TextView tvServiceNmae;
 
@@ -25,7 +25,7 @@ public class ServiceViewHolder extends RecyclerView.ViewHolder implements View.O
 
         tvServiceDate = (TextView) itemView.findViewById(R.id.tvListServiceDate);
         tvServiceOdometer = (TextView) itemView.findViewById(R.id.tvListServiceOdometer);
-        tvLicensePlate = (TextView) itemView.findViewById(R.id.tvListLicensePlate);
+        tvServiceLocationName = (TextView) itemView.findViewById(R.id.tvServiceLocationName);
         tvServiceCost = (TextView) itemView.findViewById(R.id.tvListServiceCost);
         tvServiceNmae = (TextView) itemView.findViewById(R.id.tvListServiceName);
         itemView.setOnClickListener(this);

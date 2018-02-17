@@ -7,7 +7,7 @@ package com.stecon.patipan_on.diarycar.database;
 public class DatabaseUser {
 
 
-    public static final String TABLE_NAME = "๊User";
+    public static final String TABLE_NAME = "User";
 
 
     public static final String COL_ID = "_id";

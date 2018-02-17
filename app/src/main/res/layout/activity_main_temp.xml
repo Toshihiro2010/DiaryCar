@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/car_background"
+    tools:context="com.stecon.patipan_on.diarycar.MainActivity">
+
+
+    <TextView
+        android:id="@+id/tvMainLicensePlate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/license_plate"
+        android:textSize="@dimen/h2"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintHorizontal_bias="0.503" />
+
+    <Button
+        android:id="@+id/btnGoDiary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/head_car"
+
+        android:layout_above="@+id/btnGoOil"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="100dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvMainLicensePlate" />
+
+    <Button
+        android:id="@+id/btnGoOil"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/head_oil"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="68dp"
+        app:layout_constraintTop_toBottomOf="@+id/btnGoDiary" />
+
+    <Button
+        android:id="@+id/btnGoService"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/head_price_service"
+        android:layout_below="@+id/btnGoOil"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="63dp"
+        app:layout_constraintTop_toBottomOf="@+id/btnGoOil" />
+
+    <Button
+        android:id="@+id/btnExitLicensePlate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/custom_exit"
+        android:theme="@style/ButtonCancelTheme"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/btnToEng"
+        android:layout_width="88dp"
+        android:layout_height="60dp"
+        android:layout_margin="8dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/us_flag"
+        android:text="Eng"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:id="@+id/btnToThai"
+        android:layout_width="88dp"
+        android:layout_height="60dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/thai_flag"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

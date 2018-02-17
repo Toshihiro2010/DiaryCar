@@ -1,6 +1,7 @@
 package com.stecon.patipan_on.diarycar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -38,6 +40,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     private Button btnEng;
     private Button btnThai;
+    private ImageButton imgChangePin;
 
     private RadioGroup radioLanguageGroup;
     private RadioButton radioEng;
@@ -58,7 +61,6 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
-        strLanguage = sharedPreferences.getString(MyAppConfig.language_app, "");
         bindWidGet();
         setOnClick();
 
@@ -75,10 +77,13 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void setRadioChecked() {
+        strLanguage = sharedPreferences.getString(MyAppConfig.language_app, "");
         if (strLanguage.equals(strEng)) {
             radioEng.setChecked(true);
         } else if (strLanguage.equals(strThai)) {
             radioThai.setChecked(true);
+        } else if (strLanguage.equals("")) {
+
         }
     }
 
@@ -87,6 +92,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         btnThai.setOnClickListener(this);
         radioEng.setOnClickListener(this);
         radioThai.setOnClickListener(this);
+        imgChangePin.setOnClickListener(this);
 
 
     }
@@ -97,6 +103,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         radioLanguageGroup = (RadioGroup) findViewById(R.id.radioLanguageGroup);
         radioEng = (RadioButton) findViewById(R.id.radioEng);
         radioThai = (RadioButton) findViewById(R.id.radioThai);
+        imgChangePin = (ImageButton) findViewById(R.id.imgChangePin);
     }
 
     @Override
@@ -107,6 +114,11 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         } else if (v == btnThai || v == radioThai) {
             customThai();
             radioThai.setChecked(true);
+        } else if (v == imgChangePin) {
+            Intent intent = new Intent(SettingActivity.this, PinCodeActivity.class);
+            intent.putExtra(PinCodeActivity.PIN_MODE, 0);
+            startActivity(intent);
+
         }
     }
 

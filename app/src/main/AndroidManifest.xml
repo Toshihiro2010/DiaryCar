@@ -59,16 +59,27 @@
             android:name=".LicensePlateActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ServiceRecordsActivity"
+            android:name=".ServiceJournalActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".OilJournalActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".SettingActivity" />
-        <activity android:name=".PriceAllActivity" />
+        <activity android:name=".FuelActivityTest" />
         <activity
-            android:name=".PriceAllActivity2"
+            android:name=".PriceAllActivity"
             android:label="@string/title_activity_price_all2"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".MainActivity3"
+            android:label="@string/title_activity_main3" />
+        <activity
+            android:name=".CusTomTestMainActivity"
+            android:label="@string/title_activity_cus_tom_test_main"
             android:theme="@style/AppTheme"></activity>
     </application>
 

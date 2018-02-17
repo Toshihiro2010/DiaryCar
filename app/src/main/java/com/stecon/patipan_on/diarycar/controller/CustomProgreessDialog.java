@@ -37,8 +37,9 @@ public class CustomProgreessDialog {
     }
 
     public void myDialog() {
-        progressDialog = new ProgressDialog(context);
+        progressDialog = new ProgressDialog(context,R.style.AlertDialogCustomTheme);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
         progressDialog.setTitle(title);
         progressDialog.setMessage(message);
         progressDialog.setCancelable(false);

@@ -42,7 +42,7 @@ public class DatabaseOilJournal {
             + COL_LICENSE_PLATE + " TEXT,"
             + COL_ODOMETER + " REAL,"
             + COL_UNIT_PRICE + " REAL,"
-            + COL_FUEL_TYPE + " TEXT,"
+            + COL_FUEL_TYPE + " INTEGER,"
             + COL_VOLUME + " REAL,"
             + COL_TOTAL_PRICE + " REAL,"
             + COL_PAYMENT_TYPE + " TEXT,"

@@ -43,12 +43,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPermissionLocation.OnNextFunction, MyAddPermissionLocation.OnCustomClickDialog, MyLocationFirst.OnNextLocationFunction, View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class ServiceJournalActivity extends AppCompatActivity implements MyAddPermissionLocation.OnNextFunction, MyAddPermissionLocation.OnCustomClickDialog, MyLocationFirst.OnNextLocationFunction, View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private TextView tvLicensePlate;
     private Spinner spinnerService;
     private EditText edtServiceOdometer;
-    private EditText edtServiceFuel;
     private EditText edtServiceCost;
     private TextView tvServiceDate;
     private TextView tvServiceTime;
@@ -56,15 +55,16 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     private ImageButton imgBtnSelectDate;
     private ImageButton imgBtnSelectTime;
 
-    private Button btnServiceSave;
     private LinearLayout tvLinearLayout;
     private Switch switchGps;
     private EditText edtLocationService;
+    private Button btnServiceCancel;
+    private Button btnServiceSave;
+
 
     private String strLicensePlate;
     private String strSpinnerService;
     private String strOdometer;
-    private String strFuel;
     private String strServiceCost;
     private String strLocationName;
     private String strServiceDate;
@@ -74,7 +74,6 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     private int serviceStatus;
 
     private Double douOdometer;
-    private Double douFuelLevel;
     private Double douServiceCost;
 
     private Double latitude;
@@ -105,10 +104,10 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_service_records);
+        setContentView(R.layout.activity_service_journal);
 
         Bundle bundle = getIntent().getExtras();
-        myDbHelper = new MyDbHelper(ServiceRecordsActivity.this);
+        myDbHelper = new MyDbHelper(ServiceJournalActivity.this);
         sqLiteDatabase = myDbHelper.getWritableDatabase();
         if (bundle != null) {
             data_id = bundle.getInt("data_id");
@@ -123,7 +122,7 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
         switchGps.setOnCheckedChangeListener(this);
 
         final String serviceName[] = {"test", "Hello", "world"};
-        stringArrayAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, serviceName);
+        stringArrayAdapter = new ArrayAdapter<>(this, R.layout.custom_spinner_tv2, serviceName);
         spinnerService.setAdapter(stringArrayAdapter);
 
         if (data_id != 0) {
@@ -150,20 +149,16 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
             intServicePosion = cursor.getInt(cursor.getColumnIndex(DatabaseServiceRecords.COL_SERVICE_ID));
             strLicensePlate = cursor.getString(cursor.getColumnIndex(DatabaseServiceRecords.COL_LICENSE_PLATE));
             douOdometer = cursor.getDouble(cursor.getColumnIndex(DatabaseServiceRecords.COL_ODOMETER));
-            douFuelLevel = cursor.getDouble(cursor.getColumnIndex(DatabaseServiceRecords.COL_FUEL_LEVEL));
             douServiceCost = cursor.getDouble(cursor.getColumnIndex(DatabaseServiceRecords.COL_SERVICE_COST));
             latitude = cursor.getDouble(cursor.getColumnIndex(DatabaseServiceRecords.COL_LATITUDE));
             longitude = cursor.getDouble(cursor.getColumnIndex(DatabaseServiceRecords.COL_LONGITUDE));
             strNote = cursor.getString(cursor.getColumnIndex(DatabaseServiceRecords.COL_NOTE));
             strDateTime = cursor.getString(cursor.getColumnIndex(DatabaseServiceRecords.COL_TRANSACTION_DATE));
             serviceStatus = cursor.getInt(cursor.getColumnIndex(DatabaseServiceRecords.COL_STATUS));
-            //strLocationName = cursor.getString(cursor.getColumnIndex(DatabaseServiceRecords.COL_LOCATION_NAME));
+            strLocationName = cursor.getString(cursor.getColumnIndex(DatabaseServiceRecords.COL_LOCATION_NAME));
 
             if (douOdometer != null) {
                 strOdometer = String.valueOf(douOdometer);
-            }
-            if (douFuelLevel != null) {
-                strFuel = String.valueOf(douFuelLevel);
             }
             if (douServiceCost != null) {
                 strServiceCost = String.valueOf(douServiceCost);
@@ -171,8 +166,8 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
 
             spinnerService.setSelection(intServicePosion);
             edtServiceOdometer.setText(strOdometer);
-            edtServiceFuel.setText(strFuel);
             edtServiceCost.setText(strServiceCost);
+            edtLocationService.setText(strLocationName);
 
             Log.d("date => ", strDateTime);
             myDateTimeModify = new MyDateTimeModify();
@@ -206,6 +201,7 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
 
     private void btnOnClick() {
         btnServiceSave.setOnClickListener(this);
+        btnServiceCancel.setOnClickListener(this);
         imgBtnSelectDate.setOnClickListener(this);
         imgBtnSelectTime.setOnClickListener(this);
     }
@@ -215,15 +211,14 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
         tvLicensePlate = (TextView) findViewById(R.id.tvLicensePlateService);
         spinnerService = (Spinner) findViewById(R.id.spinnerService);
         edtServiceOdometer = (EditText) findViewById(R.id.edtServiceOdometer);
-        edtServiceFuel = (EditText) findViewById(R.id.edtFuelLevel);
         edtServiceCost = (EditText) findViewById(R.id.edtServiceCost);
         tvServiceDate = (TextView) findViewById(R.id.tvServiceDate);
         tvServiceTime = (TextView) findViewById(R.id.tvServiceTime);
         tvLinearLayout = (LinearLayout) findViewById(R.id.tvLinearServiceLocation);
         switchGps = (Switch) findViewById(R.id.switchServiceGps);
         edtLocationService = (EditText) findViewById(R.id.edtServiceLocation);
-        btnServiceSave = (Button) findViewById(R.id.btnServiceSave);
-
+        btnServiceSave = (Button) findViewById(R.id.btnSaveService);
+        btnServiceCancel = (Button) findViewById(R.id.btnCancelService);
         imgBtnSelectDate = (ImageButton) findViewById(R.id.imgBtnSelectDate);
         imgBtnSelectTime = (ImageButton) findViewById(R.id.imgBtnSelectServiceTime);
 
@@ -244,7 +239,7 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     }
 
     private void findLocationFromGps() {
-        Geocoder geocoder = new Geocoder(ServiceRecordsActivity.this, Locale.getDefault());
+        Geocoder geocoder = new Geocoder(ServiceJournalActivity.this, Locale.getDefault());
         try {
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
 
@@ -267,8 +262,8 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
 
     @Override
     public void onNewNextFunction() {
-        myLocationFirst = new MyLocationFirst(ServiceRecordsActivity.this);
-        myLocationFirst.registerOnNextLocationFunction(ServiceRecordsActivity.this);
+        myLocationFirst = new MyLocationFirst(ServiceJournalActivity.this);
+        myLocationFirst.registerOnNextLocationFunction(ServiceJournalActivity.this);
         myLocationFirst.onLocationStart();
     }
 
@@ -301,7 +296,13 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
             onSelectTime();
         } else if (v == btnServiceSave) {
             onSave();
+        } else if (v == btnServiceCancel) {
+            onMyCancel();
         }
+    }
+
+    private void onMyCancel() {
+        finish();
     }
 
     private void onSave() {
@@ -309,7 +310,6 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
         Boolean checkText = customCheckText();
         if (checkText) {
             douOdometer = Double.valueOf(strOdometer);
-            douFuelLevel = Double.valueOf(strFuel);
             douServiceCost = Double.valueOf(strServiceCost);
             if (mode == 0) {
                 onInsert();
@@ -319,13 +319,12 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
             }
         } else {
             Toast.makeText(this, getResources().getString(R.string.message_please_input_data), Toast.LENGTH_SHORT).show();
-
         }
 
     }
 
     private Boolean customCheckText() {
-        if (strLicensePlate.equals("") || strOdometer.equals("") || strFuel.equals("") || strServiceCost.equals("") || strDateTime.equals("")) {
+        if (strLicensePlate.equals("") || strOdometer.equals("") || strServiceCost.equals("") || strDateTime.equals("")) {
             return false;
         } else {
             return true;
@@ -338,15 +337,13 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
         contentValues.put(DatabaseServiceRecords.COL_SERVICE_ID, intServicePosion);
         contentValues.put(DatabaseServiceRecords.COL_LICENSE_PLATE, strLicensePlate);
         contentValues.put(DatabaseServiceRecords.COL_ODOMETER, douOdometer);
-        contentValues.put(DatabaseServiceRecords.COL_FUEL_LEVEL, douFuelLevel);
         contentValues.put(DatabaseServiceRecords.COL_SERVICE_COST, douServiceCost);
         contentValues.put(DatabaseServiceRecords.COL_LATITUDE, latitude);
         contentValues.put(DatabaseServiceRecords.COL_LONGITUDE, longitude);
+        contentValues.put(DatabaseServiceRecords.COL_LOCATION_NAME, strLocationName);
         contentValues.put(DatabaseServiceRecords.COL_TRANSACTION_DATE, strDateTime);
 
-
         sqLiteDatabase.insert(DatabaseServiceRecords.TABLE_NAME, null, contentValues);
-
         finish();
 
     }
@@ -354,15 +351,14 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     private void serviceGetText() {
 
         strOdometer = edtServiceOdometer.getText().toString().trim();
-        strFuel = edtServiceFuel.getText().toString().trim();
         strServiceCost = edtServiceCost.getText().toString().trim();
         strServiceDate = tvServiceDate.getText().toString().trim();
         strServiceTime = tvServiceTime.getText().toString().trim();
         strLocationName = edtLocationService.getText().toString().trim();
         strSpinnerService = spinnerService.getSelectedItem().toString();
         intServicePosion = spinnerService.getSelectedItemPosition();
-
         strDateTime = myDateTimeModify.getDateTimeToserver();
+
     }
 
     private void onUpdate() {
@@ -375,10 +371,10 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
         contentValues.put(DatabaseServiceRecords.COL_SERVICE_ID, intServicePosion);
         contentValues.put(DatabaseServiceRecords.COL_LICENSE_PLATE, strLicensePlate);
         contentValues.put(DatabaseServiceRecords.COL_ODOMETER, douOdometer);
-        contentValues.put(DatabaseServiceRecords.COL_FUEL_LEVEL, douFuelLevel);
         contentValues.put(DatabaseServiceRecords.COL_SERVICE_COST, douServiceCost);
         contentValues.put(DatabaseServiceRecords.COL_LATITUDE, latitude);
         contentValues.put(DatabaseServiceRecords.COL_LONGITUDE, longitude);
+        contentValues.put(DatabaseServiceRecords.COL_LOCATION_NAME, strLocationName);
         contentValues.put(DatabaseServiceRecords.COL_TRANSACTION_DATE, strDateTime);
 
         contentValues.put(DatabaseServiceRecords.COL_DATE_UPDATE, dateFormat.format(date));
@@ -389,7 +385,7 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     }
 
     private void onSelectTime() {
-        timePickerDialog = new TimePickerDialog(ServiceRecordsActivity.this, new TimePickerDialog.OnTimeSetListener() {
+        timePickerDialog = new TimePickerDialog(ServiceJournalActivity.this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
@@ -405,7 +401,7 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
     }
 
     private void onSelectDate() {
-        datePickerDialog = new DatePickerDialog(ServiceRecordsActivity.this, new DatePickerDialog.OnDateSetListener() {
+        datePickerDialog = new DatePickerDialog(ServiceJournalActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
@@ -423,22 +419,20 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (switchGps == buttonView) {
+        if (buttonView == switchGps) {
             if (isChecked) {
                 if (counterCheck > 0) {
                     counterCheck--;
-
                 }else{
-                    myAddPermissionLocation = new MyAddPermissionLocation(ServiceRecordsActivity.this);
-                    myAddPermissionLocation.setOnNextFunction(ServiceRecordsActivity.this);
-                    myAddPermissionLocation.setOnCustomClickDialog(ServiceRecordsActivity.this);
+                    myAddPermissionLocation = new MyAddPermissionLocation(ServiceJournalActivity.this);
+                    myAddPermissionLocation.setOnNextFunction(ServiceJournalActivity.this);
+                    myAddPermissionLocation.setOnCustomClickDialog(ServiceJournalActivity.this);
                     myAddPermissionLocation.checkLocation();
                 }
             } else {
                 latitude = 0.0;
                 longitude = 0.0;
                 edtLocationService.setText("");
-
             }
         }
     }
@@ -462,15 +456,15 @@ public class ServiceRecordsActivity extends AppCompatActivity implements MyAddPe
                 customAlertDialog.show();
                 customAlertDialog.setOnMyDialogActivity(new CustomAlertDialog.OnMyDialogActivity() {
                     @Override
-                    public void onMyDialogPosititve() {
-                        Intent intent = new Intent(ServiceRecordsActivity.this, LicensePlateActivity.class);
+                    public void onMyDialogPositive() {
+                        Intent intent = new Intent(ServiceJournalActivity.this, LicensePlateActivity.class);
                         startActivity(intent);
 
                     }
 
                     @Override
                     public void onMyDialogNegative() {
-                        onStart();
+                        finish();
                     }
                 });
             }

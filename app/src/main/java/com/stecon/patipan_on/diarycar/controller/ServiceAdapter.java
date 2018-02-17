@@ -6,18 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 
-import com.stecon.patipan_on.diarycar.OilJournalActivity;
 import com.stecon.patipan_on.diarycar.R;
-import com.stecon.patipan_on.diarycar.ServiceRecordsActivity;
+import com.stecon.patipan_on.diarycar.ServiceJournalActivity;
 import com.stecon.patipan_on.diarycar.model.ItemClickListener;
-import com.stecon.patipan_on.diarycar.model.OilViewHolder;
 import com.stecon.patipan_on.diarycar.model.ServiceRecordModel;
 import com.stecon.patipan_on.diarycar.model.ServiceViewHolder;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -57,8 +53,15 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceViewHolder> impl
         Double odometer = serviceRecordModel.getOdometer();
         serviceViewHolder.tvServiceOdometer.setText(odometer.toString() + " " + context.getResources().getString(R.string.km));
 
-        String license_plate = serviceRecordModel.getLicense_plate();
-        serviceViewHolder.tvLicensePlate.setText(license_plate.toString());
+//        String license_plate = serviceRecordModel.getLicense_plate();
+//        serviceViewHolder.tvLicensePlate.setText(license_plate.toString());
+
+        String location_name = serviceRecordModel.getLocation_name();
+        if (location_name.equals("")) {
+            serviceViewHolder.tvServiceLocationName.setText("No Location find");
+        } else {
+            serviceViewHolder.tvServiceLocationName.setText(location_name);
+        }
 
         Double service_cost = serviceRecordModel.getService_cost();
         serviceViewHolder.tvServiceCost.setText(service_cost + " " + context.getResources().getString(R.string.bath));
@@ -78,7 +81,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceViewHolder> impl
 
     @Override
     public void onClick(View view, int position) {
-        Intent intent = new Intent(context, ServiceRecordsActivity.class);
+        Intent intent = new Intent(context, ServiceJournalActivity.class);
         intent.putExtra("data_id", serviceRecordModelArrayList.get(position).getId());
         context.startActivity(intent);
         //Toast.makeText(context, "ยังไม่พร้อมใช้งาน", Toast.LENGTH_SHORT).show();

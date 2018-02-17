@@ -1,5 +1,7 @@
 package com.stecon.patipan_on.diarycar;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,9 +17,10 @@ import android.view.ViewGroup;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.controller.PriceOtherAdapter;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
-import com.stecon.patipan_on.diarycar.database.DatabaseTripCost;
+import com.stecon.patipan_on.diarycar.database.DatabasePriceCost;
+import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.MyDateModify;
-import com.stecon.patipan_on.diarycar.model.TripCostModel;
+import com.stecon.patipan_on.diarycar.model.PriceCostModel;
 
 import java.util.ArrayList;
 
@@ -62,9 +65,15 @@ public class PriceOtherFragment extends Fragment {
 
     private void onSetQuery() {
 
-        ArrayList<TripCostModel> costModelArrayList = new ArrayList<>();
-        String strSql = "SELECT * FROM " + DatabaseTripCost.TABLE_NAME ;
-        //String strSql = "SELECT * FROM " + DatabaseTripCost.TABLE_NAME;
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
+        String licensePlate = sharedPreferences.getString(MyAppConfig.licensePlate, "");
+        if (licensePlate.equals("")) {
+            return;
+        }
+
+        ArrayList<PriceCostModel> costModelArrayList = new ArrayList<>();
+        String strSql = "SELECT * FROM " + DatabasePriceCost.TABLE_NAME + " WHERE " + DatabasePriceCost.COL_LICENSE_PLATE + " = '" + licensePlate + "'"
+                + " ORDER BY " + DatabasePriceCost.COL_ID + " DESC";
         Cursor cursor = sqLiteDatabase.rawQuery(strSql , null);
 
         int i = 0 ;
@@ -74,17 +83,17 @@ public class PriceOtherFragment extends Fragment {
                 i++;
                 Log.d("I => ", i + "");
                 int id = cursor.getInt(cursor.getColumnIndex(DatabaseOilJournal.COL_ID));
-                int trip_id = cursor.getInt(cursor.getColumnIndex(DatabaseTripCost.COL_TRIP_ID));
-                String price_type = cursor.getString(cursor.getColumnIndex(DatabaseTripCost.COL_PRICE_TYPE));
-                String title = cursor.getString(cursor.getColumnIndex(DatabaseTripCost.COL_PRICE_TITLE));
-                double money = cursor.getDouble(cursor.getColumnIndex(DatabaseTripCost.COL_PRICE_MONEY));
-                String note = cursor.getString(cursor.getColumnIndex(DatabaseTripCost.COL_NOTE));
-                String temp_date = cursor.getString(cursor.getColumnIndex(DatabaseTripCost.COL_TRANSACTION_DATE));
+                String license_plate = cursor.getString(cursor.getColumnIndex(DatabasePriceCost.COL_LICENSE_PLATE));
+                String price_type = cursor.getString(cursor.getColumnIndex(DatabasePriceCost.COL_PRICE_TYPE));
+                String title = cursor.getString(cursor.getColumnIndex(DatabasePriceCost.COL_PRICE_TITLE));
+                double money = cursor.getDouble(cursor.getColumnIndex(DatabasePriceCost.COL_PRICE_MONEY));
+                String note = cursor.getString(cursor.getColumnIndex(DatabasePriceCost.COL_NOTE));
+                String temp_date = cursor.getString(cursor.getColumnIndex(DatabasePriceCost.COL_TRANSACTION_DATE));
 
                 String[] date = MyDateModify.getStrsDateTimeFromSqlite(temp_date);
 
-                TripCostModel tripCostModel = new TripCostModel(id,trip_id, price_type, title, money, note, date[0]);
-                costModelArrayList.add(tripCostModel);
+                PriceCostModel priceCostModel = new PriceCostModel(id,license_plate, price_type, title, money, note, date[0]);
+                costModelArrayList.add(priceCostModel);
                 cursor.moveToNext();
             }
         }

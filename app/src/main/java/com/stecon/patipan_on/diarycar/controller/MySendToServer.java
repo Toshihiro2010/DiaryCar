@@ -13,19 +13,18 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.stecon.patipan_on.diarycar.database.DatabaseLog;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
+import com.stecon.patipan_on.diarycar.database.DatabasePriceCost;
 import com.stecon.patipan_on.diarycar.database.DatabaseServiceRecords;
 import com.stecon.patipan_on.diarycar.database.DatabaseStatusToServer;
-import com.stecon.patipan_on.diarycar.database.DatabaseTripCost;
 import com.stecon.patipan_on.diarycar.database.DatabaseTripDetail;
 import com.stecon.patipan_on.diarycar.model.LogModel;
 import com.stecon.patipan_on.diarycar.model.MyModelSynToServer;
 import com.stecon.patipan_on.diarycar.model.OilDataModel;
 import com.stecon.patipan_on.diarycar.model.ServiceRecordModel;
-import com.stecon.patipan_on.diarycar.model.TripCostModel;
+import com.stecon.patipan_on.diarycar.model.PriceCostModel;
 import com.stecon.patipan_on.diarycar.model.TripDetailModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -183,9 +182,9 @@ public class MySendToServer {
                         + " WHERE " + DatabaseOilJournal.COL_STATUS + " != 1";
         sqLiteDatabase.rawQuery(sqlUpdateOil, null);
 
-        String sqlUpdateTripCost = "UPDATE " + DatabaseTripCost.TABLE_NAME
-                + " set " + DatabaseTripCost.COL_STATUS + " = 1 "
-                + " WHERE " + DatabaseTripCost.COL_STATUS + " != 1";
+        String sqlUpdateTripCost = "UPDATE " + DatabasePriceCost.TABLE_NAME
+                + " set " + DatabasePriceCost.COL_STATUS + " = 1 "
+                + " WHERE " + DatabasePriceCost.COL_STATUS + " != 1";
         sqLiteDatabase.rawQuery(sqlUpdateTripCost, null);
 
         String sqlUpdateTripDetail = "UPDATE " + DatabaseTripDetail.TABLE_NAME
@@ -217,8 +216,8 @@ public class MySendToServer {
         String sqlFuel = "SELECT * FROM " + DatabaseOilJournal.TABLE_NAME + " WHERE " + DatabaseOilJournal.COL_STATUS + " = 0";
         Cursor cursorFuel = sqLiteDatabase.rawQuery(sqlFuel, null);
 
-        ArrayList<TripCostModel> tripCostModelArrayList = new ArrayList<>();
-        String sqlTripCost = "SELECT * FROM " + DatabaseTripCost.TABLE_NAME + " WHERE " + DatabaseTripCost.COL_STATUS + " = 0";
+        ArrayList<PriceCostModel> priceCostModelArrayList = new ArrayList<>();
+        String sqlTripCost = "SELECT * FROM " + DatabasePriceCost.TABLE_NAME + " WHERE " + DatabasePriceCost.COL_STATUS + " = 0";
         Cursor cursorTripCost = sqLiteDatabase.rawQuery(sqlTripCost, null);
 
         ArrayList<TripDetailModel> tripDetailModelArrayList = new ArrayList<>();
@@ -252,7 +251,7 @@ public class MySendToServer {
                 double latitude = cursorFuel.getDouble(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_LATITUDE));
                 double longitude = cursorFuel.getDouble(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_LONGITUDE));
                 String note = cursorFuel.getString(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_NOTE));
-                String fueltype = cursorFuel.getString(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_FUEL_TYPE));
+                int fueltype = cursorFuel.getInt(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_FUEL_TYPE));
                 String transaction_date = cursorFuel.getString(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_TRANSACTION_DATE));
                 String location_date = "";
                 String create_date = cursorFuel.getString(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_DATE_CREATE));
@@ -280,6 +279,7 @@ public class MySendToServer {
                 Double service_cost = cursorServiceRecord.getDouble(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_SERVICE_COST));
                 Double latitude = cursorServiceRecord.getDouble(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_LATITUDE));
                 Double longitude = cursorServiceRecord.getDouble(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_LONGITUDE));
+                String location_name = cursorServiceRecord.getString(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_LOCATION_NAME));
                 String note = cursorServiceRecord.getString(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_NOTE));
                 String transaction_date = cursorServiceRecord.getString(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_TRANSACTION_DATE));
                 String create_date = cursorServiceRecord.getString(cursorFuel.getColumnIndex(DatabaseServiceRecords.COL_DATE_CREATE));
@@ -297,6 +297,7 @@ public class MySendToServer {
                         service_cost,
                         latitude,
                         longitude,
+                        location_name,
                         note,
                         transaction_date,
                         create_date,
@@ -315,22 +316,22 @@ public class MySendToServer {
                 if (i == 0) {
                     cursorTripCost.moveToFirst();
                 }
-                int id = cursorTripCost.getInt(cursorTripCost.getColumnIndex(DatabaseTripCost.COL_ID));
-                int trip_id = cursorTripCost.getInt(cursorTripCost.getColumnIndex(DatabaseTripCost.COL_TRIP_ID));
-                String price_type = cursorTripCost.getString(cursorTripCost.getColumnIndex(DatabaseTripCost.COL_PRICE_TYPE));
-                String title = cursorTripCost.getString(cursorTripCost.getColumnIndex(DatabaseTripCost.COL_PRICE_TITLE));
-                double money = cursorTripCost.getDouble(cursorTripCost.getColumnIndex(DatabaseTripCost.COL_PRICE_MONEY));
-                String note = cursorTripCost.getString(cursorTripCost.getColumnIndex(DatabaseTripCost.COL_NOTE));
-                String transaction_date = cursorTripCost.getString(cursorTripCost.getColumnIndex(DatabaseTripCost.COL_TRANSACTION_DATE));
-                String create_date = cursorTripCost.getString(cursorTripCost.getColumnIndex(DatabaseTripCost.COL_DATE_CREATE));
-                String update_date = cursorTripCost.getString(cursorTripCost.getColumnIndex(DatabaseTripCost.COL_DATE_UPDATE));
-                String create_by = cursorTripCost.getString(cursorTripCost.getColumnIndex(DatabaseTripCost.COL_CREATE_BY));
-                String update_by = cursorTripCost.getString(cursorTripCost.getColumnIndex(DatabaseTripCost.COL_UPDATE_BY));
-                int status = cursorTripCost.getInt(cursorTripCost.getColumnIndex(DatabaseTripCost.COL_STATUS));
+                int id = cursorTripCost.getInt(cursorTripCost.getColumnIndex(DatabasePriceCost.COL_ID));
+                String license_plate = cursorTripCost.getString(cursorTripCost.getColumnIndex(DatabasePriceCost.COL_LICENSE_PLATE));
+                String price_type = cursorTripCost.getString(cursorTripCost.getColumnIndex(DatabasePriceCost.COL_PRICE_TYPE));
+                String title = cursorTripCost.getString(cursorTripCost.getColumnIndex(DatabasePriceCost.COL_PRICE_TITLE));
+                double money = cursorTripCost.getDouble(cursorTripCost.getColumnIndex(DatabasePriceCost.COL_PRICE_MONEY));
+                String note = cursorTripCost.getString(cursorTripCost.getColumnIndex(DatabasePriceCost.COL_NOTE));
+                String transaction_date = cursorTripCost.getString(cursorTripCost.getColumnIndex(DatabasePriceCost.COL_TRANSACTION_DATE));
+                String create_date = cursorTripCost.getString(cursorTripCost.getColumnIndex(DatabasePriceCost.COL_DATE_CREATE));
+                String update_date = cursorTripCost.getString(cursorTripCost.getColumnIndex(DatabasePriceCost.COL_DATE_UPDATE));
+                String create_by = cursorTripCost.getString(cursorTripCost.getColumnIndex(DatabasePriceCost.COL_CREATE_BY));
+                String update_by = cursorTripCost.getString(cursorTripCost.getColumnIndex(DatabasePriceCost.COL_UPDATE_BY));
+                int status = cursorTripCost.getInt(cursorTripCost.getColumnIndex(DatabasePriceCost.COL_STATUS));
 
-                TripCostModel tripCostModel = new TripCostModel(id, trip_id, price_type, title, money, note, transaction_date, create_date, update_date, create_by, update_by, status);
+                PriceCostModel priceCostModel = new PriceCostModel(id, license_plate, price_type, title, money, note, transaction_date, create_date, update_date, create_by, update_by, status);
 
-                tripCostModelArrayList.add(tripCostModel);
+                priceCostModelArrayList.add(priceCostModel);
 
                 cursorTripCost.moveToNext();
             }
@@ -394,7 +395,7 @@ public class MySendToServer {
         myModelSynToServer.setSync_by("User");
 
         myModelSynToServer.setFuelData(oilDataModelArrayList);
-        myModelSynToServer.setTripCost(tripCostModelArrayList);
+        myModelSynToServer.setTripCost(priceCostModelArrayList);
         myModelSynToServer.setTripDetail(tripDetailModelArrayList);
         myModelSynToServer.setServiceData(serviceRecordModelArrayList);
 

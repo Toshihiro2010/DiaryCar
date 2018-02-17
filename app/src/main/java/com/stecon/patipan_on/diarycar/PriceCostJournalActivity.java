@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
-import com.stecon.patipan_on.diarycar.database.DatabaseTripCost;
+import com.stecon.patipan_on.diarycar.database.DatabasePriceCost;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 
 import java.text.SimpleDateFormat;
@@ -34,12 +34,13 @@ public class PriceCostJournalActivity extends AppCompatActivity implements View.
     private EditText edtNoteDetail;
     private Button btnSavePriceOther;
 
-
-    private long trip_id = 0;
+    private String strLicensePlate;
     private String strPriceType;
     private String strTitle;
     private String strPrice;
     private String strNote;
+
+
 
     private Double priceADouble;
     ArrayAdapter<CharSequence> priceTypeArrayAdapter;
@@ -58,7 +59,7 @@ public class PriceCostJournalActivity extends AppCompatActivity implements View.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_price_other);
+        setContentView(R.layout.activity_price_cost_journal);
 
         bindWidget();
         Bundle bundle = getIntent().getExtras();
@@ -81,17 +82,17 @@ public class PriceCostJournalActivity extends AppCompatActivity implements View.
     }
 
     private void mySetQueryText() {
-        String strSql = "SELECT * FROM " + DatabaseTripCost.TABLE_NAME + " WHERE " + DatabaseOilJournal.COL_ID + " = " + data_id;
+        String strSql = "SELECT * FROM " + DatabasePriceCost.TABLE_NAME + " WHERE " + DatabaseOilJournal.COL_ID + " = " + data_id;
         Log.d("STRSQL = > ", strSql);
         Cursor cursor = sqLiteDatabase.rawQuery(strSql , null);
         Log.d("cursor = > ", cursor.getCount() + " ");
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
 
-            strPriceType = cursor.getString(cursor.getColumnIndex(DatabaseTripCost.COL_PRICE_TYPE));
-            strTitle = cursor.getString(cursor.getColumnIndex(DatabaseTripCost.COL_PRICE_TITLE));
-            priceADouble = cursor.getDouble(cursor.getColumnIndex(DatabaseTripCost.COL_PRICE_MONEY));
-            strNote = cursor.getString(cursor.getColumnIndex(DatabaseTripCost.COL_NOTE));
+            strPriceType = cursor.getString(cursor.getColumnIndex(DatabasePriceCost.COL_PRICE_TYPE));
+            strTitle = cursor.getString(cursor.getColumnIndex(DatabasePriceCost.COL_PRICE_TITLE));
+            priceADouble = cursor.getDouble(cursor.getColumnIndex(DatabasePriceCost.COL_PRICE_MONEY));
+            strNote = cursor.getString(cursor.getColumnIndex(DatabasePriceCost.COL_NOTE));
 
 
             if (priceADouble != null) {
@@ -103,7 +104,7 @@ public class PriceCostJournalActivity extends AppCompatActivity implements View.
             edtPrice.setText(strPrice);
             edtNoteDetail.setText(strNote);
 
-            priceTypeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.price_other_array, R.layout.support_simple_spinner_dropdown_item);
+            priceTypeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.price_other_array, R.layout.custom_spinner_tv2);
             spinnerPriceType.setAdapter(priceTypeArrayAdapter);
 
             if (!strPriceType.equals(null)) {
@@ -118,7 +119,7 @@ public class PriceCostJournalActivity extends AppCompatActivity implements View.
 
     private void mySetSpinner() {
 
-        priceTypeArrayAdapter = ArrayAdapter.createFromResource(PriceCostJournalActivity.this, R.array.price_other_array, R.layout.support_simple_spinner_dropdown_item);
+        priceTypeArrayAdapter = ArrayAdapter.createFromResource(PriceCostJournalActivity.this, R.array.price_other_array, R.layout.custom_spinner_tv2);
         spinnerPriceType.setAdapter(priceTypeArrayAdapter);
 
     }
@@ -163,17 +164,15 @@ public class PriceCostJournalActivity extends AppCompatActivity implements View.
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
 
-
-
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DatabaseTripCost.COL_TRIP_ID, trip_id);
-        contentValues.put(DatabaseTripCost.COL_PRICE_TYPE, strPriceType);
-        contentValues.put(DatabaseTripCost.COL_PRICE_TITLE, strTitle);
-        contentValues.put(DatabaseTripCost.COL_PRICE_MONEY, priceADouble);
-        contentValues.put(DatabaseTripCost.COL_NOTE, strNote);
-        contentValues.put(DatabaseTripCost.COL_DATE_UPDATE, dateFormat.format(date));
+        contentValues.put(DatabasePriceCost.COL_LICENSE_PLATE, strLicensePlate);
+        contentValues.put(DatabasePriceCost.COL_PRICE_TYPE, strPriceType);
+        contentValues.put(DatabasePriceCost.COL_PRICE_TITLE, strTitle);
+        contentValues.put(DatabasePriceCost.COL_PRICE_MONEY, priceADouble);
+        contentValues.put(DatabasePriceCost.COL_NOTE, strNote);
+        contentValues.put(DatabasePriceCost.COL_DATE_UPDATE, dateFormat.format(date));
 
-        sqLiteDatabase.update(DatabaseTripCost.TABLE_NAME, contentValues, DatabaseTripCost.COL_ID + " = ? ", new String[]{String.valueOf(data_id)});
+        sqLiteDatabase.update(DatabasePriceCost.TABLE_NAME, contentValues, DatabasePriceCost.COL_ID + " = ? ", new String[]{String.valueOf(data_id)});
         mySetEmptyText();
         progressDialog.dismiss();
         finish();
@@ -183,18 +182,16 @@ public class PriceCostJournalActivity extends AppCompatActivity implements View.
     private void onSaveData() {
         priceADouble = Double.valueOf(strPrice);
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DatabaseTripCost.COL_TRIP_ID, trip_id);
-        contentValues.put(DatabaseTripCost.COL_PRICE_TYPE, strPriceType);
-        contentValues.put(DatabaseTripCost.COL_PRICE_TITLE, strTitle);
-        contentValues.put(DatabaseTripCost.COL_PRICE_MONEY, priceADouble);
-        contentValues.put(DatabaseTripCost.COL_NOTE, strNote);
+        contentValues.put(DatabasePriceCost.COL_LICENSE_PLATE, strLicensePlate);
+        contentValues.put(DatabasePriceCost.COL_PRICE_TYPE, strPriceType);
+        contentValues.put(DatabasePriceCost.COL_PRICE_TITLE, strTitle);
+        contentValues.put(DatabasePriceCost.COL_PRICE_MONEY, priceADouble);
+        contentValues.put(DatabasePriceCost.COL_NOTE, strNote);
 
-        sqLiteDatabase.insert(DatabaseTripCost.TABLE_NAME, null, contentValues);
+        sqLiteDatabase.insert(DatabasePriceCost.TABLE_NAME, null, contentValues);
         Toast.makeText(this, getResources().getString(R.string.message_save_success), Toast.LENGTH_SHORT).show();
         mySetEmptyText();
         progressDialog.dismiss();
-
-
 
     }
 
@@ -203,11 +200,10 @@ public class PriceCostJournalActivity extends AppCompatActivity implements View.
         edtPrice.setText("");
         edtNoteDetail.setText("");
         mySetSpinner();
-
     }
 
     @Override
-    public void onMyDialogPosititve() {
+    public void onMyDialogPositive() {
         //Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(PriceCostJournalActivity.this, TripStartActivity.class);
         intent.putExtra(MyAppConfig.activity_code, 99);
@@ -225,15 +221,18 @@ public class PriceCostJournalActivity extends AppCompatActivity implements View.
     protected void onStart() {
         super.onStart();
         Log.d("OnActivity => ", "OnStart");
+        onMyCheckLicensePlate();
+
+    }
+
+    private void onMyCheckLicensePlate() {
         SharedPreferences sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
-//        trip_id = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
-//        MyAppConfig.setNum_trip_id(trip_id);
-//        if (trip_id == 0) {
-//            customAlertDialog = new CustomAlertDialog(PriceCostJournalActivity.this, getResources().getString(R.string.message_no_trip), getResources().getString(R.string.message_add_trip));
-//
-//            customAlertDialog.myDefaultDialog();
-//            customAlertDialog.setOnMyDialogActivity(PriceCostJournalActivity.this);
-//            customAlertDialog.show();
-//        }
+        strLicensePlate = sharedPreferences.getString(MyAppConfig.licensePlate, "");
+        if (strLicensePlate.equals("")) {
+            customAlertDialog = new CustomAlertDialog(PriceCostJournalActivity.this, getResources().getString(R.string.message_no_license_plate), getResources().getString(R.string.message_add_trip));
+            customAlertDialog.myDefaultDialog();
+            customAlertDialog.setOnMyDialogActivity(PriceCostJournalActivity.this);
+            customAlertDialog.show();
+        }
     }
 }

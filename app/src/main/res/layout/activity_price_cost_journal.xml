@@ -34,7 +34,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/category"
-                android:textColor="@color/common_signin_btn_dark_text_disabled"
                 android:textSize="@dimen/h3" />
 
             <Spinner
@@ -75,7 +74,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/cost_information"
-            android:textColor="@color/common_signin_btn_dark_text_disabled"
             android:textSize="@dimen/h3" />
 
         <EditText
@@ -87,7 +85,6 @@
             android:ems="10"
             android:hint="@string/edt_price_title"
             android:inputType="textPersonName"
-            android:textColorHint="#dedede"
             android:textSize="14sp" />
 
         <LinearLayout
@@ -105,11 +102,11 @@
                 android:ems="7"
                 android:hint="@string/edt_money_service"
                 android:inputType="numberDecimal"
-                android:textColorHint="#dedede"
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/textView11"
+                android:layout_marginLeft="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/bath" />
@@ -144,7 +141,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/detail"
-            android:textColor="@color/common_signin_btn_dark_text_disabled"
             android:textSize="@dimen/h3" />
 
         <EditText

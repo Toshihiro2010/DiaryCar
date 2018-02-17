@@ -13,8 +13,8 @@ import android.widget.Button;
 
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.controller.ServiceAdapter;
+import com.stecon.patipan_on.diarycar.database.DatabasePriceCost;
 import com.stecon.patipan_on.diarycar.database.DatabaseServiceRecords;
-import com.stecon.patipan_on.diarycar.database.DatabaseTripCost;
 import com.stecon.patipan_on.diarycar.model.MyDateTimeModify;
 import com.stecon.patipan_on.diarycar.model.ServiceRecordModel;
 
@@ -43,7 +43,7 @@ public class ServiceListActivity extends AppCompatActivity {
         btnAddService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ServiceListActivity.this, ServiceRecordsActivity.class);
+                Intent intent = new Intent(ServiceListActivity.this, ServiceJournalActivity.class);
                 startActivity(intent);
             }
         });
@@ -90,9 +90,9 @@ public class ServiceListActivity extends AppCompatActivity {
                 Double latitude = cursor.getDouble(cursor.getColumnIndex(DatabaseServiceRecords.COL_LATITUDE));
                 Double longitude = cursor.getDouble(cursor.getColumnIndex(DatabaseServiceRecords.COL_LONGITUDE));
                 //String location_name = cursor.getString(cursor.getColumnIndex(DatabaseServiceRecords.COL_LOCATION_NAME));
-                String note = cursor.getString(cursor.getColumnIndex(DatabaseTripCost.COL_NOTE));
+                String note = cursor.getString(cursor.getColumnIndex(DatabasePriceCost.COL_NOTE));
 
-                String temp_date = cursor.getString(cursor.getColumnIndex(DatabaseTripCost.COL_TRANSACTION_DATE));
+                String temp_date = cursor.getString(cursor.getColumnIndex(DatabasePriceCost.COL_TRANSACTION_DATE));
                 String[] date = MyDateTimeModify.getStrsDateTimeFromSqlite(temp_date);
 
                 String create_date = cursor.getString(cursor.getColumnIndex(DatabaseServiceRecords.COL_DATE_CREATE));

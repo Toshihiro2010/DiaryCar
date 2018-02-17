@@ -49,12 +49,13 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
 
 
     public static final String PIN_NUMBER = "pin_number";
+    public static final String PIN_MODE = "pin_mode";
     private MyDbHelper myDbHelper;
     private SQLiteDatabase sqLiteDatabase;
 
 
-    private int pin_apply = 0;
-    private int pin_add = 1;
+    public static int pin_apply = 0;
+    public static int pin_add = 1;
 
     private int pin_change = 3;
 
@@ -74,7 +75,7 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
 
         buttonOnClick();
 
-        testXml();
+        //testXml();
 
 
     }
@@ -719,9 +720,9 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void onSetMode(Bundle bundle) {
-//        if (bundle != null) {
-//            mode = bundle.getInt(PIN_NUMBER);
-//        }
+        if (bundle != null) {
+            mode = bundle.getInt(PIN_MODE);
+        }
 //        mode = pin_apply;
         if (mode == pin_add) {
             tvMessagePin.setText(getResources().getString(R.string.txt_pin_add_input));
@@ -732,7 +733,7 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private void myTestPinCustomResult() {
+    private void myTestPinCustomResult() {//TODO งงในงง เขียนไรวะ
         PinCodeStatic.setPinNumber("2010");
         String temp = PinCodeStatic.getPinNumber();
         if (temp != null) {
@@ -743,6 +744,12 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
             }
             Log.d("pin result test = > ", Arrays.toString(pinResult));
         } else { // value is PinCodeStatic is Not value
+            if (temp.length() == 4) {
+                for (int i = 0 ; i < temp.length(); i++) {
+                    pinResult[i] = temp.charAt(i);
+                }
+            }
+
 
             Toast.makeText(this, "Null", Toast.LENGTH_SHORT).show();
         }
@@ -868,12 +875,16 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
     private void pinCheckResult() {
 
         if (pinCheckCorrect == pinSize) {
+
             tvMessagePin.setText(getResources().getString(R.string.txt_pin_correct));
 
             if (mode == pin_add) {
                 onInsertPinData();
             } else if (mode == pin_change) {
                 onEditPinData();
+            } else if (mode == pin_apply) {
+                tvMessagePin.setText(getResources().getString(R.string.txt_pin_correct));
+                finish();
             }
         } else {
             tvMessagePin.setText(getResources().getString(R.string.txt_pin_error));

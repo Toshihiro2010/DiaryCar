@@ -4,12 +4,12 @@ package com.stecon.patipan_on.diarycar.database;
  * Created by patipan_on on 11/30/2017.
  */
 
-public class DatabaseTripCost {
+public class DatabasePriceCost {
 
     public static final String TABLE_NAME = "TRIP_COST";
 
     public static final String COL_ID = "_id";
-    public static final String COL_TRIP_ID = "trip_id";
+    public static final String COL_LICENSE_PLATE = "license_plate";
     public static final String COL_PRICE_TYPE = "price_type";
     public static final String COL_PRICE_TITLE = "title";
     public static final String COL_PRICE_MONEY = "money";
@@ -23,7 +23,7 @@ public class DatabaseTripCost {
 
     public static String strSqlCreate = "CREATE TABLE " + TABLE_NAME
             + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COL_TRIP_ID + " INTEGER,"
+            + COL_LICENSE_PLATE + " TEXT,"
             + COL_PRICE_TYPE + " TEXT,"
             + COL_PRICE_TITLE + " TEXT,"
             + COL_PRICE_MONEY + " REAL,"
