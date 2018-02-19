@@ -31,6 +31,8 @@ public class PriceAllActivity extends AppCompatActivity implements View.OnClickL
 
     private String licensePlate;
 
+    private int current_position = -1;
+
 
     @Override
 
@@ -49,11 +51,18 @@ public class PriceAllActivity extends AppCompatActivity implements View.OnClickL
 
 
         onSetUpFloatAction();
-
         CustomViewPagerAdapter customViewPagerAdapter = new CustomViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(customViewPagerAdapter);
 
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+//        if (current_position != -1) {
+//            viewPager.setCurrentItem(current_position);
+//        }
     }
 
     private void onSetUpFloatAction() {
@@ -94,5 +103,11 @@ public class PriceAllActivity extends AppCompatActivity implements View.OnClickL
             startActivity(intent);
 
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        current_position = viewPager.getCurrentItem();
     }
 }

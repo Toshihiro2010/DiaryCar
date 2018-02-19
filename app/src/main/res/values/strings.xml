@@ -129,6 +129,7 @@
     <string name="message_data_correct">Data is Correct</string>
     <string name="message_title_change_car">เปลี่ยนรถ</string>
     <string name="message_change_car">คุณต้องการเปลี่ยนรถใช่หรือไม่</string>
+    <string name="message_title_add_permission">อนุญาติเข้าถึงตำแหน่ง GPS</string>
 
 
     <string-array name="oil_array">
@@ -180,6 +181,9 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_cus_tom_test_main">CusTomTestMainActivity</string>
+    <string name="title_activity_setting_new">SettingNewActivity</string>
+    <string name="title_activity_main_new">MainNewActivity</string>
+    <string name="title_activity_custom_menu_test">CustomMenuTestActivity</string>
 
 
 </resources>

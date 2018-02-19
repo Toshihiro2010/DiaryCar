@@ -70,17 +70,22 @@
             android:name=".PriceAllActivity"
             android:label="@string/title_activity_price_all2"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".Main2Activity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".MainActivity3"
-            android:label="@string/title_activity_main3" />
+
         <activity
             android:name=".CusTomTestMainActivity"
             android:label="@string/title_activity_cus_tom_test_main"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SettingNewActivity"
+            android:label="@string/title_activity_setting_new"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".MainNewActivity"
+            android:label="@string/title_activity_main_new"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".CustomMenuTestActivity"
+            android:label="@string/title_activity_custom_menu_test"></activity>
     </application>
 
 </manifest>

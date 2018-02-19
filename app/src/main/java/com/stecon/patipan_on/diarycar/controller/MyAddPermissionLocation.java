@@ -43,26 +43,49 @@ public class MyAddPermissionLocation {
         int locationCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION);
         if (locationCheck != PackageManager.PERMISSION_GRANTED) {
             if (!ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                showMessageOKCancel("you need to allow accrss to GPS", new DialogInterface.OnClickListener() {
+//                showMessageOKCancel("you need to allow accrss to GPS", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        ActivityCompat.requestPermissions((Activity) context,
+//                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+//                                MyAddPermissionLocation.REQUEST_CODE_ASK_PERMISSIONS);
+//                        dialog.dismiss();
+//                        statusLocation = true;
+//                        if (onCustomClickDialog != null) {
+//                            onCustomClickDialog.onPositiveMyDialog();
+//                        }
+//
+//                    }
+//                }, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        if (onCustomClickDialog != null) {
+//                            onCustomClickDialog.onNegativeMyDialog();
+//                        }
+//                        dialog.dismiss();
+//                    }
+//                });
+                CustomAlertDialog customAlertDialog = new CustomAlertDialog(context, context.getResources().getString(R.string.message_title_add_permission), "you need to allow accrss to GPS");
+                customAlertDialog.myDefaultDialog();
+                customAlertDialog.show();
+                customAlertDialog.setOnMyDialogActivity(new CustomAlertDialog.OnMyDialogActivity() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onMyDialogPositive() {
                         ActivityCompat.requestPermissions((Activity) context,
                                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                 MyAddPermissionLocation.REQUEST_CODE_ASK_PERMISSIONS);
-                        dialog.dismiss();
+
                         statusLocation = true;
                         if (onCustomClickDialog != null) {
                             onCustomClickDialog.onPositiveMyDialog();
                         }
-
                     }
-                }, new DialogInterface.OnClickListener() {
+
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onMyDialogNegative() {
                         if (onCustomClickDialog != null) {
                             onCustomClickDialog.onNegativeMyDialog();
                         }
-                        dialog.dismiss();
                     }
                 });
 
@@ -81,11 +104,12 @@ public class MyAddPermissionLocation {
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener noListener) {
 
         new AlertDialog.Builder(context)
+                .setTitle(context.getResources().getString(R.string.message_title_add_permission))
                 .setMessage(message)
                 .setPositiveButton(context.getResources().getString(R.string.ok), okListener)
                 .setNegativeButton(context.getResources().getString(R.string.cancel), noListener)
-                .create()
                 .show();
+
     }
 
     public interface OnCustomClickDialog {

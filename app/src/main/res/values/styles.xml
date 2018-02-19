@@ -16,6 +16,8 @@
         <item name="android:alertDialogStyle">@style/AlertDialogCustomTheme</item>
         <item name="android:alertDialogTheme">@style/AlertDialogCustomTheme</item>
 
+        <item name="android:itemBackground">@color/box_custom_background</item>
+
 
     </style>
 
@@ -43,14 +45,6 @@
         <item name="editTextColor">@color/text_default_color</item>
         <item name="android:textColor">@color/text_default_color</item>
     </style>
-
-    <!--<style name="EditTextCustomTheme2" parent="Widget.AppCompat.EditText">-->
-    <!--<item name="android:textColorHint">@color/common_signin_btn_dark_text_disabled</item>-->
-    <!--<item name="editTextColor">@color/text_default_color</item>-->
-    <!--<item name="android:textColor">@color/text_default_color</item>-->
-    <!--</style>-->
-
-    <!--<style name="SwitchCustomTheme" parent=""-->
 
     <style name="TextViewCustomTheme" parent="Widget.AppCompat.TextView.SpinnerItem">
         <item name="android:textColor">@color/text_default_color</item>

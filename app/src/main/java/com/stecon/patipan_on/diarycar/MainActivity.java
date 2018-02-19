@@ -13,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -29,21 +31,15 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, MyLocationFirst.OnNextLocationFunction, CustomAlertDialog.OnMyDialogActivity {
 
-    private Button btnGoDiary;
-    private Button btnGoOil;
-    private Button btnGoService;
-    private TextView tvMainLicensePlate;
-    private Button btnGoExit;
-    private Button btnEng;
-    private Button btnThai;
 
+    //private TextView tvMainLicensePlate;
 
     private String strLicensePlate;
     private String strLanguage;
 
     private ImageButton imgVehicleJournal;
     private ImageButton imgPriceJournal;
-    private ImageButton imgSetting;
+    //private ImageButton imgSetting;
     private ImageButton imgChangeCar;
 
     private SharedPreferences sharedPreferences;
@@ -54,12 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-//        toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        toolbar.setTitle("MainMenu");
-//
-//        setSupportActionBar(toolbar);
-
+        setContentView(R.layout.activity_main_new);
 
         Bundle bundle = savedInstanceState;
         bindWidGet();
@@ -67,12 +58,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
+
         myOnClick();
         if (isNetworkAvailable()) {
             Log.d("Internet => ", "Conntected");
         } else {
             Log.d("Internet => ", "No Conncet");
         }
+
+    }
+
+    private void mySetToolbar() {
+        toolbar.setTitle("Main");
+        toolbar.setSubtitle(strLicensePlate);
+        setSupportActionBar(toolbar);
 
     }
 
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 //        toolbar.setSubtitle(strLicensePlate);
-        tvMainLicensePlate.setText(strLicensePlate);
+        //tvMainLicensePlate.setText(strLicensePlate);
     }
 
     @Override
@@ -110,13 +109,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Bundle bundle = new Bundle();
             onDestroy();
             onCreate(null);
-//            onSaveInstanceState(bundle);
-//            onRestoreInstanceState(bundle);
         } else {
             Log.d("str_lang => ", "empty");
         }
 
         onCustomSetLicensePlate();
+        mySetToolbar();
 
 
 
@@ -126,6 +124,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("sqLiteDatabase => ", sqLiteDatabase + " ");
 
         //onCheckPinFirst();
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+
 
     }
 
@@ -148,19 +169,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void bindWidGet() {
 
-        tvMainLicensePlate = (TextView) findViewById(R.id.tvMainLicensePlate);
-
+        //tvMainLicensePlate = (TextView) findViewById(R.id.tvMainLicensePlate);
         imgVehicleJournal = (ImageButton) findViewById(R.id.imgVehicleJournal);
         imgPriceJournal = (ImageButton) findViewById(R.id.imgPriceJournal);
         imgChangeCar = (ImageButton) findViewById(R.id.imgChangeCar);
-        imgSetting = (ImageButton) findViewById(R.id.imgSettingMain);
+        //imgSetting = (ImageButton) findViewById(R.id.imgSettingMain);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbarMain);
+
     }
 
     private void myOnClick() {
         imgVehicleJournal.setOnClickListener(this);
         imgPriceJournal.setOnClickListener(this);
         imgChangeCar.setOnClickListener(this);
-        imgSetting.setOnClickListener(this);
+        //imgSetting.setOnClickListener(this);
 
 
     }
@@ -176,10 +199,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(getApplicationContext(), PriceAllActivity.class);
             startActivity(intent);
 
-        } else if (v == imgSetting) {
-            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
-            startActivity(intent);
-        } else if (v == imgChangeCar) {
+        }
+// else if (v == imgSetting) {
+//            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+//            startActivity(intent);
+//        }
+        else if (v == imgChangeCar) {
             onExit();
         }
     }
@@ -213,14 +238,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         Log.d("activity => ", " onSaveInstanceState");
-        outState.putString("license_plate", tvMainLicensePlate.getText().toString().trim());
+        //outState.putString("license_plate", tvMainLicensePlate.getText().toString().trim());
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         Log.d("activity => ", " restore");
-        tvMainLicensePlate.setText(savedInstanceState.getString("license_plate"));
+        //tvMainLicensePlate.setText(savedInstanceState.getString("license_plate"));
 
     }
 

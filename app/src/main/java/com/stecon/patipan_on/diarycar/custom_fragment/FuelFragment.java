@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class FuelFragment extends Fragment {
     private SQLiteDatabase sqLiteDatabase ;
     private FuelDataQuerySQLIte fuelDataQuerySQLIte;
     private ArrayList<OilDataModel> oilDataModelArrayList;
+    private String licensePlate;
 
 
     public FuelFragment() {
@@ -46,6 +48,7 @@ public class FuelFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d("fragment => ", "onCreateView");
 
         View rootView = inflater.inflate(R.layout.fragment_fuel, container, false);
         fuelRecycleView = (RecyclerView) rootView.findViewById(R.id.fuelRecycleViewInFragment);
@@ -61,64 +64,82 @@ public class FuelFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        onSetQuery();
+        Log.d("fragment => ", "onViewCreated");
+
     }
 
     private void onSetQuery() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
-        String licensePlate = sharedPreferences.getString(MyAppConfig.licensePlate, "");
+        licensePlate = sharedPreferences.getString(MyAppConfig.licensePlate, "");
         if (licensePlate.equals("")) {
             return;
         }
+
         oilDataModelArrayList = fuelDataQuerySQLIte.getDataFuelFromSqlite(licensePlate);
         if (oilDataModelArrayList != null) {
             OilAdapter oilAdapter = new OilAdapter(getActivity(),oilDataModelArrayList);
             fuelRecycleView.setAdapter(oilAdapter);
         }
+
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Log.d("fragment => ", "onActivityCreated");
+
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Log.d("fragment => ", "onAttach");
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        Log.d("fragment => ", "onStart");
+        onSetQuery();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("fragment => ", "onResume");
+
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        Log.d("fragment => ", "onPause");
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        Log.d("fragment => ", "onStop");
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        Log.d("fragment => ", "onDestroyView");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d("fragment => ", "onDestroy");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        Log.d("fragment => ", "onDetach");
     }
 }

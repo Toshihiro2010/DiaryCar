@@ -10,6 +10,7 @@ import android.os.Build;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -46,6 +47,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     private RadioButton radioEng;
     private RadioButton radioThai;
 
+    private Toolbar toolbar;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -54,17 +56,18 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     private String strEng = "EN";
     private String strThai = "TH";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
+        setContentView(R.layout.activity_setting_new);
         sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
         bindWidGet();
         setOnClick();
-
-
+        toolbar.setTitle(getResources().getString(R.string.title_setting));
+        setSupportActionBar(toolbar);
 
 //        SyncData syncData = new SyncData();
 //        syncData.execute();
@@ -104,6 +107,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         radioEng = (RadioButton) findViewById(R.id.radioEng);
         radioThai = (RadioButton) findViewById(R.id.radioThai);
         imgChangePin = (ImageButton) findViewById(R.id.imgChangePin);
+        toolbar = (Toolbar) findViewById(R.id.toolbarSetting);
     }
 
     @Override
