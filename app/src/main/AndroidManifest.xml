@@ -20,7 +20,7 @@
             android:value="@integer/google_play_services_version"
             tools:replace="android:value" />
 
-        <activity android:name=".VerifiedActivity">
+        <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -81,7 +81,7 @@
         <activity
             android:name=".CustomMenuTestActivity"
             android:label="@string/title_activity_custom_menu_test" />
-        <activity android:name=".SplashScreen"></activity>
+        <activity android:name=".VerifiedActivity"></activity>
     </application>
 
 </manifest>

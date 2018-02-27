@@ -56,6 +56,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     private String strEng = "EN";
     private String strThai = "TH";
 
+    public static final int REQUEST_CODE = 301;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,5 +228,10 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         editor.commit();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        super.onBackPressed();
+    }
 }

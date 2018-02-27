@@ -19,11 +19,10 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
 
     private String strLicensePlate;
 
-
-
-
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+
+    public static final int REQUEST_CODE = 201;
 
 
     @Override
@@ -46,8 +45,8 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void binWidGet() {
-        edtLicensePlate = (EditText) findViewById(R.id.edtLicensePlate);
-        btnGoMain = (Button) findViewById(R.id.btnGoMain);
+        edtLicensePlate =  findViewById(R.id.edtLicensePlate);
+        btnGoMain =  findViewById(R.id.btnGoMain);
     }
 
     @Override
@@ -60,6 +59,9 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
                 mySharePreferences();
 //                Intent intent = new Intent(LicensePlateActivity.this, MainActivity.class);
 //                startActivity(intent);
+                Intent intent = new Intent();
+                intent.putExtra(MyAppConfig.licensePlate, strLicensePlate);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         }
@@ -68,6 +70,13 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
     private void mySharePreferences() {
         editor.putString(MyAppConfig.licensePlate, strLicensePlate);
         editor.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        setResult(RESULT_CANCELED, intent);
+        super.onBackPressed();
 
     }
 }

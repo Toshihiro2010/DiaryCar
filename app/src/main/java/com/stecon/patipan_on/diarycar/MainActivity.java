@@ -64,6 +64,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            Log.d("Internet => ", "No Conncet");
 //        }
 
+
+        //onCustomSetLicensePlate();
+
+
+        myCustomConnectActivity();
+
+    }
+
+    private void myCustomConnectActivity() {
+        String pincode = PinCodeStatic.getPinNumber();
+        if (pincode == null) {
+            Intent intent = new Intent(MainActivity.this, PinCodeActivity.class);
+            intent.putExtra(PinCodeActivity.PIN_MODE, 0);
+            startActivityForResult(intent, PinCodeActivity.REQUEST_CODE);
+            //startActivity(intent);
+        }
     }
 
     private void mySetToolbar() {
@@ -79,14 +95,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (strLicensePlate.equals("")) {
             strLicensePlate = getResources().getString(R.string.message_no_license_plate);
             Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
-            startActivity(intent);
-        }else{
+            startActivityForResult(intent, LicensePlateActivity.REQUEST_CODE);
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    private void myCustomLanguageMainApp() {
         strLanguage = sharedPreferences.getString(MyAppConfig.language_app, "");
         Log.d("str_lang => ", strLanguage);
         Log.d("onStart => ", "onStart");
@@ -106,9 +119,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             Log.d("str_lang => ", "empty");
         }
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("activity => ", "onStart");
         onCustomSetLicensePlate();
         mySetToolbar();
+//        Log.d("str_lang => ", strLanguage);
+//        Log.d("onStart => ", "onStart");
+//        if (strLanguage != "") {
+//            Locale locale = new Locale(strLanguage);
+//            Resources resources = getResources();
+//            Configuration configuration = new Configuration();
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+//                configuration.setLocale(locale);
+//            } else {
+//                configuration.locale = locale;
+//            }
+//            getResources().updateConfiguration(configuration, resources.getDisplayMetrics());
+//            Bundle bundle = new Bundle();
+//            onDestroy();
+//            onCreate(null);
+//        } else {
+//            Log.d("str_lang => ", "empty");
+//        }
 
         //onCheckPinFirst();
     }
@@ -127,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent = new Intent(MainActivity.this, SettingActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, SettingActivity.REQUEST_CODE);
             return true;
         }
 
@@ -157,9 +193,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void bindWidGet() {
 
         //tvMainLicensePlate = (TextView) findViewById(R.id.tvMainLicensePlate);
-        imgVehicleJournal = (ImageButton) findViewById(R.id.imgVehicleJournal);
-        imgPriceJournal = (ImageButton) findViewById(R.id.imgPriceJournal);
-        imgChangeCar = (ImageButton) findViewById(R.id.imgChangeCar);
+        imgVehicleJournal =  findViewById(R.id.imgVehicleJournal);
+        imgPriceJournal =  findViewById(R.id.imgPriceJournal);
+        imgChangeCar =  findViewById(R.id.imgChangeCar);
         //imgSetting = (ImageButton) findViewById(R.id.imgSettingMain);
 
         toolbar = (Toolbar) findViewById(R.id.toolbarMain);
@@ -235,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor.remove(MyAppConfig.licensePlate);
         editor.commit();
         Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, LicensePlateActivity.REQUEST_CODE);
         //finish();
     }
 
@@ -244,15 +280,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private String data_temp;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PinCodeActivity.REQUEST_CODE || resultCode == RESULT_OK) {
 
-            data_temp = data.getStringExtra(PinCodeActivity.PIN_RESULT);
-            //Toast.makeText(this, data_temp, Toast.LENGTH_SHORT).show();
+        //resulut_ok = -1 , result_cancel = 0
+
+        Log.d("27/2/2018 => ", "code :" + requestCode + " / resultcode :" + resultCode);
+        if (requestCode == PinCodeActivity.REQUEST_CODE ) { // mode pin apply result
+            if (resultCode == RESULT_OK) {
+                String pinForResult = data.getStringExtra(PinCodeActivity.PIN_RESULT);
+                PinCodeStatic.setPinNumber(pinForResult);
+                //onCustomSetLicensePlate();
+                //mySetToolbar();
+            } else if (resultCode == RESULT_CANCELED) {
+                finish();
+            }
+        }
+
+        if (requestCode == LicensePlateActivity.REQUEST_CODE) {
+            if (resultCode == RESULT_CANCELED) {
+                PinCodeStatic.setPinNumber(null);
+                finish();
+            } else if (requestCode == RESULT_OK) {
+                String licensePlateForResult = data.getStringExtra(MyAppConfig.licensePlate);
+                Log.d("licenseResult => ", licensePlateForResult);
+            }
+        }
+
+        if (requestCode == SettingActivity.REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                myCustomLanguageMainApp();
+                Log.d("activity => ", "onActivityResult");
+            }
         }
 
     }
@@ -261,5 +322,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onBackPressed() {
         super.onBackPressed();
         PinCodeStatic.setPinNumber(null);
+
     }
+
+
 }

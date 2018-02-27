@@ -99,13 +99,39 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
                 strEmployeeNumber = bundle.getString(MyAppConfig.employee_id);
             }else{
                 Toast.makeText(this, "Program Error", Toast.LENGTH_SHORT).show();
+                finish();
+
             }
             tvMessagePin.setText(getResources().getString(R.string.txt_pin_add_input));
         } else if (mode == pin_change) {
             tvMessagePin.setText(getResources().getString(R.string.txt_pin_new));
         } else if (mode == pin_apply) {
             tvMessagePin.setText(getResources().getString(R.string.txt_pin_input));
+            onIninitPin();
         }
+    }
+
+    private void onIninitPin() {
+        String pin = sharedPreferences.getString(MyAppConfig.pin_code, "");
+        Log.d("pin => ", pin);
+        if (!pin.equals("")) {
+            if (pin.length() == 4) {
+                for (int i = 0; i < pin.length(); i++) {
+                    pinResult[i] = pin.charAt(i);
+                }
+            } else {
+                Log.d("pin => ", " Pin Not From :" + pin);
+                //finish();
+            }
+        } else { // value is PinCodeStatic is Not value
+
+            if (pin.length() == 4) {
+                for (int i = 0; i < pin.length(); i++) {
+                    pinResult[i] = pin.charAt(i);
+                }
+            }
+        }
+
     }
 
 //    private void myTestPinCustomResult() {//TODO งงในงง เขียนไรวะ
@@ -357,10 +383,11 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onBackPressed() {
         if (mode == pin_apply) {
-            Toast.makeText(this, "Please in put Pin Code", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent();
+            setResult(RESULT_CANCELED, intent);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
         }
-        //super.onBackPressed();
+        super.onBackPressed();
     }
 }

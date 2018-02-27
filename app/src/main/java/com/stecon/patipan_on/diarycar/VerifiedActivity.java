@@ -15,6 +15,7 @@ import android.widget.Button;
 
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import okhttp3.Response;
 
 import com.google.gson.Gson;
 import com.stecon.patipan_on.diarycar.model.MyDateTimeModify;
+import com.stecon.patipan_on.diarycar.model.PinCodeStatic;
 import com.stecon.patipan_on.diarycar.model.UserByEmpNoModel;
 
 
@@ -43,9 +45,8 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
     private EditText edtIdCard;
     private TextView txtDate;
 
-    private Button btnSelectDate;
     private Button btnVerified;
-
+    private ImageButton imgBtnSelectDate;
 
     private int mDay;
     private int mMonth;
@@ -71,9 +72,6 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
 
     private String strEmployeeName;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +92,7 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void mySetOnclick() {
-        btnSelectDate.setOnClickListener(this);
+        imgBtnSelectDate.setOnClickListener(this);
         btnVerified.setOnClickListener(this);
     }
 
@@ -104,13 +102,13 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
         edtIdCard =  findViewById(R.id.edtIdCard);
         txtDate =  findViewById(R.id.txtDate);
         btnVerified =  findViewById(R.id.btnVerified);
-        btnSelectDate =  findViewById(R.id.btnSelectDate);
+        imgBtnSelectDate = findViewById(R.id.imgBtnVerifiedDate);
 
     }
 
     @Override
     public void onClick(View v) {
-        if (v == btnSelectDate) {
+        if (v == imgBtnSelectDate) {
             mySetDate();
         } else if (v == btnVerified) {
             //Toast.makeText(this, "click => Verified", Toast.LENGTH_SHORT).show();
@@ -137,7 +135,6 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(this, getResources().getString(R.string.message_id_card_wrong), Toast.LENGTH_SHORT).show();
             }
         }
-
     }
 
 //    private void checkDataToServer(String strDate) {
@@ -325,11 +322,11 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PinCodeActivity.REQUEST_CODE || resultCode == RESULT_OK) {
             String pinForResult = data.getStringExtra(PinCodeActivity.PIN_RESULT);
-            Toast.makeText(this, "PinForResult => " + pinForResult, Toast.LENGTH_SHORT).show();
+
+            PinCodeStatic.setPinNumber(pinForResult);
 
             MyDbHelper myDbHelper = new MyDbHelper(VerifiedActivity.this);
             SQLiteDatabase sqLiteDatabase = myDbHelper.getWritableDatabase();
-
             ContentValues contentValues = new ContentValues();
             contentValues.put(DatabaseUser.COL_EMPLOYEE_ID, strMemberID);
             contentValues.put(DatabaseUser.COL_EMPLOYEE_NAME, strEmployeeName);
@@ -338,7 +335,6 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
 
 
             sqLiteDatabase.insert(DatabaseUser.TABLE_NAME, null, contentValues);
-
             editor.putString(MyAppConfig.employee_id, strMemberID);
             editor.commit();
             Intent intent = new Intent(VerifiedActivity.this, MainActivity.class);
