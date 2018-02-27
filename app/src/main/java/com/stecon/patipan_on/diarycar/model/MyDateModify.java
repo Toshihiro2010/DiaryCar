@@ -98,7 +98,6 @@ public class MyDateModify {
         dateTime[0] = day;
         dateTime[1] = time;
 
-
         return dateTime;
     }
 

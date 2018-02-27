@@ -72,6 +72,9 @@ public class MyLocationFirst {
                     });
 
         } else {
+            if (onNextLocationFunction != null) {
+                onNextLocationFunction.onErrorNotFindGps();
+            }
             Log.d("GPS=>", "you should allow GPS");
         }
     }
@@ -119,11 +122,12 @@ public class MyLocationFirst {
 
     public interface OnNextLocationFunction {
         void onStartNextFunction();
+        void onErrorNotFindGps();
 
 
     }
 
-    public void registerOnNextLocationFunction(OnNextLocationFunction listener) {
+    public void setListennerNextLocationFunction(OnNextLocationFunction listener) {
         this.onNextLocationFunction = listener;
     }
 

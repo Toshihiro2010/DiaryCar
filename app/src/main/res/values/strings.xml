@@ -81,9 +81,10 @@
     <string name="tip_location_name">สถานที่เริ่มการเดินทาง</string>
     <string name="btn_start_trip">เริ่มเดินทาง</string>
 
+
     carTripMain
     <string name="btn_price_other">ค่าใช้จ่ายในการเดินทาง</string>
-    <string name="btn_end_trp">สิ้นสุดการเดินทาง</string>
+    <string name="btn_end_trip">สิ้นสุดการเดินทาง</string>
 
     endTrip
     <string name="default_dialog_title">End Trip</string>
@@ -130,6 +131,7 @@
     <string name="message_title_change_car">เปลี่ยนรถ</string>
     <string name="message_change_car">คุณต้องการเปลี่ยนรถใช่หรือไม่</string>
     <string name="message_title_add_permission">อนุญาติเข้าถึงตำแหน่ง GPS</string>
+    <string name="message_trip_on_start">กำลังเดินทาง</string>
 
 
     <string-array name="oil_array">
@@ -184,6 +186,7 @@
     <string name="title_activity_setting_new">SettingNewActivity</string>
     <string name="title_activity_main_new">MainNewActivity</string>
     <string name="title_activity_custom_menu_test">CustomMenuTestActivity</string>
+    <string name="title_main">Main</string>
 
 
 </resources>

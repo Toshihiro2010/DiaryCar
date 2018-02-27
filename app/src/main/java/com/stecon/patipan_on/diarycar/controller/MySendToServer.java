@@ -24,7 +24,12 @@ import com.stecon.patipan_on.diarycar.model.ServiceRecordModel;
 import com.stecon.patipan_on.diarycar.model.PriceCostModel;
 import com.stecon.patipan_on.diarycar.model.TripDetailModel;
 
+import org.xml.sax.XMLReader;
+
+import java.io.InputStream;
 import java.util.ArrayList;
+
+import javax.xml.parsers.SAXParserFactory;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -150,6 +155,8 @@ public class MySendToServer {
 
             try {
                 Response response = client.newCall(request).execute();
+                XMLReader xmlReader = (XMLReader) SAXParserFactory.newInstance().newSAXParser();
+
                 Log.d("response => ", response.body().toString());
                 return response.body().string();
             } catch (Exception e) {
@@ -347,7 +354,7 @@ public class MySendToServer {
                 Double departure_odometer = cursorTripDetail.getDouble(cursorTripDetail.getColumnIndex(DatabaseTripDetail.COL_DEPARTURE_ODOMETER));
                 Double departure_latitude = cursorTripDetail.getDouble(cursorTripDetail.getColumnIndex(DatabaseTripDetail.COL_DEPARTURE_LATITUDE));
                 Double departure_longitude = cursorTripDetail.getDouble(cursorTripDetail.getColumnIndex(DatabaseTripDetail.COL_DEPARTURE_LONGITUDE));
-                Double departure_location_name = cursorTripDetail.getDouble(cursorTripDetail.getColumnIndex(DatabaseTripDetail.COL_DEPARTURE_LOCATION_NAME));
+                String departure_location_name = cursorTripDetail.getString(cursorTripDetail.getColumnIndex(DatabaseTripDetail.COL_DEPARTURE_LOCATION_NAME));
                 String arrival_date = cursorTripDetail.getString(cursorTripDetail.getColumnIndex(DatabaseTripDetail.COL_ARRIVAL_DATETIME));
                 Double arrival_odometer = cursorTripDetail.getDouble(cursorTripDetail.getColumnIndex(DatabaseTripDetail.COL_ARRIVAL_ODOMETER));
                 Double arrival_latitude = cursorTripDetail.getDouble(cursorTripDetail.getColumnIndex(DatabaseTripDetail.COL_ARRIVAL_LATITUDE));

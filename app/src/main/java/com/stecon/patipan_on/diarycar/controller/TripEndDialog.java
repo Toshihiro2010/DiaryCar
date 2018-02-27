@@ -9,9 +9,11 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -33,8 +35,12 @@ public class TripEndDialog implements View.OnClickListener {
     private Context context;
     private TextView tvArrivalDate;
     private TextView tvArrivalTime;
-    private Button btnSelectDate;
-    private Button btnSelectTime;
+    //    private Button btnSelectDate;
+    //    private Button btnSelectTime;
+    private ImageButton imgBtnArrivalSelectDate;
+    private ImageButton imgBtnArrivalSelectTime;
+
+
     private EditText edtArrivalParkingLocation;
     private EditText edtArrivalOdometer;
     private EditText edtTripNote;
@@ -61,24 +67,32 @@ public class TripEndDialog implements View.OnClickListener {
     private OnNextListener onNextListener = null;
 
 
+
     public TripEndDialog(Context context) {
         this.context = context;
         dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.custom_trip_dialog);
-        dialog.setTitle(context.getResources().getString(R.string.default_dialog_title));
+        dialog.setCancelable(false);
+
+        //dialog.setTitle(context.getResources().getString(R.string.default_dialog_title));
 
         tvArrivalDate = (TextView) dialog.findViewById(R.id.tvArrivalDate);
         tvArrivalTime = (TextView) dialog.findViewById(R.id.tvArrivalTime);
-        btnSelectDate = (Button) dialog.findViewById(R.id.btnArrivalSelectDate);
-        btnSelectTime = (Button) dialog.findViewById(R.id.btnArrivalSelectTime);
+
+        imgBtnArrivalSelectDate = (ImageButton) dialog.findViewById(R.id.imgBtnArrivalSelectDate);
+        imgBtnArrivalSelectTime = (ImageButton) dialog.findViewById(R.id.imgBtnArrivalSelectTime);
+
         edtArrivalParkingLocation = (EditText) dialog.findViewById(R.id.edtArrivalParkingLocation);
         edtArrivalOdometer = (EditText) dialog.findViewById(R.id.edtArrivalOdometer);
         edtTripNote = (EditText) dialog.findViewById(R.id.edtEndNote);
         btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
         btnOk = (Button) dialog.findViewById(R.id.btnOk);
 
-        btnSelectDate.setOnClickListener(this);
-        btnSelectTime.setOnClickListener(this);
+        imgBtnArrivalSelectTime.setOnClickListener(this);
+        imgBtnArrivalSelectDate.setOnClickListener(this);
+
+
         btnCancel.setOnClickListener(this);
         btnOk.setOnClickListener(this);
 
@@ -137,19 +151,16 @@ public class TripEndDialog implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v == btnSelectDate) {
+        if (v == imgBtnArrivalSelectDate) {
             onSelectDate();
-
-        } else if (v == btnSelectTime) {
+        } else if (v == imgBtnArrivalSelectTime) {
             onSelectTime();
-
         } else if (v == btnCancel) {
             dialog.dismiss();
             Toast.makeText(context, context.getResources().getString(R.string.cancel), Toast.LENGTH_SHORT).show();
         } else if (v == btnOk) {
             onDialogOk();
         }
-
 
     }
 
@@ -168,12 +179,17 @@ public class TripEndDialog implements View.OnClickListener {
         arrivalOdometerDouble = Double.valueOf(strArrivalOdometer);
         myLocationFirst = new MyLocationFirst(context);
         myLocationFirst.onLocationStart();
-        myLocationFirst.registerOnNextLocationFunction(new MyLocationFirst.OnNextLocationFunction() {
+        myLocationFirst.setListennerNextLocationFunction(new MyLocationFirst.OnNextLocationFunction() {
             @Override
             public void onStartNextFunction() {
                 latitude = myLocationFirst.getLatitude();
                 longitude = myLocationFirst.getLongitude();
                 onSqlUpdate();
+            }
+
+            @Override
+            public void onErrorNotFindGps() {
+                Toast.makeText(context, "You Should Allow GPS", Toast.LENGTH_SHORT).show();
             }
         });
     }

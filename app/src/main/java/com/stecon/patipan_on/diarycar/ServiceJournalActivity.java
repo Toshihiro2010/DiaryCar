@@ -263,7 +263,7 @@ public class ServiceJournalActivity extends AppCompatActivity implements MyAddPe
     @Override
     public void onNewNextFunction() {
         myLocationFirst = new MyLocationFirst(ServiceJournalActivity.this);
-        myLocationFirst.registerOnNextLocationFunction(ServiceJournalActivity.this);
+        myLocationFirst.setListennerNextLocationFunction(ServiceJournalActivity.this);
         myLocationFirst.onLocationStart();
     }
 
@@ -286,6 +286,12 @@ public class ServiceJournalActivity extends AppCompatActivity implements MyAddPe
         latitude = myLocationFirst.getLatitude();
         longitude = myLocationFirst.getLongitude();
         findLocationFromGps();
+    }
+
+    @Override
+    public void onErrorNotFindGps() {
+        onNegativeMyDialog();
+        Toast.makeText(this, "You Should Allow Gps", Toast.LENGTH_SHORT).show();
     }
 
     @Override

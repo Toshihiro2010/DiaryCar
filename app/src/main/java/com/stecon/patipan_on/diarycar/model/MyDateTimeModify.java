@@ -72,7 +72,6 @@ public class MyDateTimeModify {
     public String getStrTime() {
 
         String tempTime;
-
         if (minute < 10) {
             tempTime = 0 + String.valueOf(this.minute);
         } else {
@@ -83,15 +82,12 @@ public class MyDateTimeModify {
         return tempTime;
     }
 
+
     public String getDateTimeToserver() {
         String myDateTime = this.year + "-" + this.month + "-" + this.day + " " + hour + ":" + minute + ":00";
 
-
         return myDateTime;
     }
-
-
-
 
 
     public int getDay() {
@@ -135,7 +131,7 @@ public class MyDateTimeModify {
     }
 
 
-    public static String[] getStrsDateTimeFromSqlite(String str) {
+    public static String[] getStrDateTimeFromSqlite(String str) {
         String[] dateTime = new String[2];
 
         int myIndexOf = str.indexOf(" ");
@@ -146,5 +142,19 @@ public class MyDateTimeModify {
 
 
         return dateTime;
+    }
+
+    public static String getCustomMonthDateYear(String strDate) { // input MM/DD/YYYYY example 2/16/1995
+
+        int firstIndexOf = strDate.indexOf("/");
+        int lastIndexOf = strDate.lastIndexOf("/");
+
+        String day = strDate.substring(firstIndexOf + 1, lastIndexOf);
+        String month = strDate.substring(0, firstIndexOf);
+        String year = strDate.substring(lastIndexOf + 1);
+
+        String date = day + "/" + month + "/" + year;
+        Log.d("date => ", date);
+        return date;
     }
 }

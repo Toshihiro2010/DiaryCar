@@ -11,9 +11,8 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher_round"
+        android:icon="@drawable/sinothai"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
@@ -21,7 +20,7 @@
             android:value="@integer/google_play_services_version"
             tools:replace="android:value" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".VerifiedActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,7 +46,7 @@
             android:name=".PriceCostJournalActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".VerifiedActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".TripStartActivity"
@@ -66,11 +65,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".SettingActivity" />
         <activity android:name=".FuelActivityTest" />
-        <activity
-            android:name=".PriceAllActivity"
-            android:label="@string/title_activity_price_all2"
-            android:theme="@style/AppTheme" />
-
+        <activity android:name=".PriceAllActivity" />
         <activity
             android:name=".CusTomTestMainActivity"
             android:label="@string/title_activity_cus_tom_test_main"
@@ -85,7 +80,8 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".CustomMenuTestActivity"
-            android:label="@string/title_activity_custom_menu_test"></activity>
+            android:label="@string/title_activity_custom_menu_test" />
+        <activity android:name=".SplashScreen"></activity>
     </application>
 
 </manifest>

@@ -301,12 +301,17 @@ public class FuelActivityTest extends AppCompatActivity implements View.OnClickL
     private void myMainIsert() {
         myLocationFirst = new MyLocationFirst(this);
         myLocationFirst.onLocationStart();
-        myLocationFirst.registerOnNextLocationFunction(new MyLocationFirst.OnNextLocationFunction() {
+        myLocationFirst.setListennerNextLocationFunction(new MyLocationFirst.OnNextLocationFunction() {
             @Override
             public void onStartNextFunction() {
                 latitude = myLocationFirst.getLatitude();
                 longitude = myLocationFirst.getLongitude();
                 onInsertSQLite();
+            }
+
+            @Override
+            public void onErrorNotFindGps() {
+
             }
         });
     }

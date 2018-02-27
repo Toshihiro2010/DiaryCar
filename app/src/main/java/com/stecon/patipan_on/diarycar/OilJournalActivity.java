@@ -294,12 +294,18 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
     private void myMainInsert() {
         myLocationFirst = new MyLocationFirst(this);
         myLocationFirst.onLocationStart();
-        myLocationFirst.registerOnNextLocationFunction(new MyLocationFirst.OnNextLocationFunction() {
+        myLocationFirst.setListennerNextLocationFunction(new MyLocationFirst.OnNextLocationFunction() {
             @Override
             public void onStartNextFunction() {
                 latitude = myLocationFirst.getLatitude();
                 longitude = myLocationFirst.getLongitude();
                 onInsertSQLite();
+            }
+
+            @Override
+            public void onErrorNotFindGps() {
+                mySetEmptyText();
+                Toast.makeText(OilJournalActivity.this, "You Should Allow Gps", Toast.LENGTH_SHORT).show();
             }
         });
     }

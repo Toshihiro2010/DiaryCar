@@ -13,7 +13,7 @@ public class TripDetailModel {
     private Double departure_odometer;
     private Double departure_latitude;
     private Double departure_longitude;
-    private Double departure_location_name;
+    private String departure_location_name;
     private String arrival_date;
     private Double arrival_odometer;
     private Double arrival_latitude;
@@ -38,7 +38,7 @@ public class TripDetailModel {
             Double departure_odometer,
             Double departure_latitude,
             Double departure_longitude,
-            Double departure_location_name,
+            String departure_location_name,
             String arrival_date,
             Double arrival_odometer,
             Double arrival_latitude,
@@ -149,11 +149,11 @@ public class TripDetailModel {
         this.departure_longitude = departure_longitude;
     }
 
-    public Double getDeparture_location_name() {
+    public String getDeparture_location_name() {
         return departure_location_name;
     }
 
-    public void setDeparture_location_name(Double departure_location_name) {
+    public void setDeparture_location_name(String departure_location_name) {
         this.departure_location_name = departure_location_name;
     }
 

@@ -12,6 +12,9 @@ public class MyAppConfig {
     public static final String activity_code = "ActivityCode";
     public static final String language_app = "Language_app";
     public static final String pin_code = "pin_code";
+    public static final String employee_id = "employee_id";
+    public static final String employee_name = "employee_name";
+
 
     public static long num_trip_id = 0;
 

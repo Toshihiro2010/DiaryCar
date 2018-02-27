@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="colorButtonNormal">@color/default_color_button</item>
+        <item name="android:textColor">@color/text_default_color</item>
+
+        <item name="editTextStyle">@style/EditTextCustomTheme</item>
+        <item name="android:editTextStyle">@style/EditTextCustomTheme</item>
+        <item name="android:alertDialogStyle">@style/AlertDialogCustomTheme</item>
+        <item name="android:alertDialogTheme">@style/AlertDialogCustomTheme</item>
+
+        <item name="android:itemBackground">@color/box_custom_background</item>
+        <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogCustomTheme</item>
+        <item name="android:timePickerDialogTheme">@style/MyTimePickerDialogCustomTheme</item>
+
+
+    </style>
+
+    <style name="MyDatePickerDialogCustomTheme" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="android:color">#FFFFFF</item>
+        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="android:background">#000000</item>
+        <item name="colorAccent">#797979</item>
+    </style>
+
+    <style name="MyTimePickerDialogCustomTheme" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">#000000</item>
+        <item name="android:background">#000000</item>
+    </style>
+</resources>

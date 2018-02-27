@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
@@ -26,10 +27,11 @@ import com.stecon.patipan_on.diarycar.controller.MyLocationFirst;
 import com.stecon.patipan_on.diarycar.controller.MySendToServer;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.PinCodeStatic;
+import com.stecon.patipan_on.diarycar.model.TripDetailModel;
 
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, MyLocationFirst.OnNextLocationFunction, CustomAlertDialog.OnMyDialogActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, CustomAlertDialog.OnMyDialogActivity {
 
 
     //private TextView tvMainLicensePlate;
@@ -52,27 +54,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_new);
 
-        Bundle bundle = savedInstanceState;
         bindWidGet();
-
         sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-
-
         myOnClick();
-        if (isNetworkAvailable()) {
-            Log.d("Internet => ", "Conntected");
-        } else {
-            Log.d("Internet => ", "No Conncet");
-        }
+//        if (isNetworkAvailable()) {
+//            Log.d("Internet => ", "Conntected");
+//        } else {
+//            Log.d("Internet => ", "No Conncet");
+//        }
 
     }
 
     private void mySetToolbar() {
-        toolbar.setTitle("Main");
+        toolbar.setTitle(getResources().getString(R.string.title_main));
         toolbar.setSubtitle(strLicensePlate);
         setSupportActionBar(toolbar);
-
     }
 
 
@@ -84,10 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
             startActivity(intent);
         }else{
-
         }
-//        toolbar.setSubtitle(strLicensePlate);
-        //tvMainLicensePlate.setText(strLicensePlate);
     }
 
     @Override
@@ -116,15 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         onCustomSetLicensePlate();
         mySetToolbar();
 
-
-
-        MyDbHelper myDbHelper = new MyDbHelper(MainActivity.this);
-        SQLiteDatabase sqLiteDatabase = myDbHelper.getWritableDatabase();
-        Log.d("myDbHelper => ", myDbHelper.toString());
-        Log.d("sqLiteDatabase => ", sqLiteDatabase + " ");
-
         //onCheckPinFirst();
-
     }
 
     @Override
@@ -155,7 +141,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (pincode == null) {
             Intent intent = new Intent(MainActivity.this, PinCodeActivity.class);
             intent.putExtra(PinCodeActivity.PIN_MODE, 0);
-            startActivity(intent);
+            startActivityForResult(intent, PinCodeActivity.REQUEST_CODE);
+            //startActivity(intent);
         }
     }
 
@@ -184,8 +171,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imgPriceJournal.setOnClickListener(this);
         imgChangeCar.setOnClickListener(this);
         //imgSetting.setOnClickListener(this);
-
-
     }
 
     @Override
@@ -195,7 +180,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
 
         } else if (v == imgPriceJournal) {
-            //Intent intent = new Intent(getApplicationContext(), PriceAllActivity.class);
             Intent intent = new Intent(getApplicationContext(), PriceAllActivity.class);
             startActivity(intent);
 
@@ -214,8 +198,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void onExit() {
         String titleChangCar = this.getResources().getString(R.string.message_title_change_car);
         String messageChangCar = this.getResources().getString(R.string.message_change_car);
-
-
         CustomAlertDialog customAlertDialog = new CustomAlertDialog(MainActivity.this, titleChangCar, messageChangCar);
         customAlertDialog.myDefaultDialog();
         customAlertDialog.setOnMyDialogActivity(this);
@@ -227,12 +209,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mySendToServer.syncToServer();
 
     }
-
-    @Override
-    public void onStartNextFunction() {
-
-    }
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -260,11 +236,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor.commit();
         Intent intent = new Intent(MainActivity.this, LicensePlateActivity.class);
         startActivity(intent);
-        finish();
+        //finish();
     }
 
     @Override
     public void onMyDialogNegative() {
 
+    }
+
+    private String data_temp;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PinCodeActivity.REQUEST_CODE || resultCode == RESULT_OK) {
+
+            data_temp = data.getStringExtra(PinCodeActivity.PIN_RESULT);
+            //Toast.makeText(this, data_temp, Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        PinCodeStatic.setPinNumber(null);
     }
 }

@@ -93,7 +93,7 @@ public class ServiceListActivity extends AppCompatActivity {
                 String note = cursor.getString(cursor.getColumnIndex(DatabasePriceCost.COL_NOTE));
 
                 String temp_date = cursor.getString(cursor.getColumnIndex(DatabasePriceCost.COL_TRANSACTION_DATE));
-                String[] date = MyDateTimeModify.getStrsDateTimeFromSqlite(temp_date);
+                String[] date = MyDateTimeModify.getStrDateTimeFromSqlite(temp_date);
 
                 String create_date = cursor.getString(cursor.getColumnIndex(DatabaseServiceRecords.COL_DATE_CREATE));
                 String update_date = cursor.getString(cursor.getColumnIndex(DatabaseServiceRecords.COL_DATE_UPDATE));
