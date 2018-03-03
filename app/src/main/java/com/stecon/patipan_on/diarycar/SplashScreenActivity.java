@@ -48,7 +48,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                     Intent intent = new Intent(SplashScreenActivity.this, VerifiedActivity.class);
                     startActivity(intent);
                     finish();
-
                 } else {
                     if (!pin_code.equals("") && pin_code_static == null) {
                         Intent intent = new Intent(SplashScreenActivity.this, PinCodeActivity.class);
@@ -60,7 +59,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                         finish();
                     }
                 }
-
             }
         };
     }
@@ -71,8 +69,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         delay_time = time;
         handler.postDelayed(runnable, delay_time);
         time = System.currentTimeMillis();
-
-
     }
 
     @Override
@@ -92,7 +88,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                 Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
-
             }
         }
     }

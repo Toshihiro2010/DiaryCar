@@ -267,18 +267,13 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
                 String birthDateFromWebService = userByEmpNoModel.getUserFromWebServiceModel().getBirthDate();
                 String positionCode = userByEmpNoModel.getUserFromWebServiceModel().getPositionCode();
 
-
                 String birthDate[] = MyDateTimeModify.getStrDateTimeFromSqlite(birthDateFromWebService);
                 String dateCustomModify = MyDateTimeModify.getCustomMonthDateYear(birthDate[0]);
                 //Log.d("strDateShow => ", strDateShow);
 
 
                 if (strIdCard.equals(idCardFromWebService) && strDateShow.equals(dateCustomModify)) {
-
-
-                    Toast.makeText(VerifiedActivity.this, "ผ่าน ไปหน้าต่อไป :" + getPackageName(), Toast.LENGTH_SHORT).show();
                     onStartPinActivity();
-
                 } else {
                     Toast.makeText(VerifiedActivity.this, "Data ไม่ถูกต้อง", Toast.LENGTH_SHORT).show();
                 }
@@ -322,7 +317,6 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PinCodeActivity.REQUEST_CODE || resultCode == RESULT_OK) {
             String pinForResult = data.getStringExtra(PinCodeActivity.PIN_RESULT);
-
             PinCodeStatic.setPinNumber(pinForResult);
 
             MyDbHelper myDbHelper = new MyDbHelper(VerifiedActivity.this);
@@ -332,8 +326,6 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
             contentValues.put(DatabaseUser.COL_EMPLOYEE_NAME, strEmployeeName);
             contentValues.put(DatabaseUser.COL_PIN_CODE, pinForResult);
             contentValues.put(DatabaseUser.COL_STATUS, 1);
-
-
             sqLiteDatabase.insert(DatabaseUser.TABLE_NAME, null, contentValues);
             editor.putString(MyAppConfig.employee_id, strMemberID);
             editor.commit();

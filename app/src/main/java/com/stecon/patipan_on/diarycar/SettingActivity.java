@@ -56,7 +56,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     private String strEng = "EN";
     private String strThai = "TH";
 
-    public static final int REQUEST_CODE = 301;
+    public static final int REQUEST_CODE = 301; //apply
+    public static final int REQUEST_CODE_CHANGE = 302; //change
 
 
     @Override
@@ -73,6 +74,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
 //        SyncData syncData = new SyncData();
 //        syncData.execute();
+
     }
 
     @Override
@@ -103,13 +105,13 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void bindWidGet() {
-        btnEng = (Button) findViewById(R.id.btnToEng);
-        btnThai = (Button) findViewById(R.id.btnToThai);
-        radioLanguageGroup = (RadioGroup) findViewById(R.id.radioLanguageGroup);
-        radioEng = (RadioButton) findViewById(R.id.radioEng);
-        radioThai = (RadioButton) findViewById(R.id.radioThai);
-        imgChangePin = (ImageButton) findViewById(R.id.imgChangePin);
-        toolbar = (Toolbar) findViewById(R.id.toolbarSetting);
+        btnEng = findViewById(R.id.btnToEng);
+        btnThai = findViewById(R.id.btnToThai);
+        radioLanguageGroup = findViewById(R.id.radioLanguageGroup);
+        radioEng = findViewById(R.id.radioEng);
+        radioThai = findViewById(R.id.radioThai);
+        imgChangePin = findViewById(R.id.imgChangePin);
+        toolbar = findViewById(R.id.toolbarSetting);
     }
 
     @Override
@@ -122,7 +124,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             radioThai.setChecked(true);
         } else if (v == imgChangePin) {
             Intent intent = new Intent(SettingActivity.this, PinCodeActivity.class);
-            intent.putExtra(PinCodeActivity.PIN_MODE, 0);
+            intent.putExtra(PinCodeActivity.PIN_MODE, PinCodeActivity.pin_change);
             startActivity(intent);
 
         }
@@ -200,12 +202,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
         onDestroy();
         onCreate(null);
-
         editor.putString(MyAppConfig.language_app, strThai);
         editor.commit();
-
-
-
     }
 
     private void customEng() {

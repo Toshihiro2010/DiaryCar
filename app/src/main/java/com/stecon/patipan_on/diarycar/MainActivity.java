@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+            intent.putExtra(PinCodeActivity.PIN_MODE, PinCodeActivity.pin_change);
             startActivityForResult(intent, SettingActivity.REQUEST_CODE);
             return true;
         }
@@ -292,8 +293,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (resultCode == RESULT_OK) {
                 String pinForResult = data.getStringExtra(PinCodeActivity.PIN_RESULT);
                 PinCodeStatic.setPinNumber(pinForResult);
-                //onCustomSetLicensePlate();
-                //mySetToolbar();
+
             } else if (resultCode == RESULT_CANCELED) {
                 finish();
             }

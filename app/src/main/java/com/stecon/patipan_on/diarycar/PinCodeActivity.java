@@ -1,5 +1,6 @@
 package com.stecon.patipan_on.diarycar;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
+import com.stecon.patipan_on.diarycar.database.DatabaseUser;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 
 import java.util.ArrayList;
@@ -33,12 +35,15 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
     private int pinCheckCorrect = 0; //4 Correct
     private char pinResult[] = new char[pinSize];
 
+    private String parameter_apply = "";
+
 
     //private char pinTempAraay[] = new char[pinSize];
 
 
     private ArrayList<Character> pinCheckConfirm = new ArrayList<>();
     private ArrayList<Character> pinInput = new ArrayList<>();
+    private ArrayList<Character> pinOld = new ArrayList<>();
     private ArrayList<ImageView> imagePin = new ArrayList<>();
 
     private int mode = 0; //0 apply , 1 add , 3 change
@@ -98,13 +103,14 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
             if (bundle != null) {
                 strEmployeeNumber = bundle.getString(MyAppConfig.employee_id);
             }else{
-                Toast.makeText(this, "Program Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Program Error No employee number", Toast.LENGTH_SHORT).show();
                 finish();
-
             }
             tvMessagePin.setText(getResources().getString(R.string.txt_pin_add_input));
         } else if (mode == pin_change) {
-            tvMessagePin.setText(getResources().getString(R.string.txt_pin_new));
+            //tvMessagePin.setText(getResources().getString(R.string.txt_pin_new));
+            tvMessagePin.setText(getResources().getString(R.string.txt_pin_input));
+            onIninitPin();
         } else if (mode == pin_apply) {
             tvMessagePin.setText(getResources().getString(R.string.txt_pin_input));
             onIninitPin();
@@ -115,7 +121,7 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
         String pin = sharedPreferences.getString(MyAppConfig.pin_code, "");
         Log.d("pin => ", pin);
         if (!pin.equals("")) {
-            if (pin.length() == 4) {
+            if (pin.length() == pinSize) {
                 for (int i = 0; i < pin.length(); i++) {
                     pinResult[i] = pin.charAt(i);
                 }
@@ -125,7 +131,7 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
             }
         } else { // value is PinCodeStatic is Not value
 
-            if (pin.length() == 4) {
+            if (pin.length() == pinSize) {
                 for (int i = 0; i < pin.length(); i++) {
                     pinResult[i] = pin.charAt(i);
                 }
@@ -243,18 +249,24 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
         if (mode == pin_add) { // 1 add
             if (pinCheckConfirm.size() == 0) {
                 tvMessagePin.setText(getResources().getString(R.string.txt_pin_confirm));
-                onSetPinConfirm();
+                setPinConfirm();
             }else{
                 pinConfirmMode();
             }
 
         } else if (mode == pin_change) { // 3 change
-            if (pinCheckConfirm.size() == 0) {
-                onSetPinConfirm();
-                tvMessagePin.setText(getResources().getString(R.string.txt_pin_confirm));
-            }else{
-                pinConfirmMode();
+
+            if (parameter_apply.equals("")) {
+                pinApply();
+            } else {
+                if (pinCheckConfirm.size() == 0) {
+                    setPinConfirm();
+                    tvMessagePin.setText(getResources().getString(R.string.txt_pin_confirm));
+                }else{
+                    pinConfirmMode();
+                }
             }
+
         } else {
             if (mode == pin_apply) { // 0 apply
                 pinApply();
@@ -266,7 +278,7 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    private void onSetPinConfirm() {
+    private void setPinConfirm() {
         pinCheckConfirm = new ArrayList<>(pinInput);
     }
 
@@ -285,18 +297,14 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
 
         if (pinCheckCorrect == pinSize) {
             tvMessagePin.setText(getResources().getString(R.string.txt_pin_correct));
-
             if (mode == pin_add) {
                 onInsertPinData();
             } else if (mode == pin_change) {
                 onEditPinData();
             } else if (mode == pin_apply) {
-                tvMessagePin.setText(getResources().getString(R.string.txt_pin_correct));
-                Intent intent = new Intent();
-                intent.putExtra(PIN_RESULT, strPinInput);
-                setResult(RESULT_OK, intent);
-                finish();
+                onPinApply();
             }
+
         } else {
             tvMessagePin.setText(getResources().getString(R.string.txt_pin_error));
             //Toast.makeText(this, "Not Correct", Toast.LENGTH_SHORT).show();
@@ -305,23 +313,47 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void onEditPinData() {
-        Toast.makeText(this, "Process Edit ", Toast.LENGTH_SHORT).show();
-        //Edit Data
+
+        if (parameter_apply.equals("")) {
+            parameter_apply = strPinInput;
+            tvMessagePin.setText(getResources().getString(R.string.txt_pin_new));
+        } else {
+            String strIdEmployee = sharedPreferences.getString(MyAppConfig.employee_id, "");
+            if (!strIdEmployee.equals("")) {
+                editor.putString(MyAppConfig.pin_code, strPinInput);
+                editor.commit();
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(DatabaseUser.COL_PIN_CODE, strPinInput);
+                String[] whereValue = {strIdEmployee};
+                sqLiteDatabase.update(DatabaseUser.TABLE_NAME, contentValues, DatabaseUser.COL_EMPLOYEE_ID + " = ? ",whereValue);
+                Toast.makeText(this, "Pin New is " + strPinInput, Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Log.d("Program => ", "Error");
+                Toast.makeText(this, "Program Error", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void onPinApply() {
+        //Toast.makeText(this, "Process Insert ", Toast.LENGTH_SHORT).show();
+        //Insert Data
+        Intent intent = new Intent();
+        intent.putExtra(PIN_RESULT, strPinInput);
+        setResult(RESULT_OK, intent);
+        finish();
+
     }
 
     private void onInsertPinData() {
         //Toast.makeText(this, "Process Insert ", Toast.LENGTH_SHORT).show();
         //Insert Data
-
         editor.putString(MyAppConfig.pin_code, strPinInput);
         editor.commit();
         Intent intent = new Intent();
         intent.putExtra(PIN_RESULT, strPinInput);
         setResult(RESULT_OK, intent);
         finish();
-
-
-
 
     }
 
@@ -332,11 +364,11 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
             if (pinInput.get(i).equals(pinCheckConfirm.get(i))) {
                 strPinInput = strPinInput + pinInput.get(i);
                 pinCheckCorrect++;
-                Log.d("pinInput => ", pinInput.get(i) + " ");
-                Log.d("pinCheckConfirm => ", pinCheckConfirm.get(i) + "");
+//                Log.d("pinInput => ", pinInput.get(i) + " ");
+//                Log.d("pinCheckConfirm => ", pinCheckConfirm.get(i) + "");
             }
         }
-        Toast.makeText(this, "pinCheckCorrect : " + pinCheckCorrect, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "pinCheckCorrect : " + pinCheckCorrect, Toast.LENGTH_SHORT).show();
         pinCheckResult();
     }
 
@@ -353,8 +385,8 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
         if (pinInput.size() > 0) {
             pinInput.remove(pinInput.size() - 1);
             imagePin.get(pinInput.size()).setImageResource(R.drawable.custom_circle_pin);
-            Log.d("pinInput => ", pinInput + " ");
-            Log.d("pinSize => ", pinInput.size() + "");
+//            Log.d("pinInput => ", pinInput + " ");
+//            Log.d("pinSize => ", pinInput.size() + "");
         }
     }
 
@@ -363,8 +395,8 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
         if (pinInput.size() < pinSize) {
             pinInput.add(pinCode);
             imagePin.get(pinInput.size() - 1).setImageResource(R.drawable.custom_circle_pin2);
-            Log.d("pinInput => ", pinInput + " ");
-            Log.d("pinSize => ", pinInput.size() + "");
+//            Log.d("pinInput => ", pinInput + " ");
+//            Log.d("pinSize => ", pinInput.size() + "");
         }
     }
 
@@ -376,8 +408,8 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
         pinInput.clear();
-        Log.d("pinInput => ", pinInput + " ");
-        Log.d("pinSize => ", pinInput.size() + "");
+//        Log.d("pinInput => ", pinInput + " ");
+//        Log.d("pinSize => ", pinInput.size() + "");
     }
 
     @Override
