@@ -11,7 +11,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/sinothai"
+        android:icon="@drawable/logo_stecon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -78,9 +78,6 @@
             android:name=".MainNewActivity"
             android:label="@string/title_activity_main_new"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".CustomMenuTestActivity"
-            android:label="@string/title_activity_custom_menu_test" />
         <activity android:name=".VerifiedActivity"></activity>
     </application>
 

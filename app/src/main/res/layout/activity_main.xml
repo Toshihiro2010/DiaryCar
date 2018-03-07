@@ -119,7 +119,7 @@
             android:id="@+id/imgChangeCar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_transfer_within_a_station_black_60dp" />
+            android:src="@drawable/ic_transfer_within_a_station_black_40dp" />
 
         <TextView
             android:id="@+id/textView14"

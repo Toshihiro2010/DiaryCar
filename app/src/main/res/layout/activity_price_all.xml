@@ -26,6 +26,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <!--<include layout="@layout/content_navigation" />-->
+
 
     <include layout="@layout/content_price_all" />
     <include layout="@layout/float_action_layout" />

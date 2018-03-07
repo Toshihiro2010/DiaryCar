@@ -38,26 +38,24 @@
             android:layout_height="match_parent"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:orientation="vertical"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp">
+            android:orientation="vertical">
 
-            <ImageButton
+            <!--<ImageButton-->
+                <!--android:id="@+id/imgVehicleJournal"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:src="@drawable/ic_directions_car_white_40dp" />-->
+
+            <Button
                 android:id="@+id/imgVehicleJournal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/ic_directions_car_white_40dp"
-                tools:layout_editor_absoluteX="74dp"
-                tools:layout_editor_absoluteY="366dp" />
+                android:text="@string/txt_vehicle_journal"
+                android:drawableTop="@drawable/ic_directions_car_white_40dp" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:text="@string/txt_vehicle_journal" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -65,26 +63,21 @@
             android:layout_height="match_parent"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:orientation="vertical"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp">
+            android:orientation="vertical">
 
-            <ImageButton
+            <!--<ImageButton-->
+                <!--android:id="@+id/imgPriceJournal"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:src="@drawable/ic_attach_money_black_40dp" />-->
+            <Button
                 android:id="@+id/imgPriceJournal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/ic_attach_money_black_40dp"
-                tools:layout_editor_absoluteX="-251dp"
-                tools:layout_editor_absoluteY="356dp" />
-
-            <TextView
-                android:id="@+id/textView12"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:text="@string/btn_price_other" />
+                android:text="@string/btn_price_other"
+                android:drawableTop="@drawable/ic_attach_money_black_40dp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -99,19 +92,20 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp">
 
-        <ImageButton
+        <!--<ImageButton-->
+            <!--android:id="@+id/imgChangeCar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@drawable/ic_transfer_within_a_station_black_40dp" />-->
+
+        <Button
             android:id="@+id/imgChangeCar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_transfer_within_a_station_black_60dp" />
-
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="@string/txt_change_car" />
+            android:text="@string/txt_change_car"
+            android:drawableTop="@drawable/ic_transfer_within_a_station_black_40dp" />
+
 
     </LinearLayout>
 

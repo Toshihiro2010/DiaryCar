@@ -39,10 +39,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String strLicensePlate;
     private String strLanguage;
 
-    private ImageButton imgVehicleJournal;
-    private ImageButton imgPriceJournal;
+    private Button imgVehicleJournal;
+    private Button imgPriceJournal;
     //private ImageButton imgSetting;
-    private ImageButton imgChangeCar;
+    private Button imgChangeCar;
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -54,21 +54,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_new);
 
+
+
         bindWidGet();
         sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         myOnClick();
+
+
 //        if (isNetworkAvailable()) {
 //            Log.d("Internet => ", "Conntected");
 //        } else {
 //            Log.d("Internet => ", "No Conncet");
 //        }
 
-
         //onCustomSetLicensePlate();
 
+        //myCustomConnectActivity();
+        long tripId = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
+        if (tripId != 0) {
+            Intent intent = new Intent(MainActivity.this, TripStartActivity.class);
+            startActivity(intent);
 
-        myCustomConnectActivity();
+        }
 
     }
 

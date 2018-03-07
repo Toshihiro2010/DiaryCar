@@ -100,19 +100,20 @@
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/radioGroup">
 
-            <ImageButton
+            <!--<ImageButton-->
+                <!--android:id="@+id/imgChangePin"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@drawable/ic_lock_black_60dp"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/textView13" />-->
+
+            <Button
                 android:id="@+id/imgChangePin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_lock_black_60dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/txt_change_pin_code" />
+                android:layout_weight="1"
+                android:text="@string/txt_change_pin_code"
+                android:drawableTop="@drawable/ic_lock_white_60dp" />
         </LinearLayout>
 
     </LinearLayout>

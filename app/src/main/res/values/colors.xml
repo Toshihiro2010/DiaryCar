@@ -27,5 +27,11 @@
 
     <color name="brand_service_color">#00ffff</color>
 
+    <color name="navigation_color_true">#ff0000</color>
+    <color name="navigation_color_false">#00ff37</color>
+
+    <color name="navigation_background_true">#000000</color>
+    <color name="navigation_background_false">#535252</color>
+
 
 </resources>

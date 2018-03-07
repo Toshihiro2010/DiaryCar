@@ -1,4 +1,4 @@
-package com.stecon.patipan_on.diarycar;
+package com.stecon.patipan_on.diarycar.custom_fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.stecon.patipan_on.diarycar.R;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.controller.PriceOtherAdapter;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
@@ -33,6 +35,7 @@ public class PriceOtherFragment extends Fragment {
     private RecyclerView priceOtherRecycleView;
     private MyDbHelper myDbHelper ;
     private SQLiteDatabase sqLiteDatabase ;
+    private ConstraintLayout constraintLayout;
 
     public PriceOtherFragment() {
 
@@ -49,6 +52,7 @@ public class PriceOtherFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_price_other, container, false);
         priceOtherRecycleView = (RecyclerView) rootView.findViewById(R.id.priceOtherRecycleInFragment);
+        constraintLayout = rootView.findViewById(R.id.containerPriceOtherFragment);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         priceOtherRecycleView.setLayoutManager(linearLayoutManager);
         myDbHelper = new MyDbHelper(getActivity());
@@ -61,6 +65,7 @@ public class PriceOtherFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         onSetQuery();
+
     }
 
     private void onSetQuery() {
@@ -92,16 +97,41 @@ public class PriceOtherFragment extends Fragment {
 
                 String[] date = MyDateModify.getStrsDateTimeFromSqlite(temp_date);
 
-                PriceCostModel priceCostModel = new PriceCostModel(id,license_plate, price_type, title, money, note, date[0]);
+                PriceCostModel priceCostModel = new PriceCostModel(id, license_plate, price_type, title, money, note, date[0]);
                 costModelArrayList.add(priceCostModel);
                 cursor.moveToNext();
             }
+            if (costModelArrayList != null) {
+                PriceOtherAdapter priceOtherAdapter = new PriceOtherAdapter(getActivity(), costModelArrayList);
+                priceOtherRecycleView.setAdapter(priceOtherAdapter);
+                if (costModelArrayList.size() != 0) {
+                    setVisibleRecycleView();
+                    return;
+                } else {
+                    setInVisibleRecycleView();
+                    return;
+                }
+            } else {
+                setInVisibleRecycleView();
+            }
+        } else {
+            setInVisibleRecycleView();
         }
-
-        PriceOtherAdapter priceOtherAdapter = new PriceOtherAdapter(getActivity(), costModelArrayList);
-        priceOtherRecycleView.setAdapter(priceOtherAdapter);
 
     }
 
+    private void setVisibleRecycleView() {
+        constraintLayout.setVisibility(View.INVISIBLE);
+        priceOtherRecycleView.setVisibility(View.VISIBLE);
+    }
 
+    private void setInVisibleRecycleView() {
+        constraintLayout.setVisibility(View.VISIBLE);
+        priceOtherRecycleView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 }

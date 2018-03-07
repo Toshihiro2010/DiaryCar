@@ -41,7 +41,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     private Button btnEng;
     private Button btnThai;
-    private ImageButton imgChangePin;
+    private Button imgChangePin;
 
     private RadioGroup radioLanguageGroup;
     private RadioButton radioEng;

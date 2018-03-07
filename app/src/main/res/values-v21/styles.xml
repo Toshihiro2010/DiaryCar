@@ -23,6 +23,28 @@
 
     </style>
 
+    <!--button OK-->
+    <style name="ButtonOkTheme" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">#065417</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <!--button Dialog OK-->
+    <style name="ButtonDialogOkTheme" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">#00ff44</item>
+    </style>
+
+    <!--button Cancel-->
+    <style name="ButtonCancelTheme" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/cancel_dialog_background</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <!--button Dialog Cancel-->
+    <style name="ButtonDialogCancelTheme" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">#ff0000</item>
+    </style>
+
     <style name="MyDatePickerDialogCustomTheme" parent="Base.Theme.AppCompat.Light.Dialog">
         <item name="android:color">#FFFFFF</item>
         <item name="android:textColorPrimary">#ffffff</item>
@@ -33,5 +55,19 @@
     <style name="MyTimePickerDialogCustomTheme" parent="Base.Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">#000000</item>
         <item name="android:background">#000000</item>
+    </style>
+
+    <style name="AlertDialogCustomTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">#000000</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/ButtonDialogOkTheme</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/ButtonDialogCancelTheme</item>
+
+        <!--<item name="android:buttonBarNegativeButtonStyle">@style/ButtonCancelTheme</item>-->
+        <!--<item name="android:positiveButtonText">#26ff00</item>-->
+        <!--<item name="android:negativeButtonText">#ff0004</item>-->
+        <!--<item name="android:buttonBarPositiveButtonStyle">@style/ButtonOkTheme</item>-->
+        <!--<item name="android:buttonBarNegativeButtonStyle">@style/ButtonCancelTheme</item>-->
+        <!--<item name="android:positiveButtonText">#00ff15</item>-->
+        <!--<item name="android:negativeButtonText">#ff0000</item>-->
     </style>
 </resources>

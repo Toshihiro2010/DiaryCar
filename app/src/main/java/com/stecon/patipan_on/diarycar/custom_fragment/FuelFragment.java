@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.stecon.patipan_on.diarycar.PriceAllActivity;
 import com.stecon.patipan_on.diarycar.R;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.controller.OilAdapter;
@@ -34,6 +36,7 @@ public class FuelFragment extends Fragment {
     private FuelDataQuerySQLIte fuelDataQuerySQLIte;
     private ArrayList<OilDataModel> oilDataModelArrayList;
     private String licensePlate;
+    private ConstraintLayout constraintLayout;
 
 
     public FuelFragment() {
@@ -53,6 +56,7 @@ public class FuelFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_fuel, container, false);
         fuelRecycleView = (RecyclerView) rootView.findViewById(R.id.fuelRecycleViewInFragment);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        constraintLayout = rootView.findViewById(R.id.containerFuelFragment);
         fuelRecycleView.setLayoutManager(linearLayoutManager);
         myDbHelper = new MyDbHelper(getActivity());
         sqLiteDatabase = myDbHelper.getWritableDatabase();
@@ -65,6 +69,7 @@ public class FuelFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d("fragment => ", "onViewCreated");
+        onSetQuery();
 
     }
 
@@ -77,10 +82,27 @@ public class FuelFragment extends Fragment {
 
         oilDataModelArrayList = fuelDataQuerySQLIte.getDataFuelFromSqlite(licensePlate);
         if (oilDataModelArrayList != null) {
-            OilAdapter oilAdapter = new OilAdapter(getActivity(),oilDataModelArrayList);
+            OilAdapter oilAdapter = new OilAdapter(getActivity(), oilDataModelArrayList);
             fuelRecycleView.setAdapter(oilAdapter);
+            if (oilDataModelArrayList.size() != 0) {
+                setVisibleRecycleView();
+                return;
+            }
+            setInVisibleRecycleView();
+        } else {
+            setInVisibleRecycleView();
         }
 
+    }
+
+    private void setVisibleRecycleView() {
+        constraintLayout.setVisibility(View.INVISIBLE);
+        fuelRecycleView.setVisibility(View.VISIBLE);
+    }
+
+    private void setInVisibleRecycleView() {
+        constraintLayout.setVisibility(View.VISIBLE);
+        fuelRecycleView.setVisibility(View.INVISIBLE);
     }
 
 
@@ -101,7 +123,6 @@ public class FuelFragment extends Fragment {
     public void onStart() {
         super.onStart();
         Log.d("fragment => ", "onStart");
-        onSetQuery();
 
     }
 
@@ -109,8 +130,6 @@ public class FuelFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d("fragment => ", "onResume");
-
-
     }
 
     @Override

@@ -192,6 +192,7 @@ public class PriceCostJournalActivity extends AppCompatActivity implements View.
         Toast.makeText(this, getResources().getString(R.string.message_save_success), Toast.LENGTH_SHORT).show();
         mySetEmptyText();
         progressDialog.dismiss();
+        finish();
 
     }
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Location;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.R;
@@ -27,7 +26,7 @@ public class MyLocationFirst {
     Context context;
     private Double latitude;
     private Double longitude;
-    private CustomProgreessDialog customProgreessDialog;
+    private CustomProgressDialog customProgressDialog;
     private OnNextLocationFunction onNextLocationFunction = null;
 
     public MyLocationFirst(Context context) {
@@ -47,9 +46,9 @@ public class MyLocationFirst {
     public void onLocationStart() {
         if (SmartLocation.with(context).location().state().locationServicesEnabled()) {
 
-            customProgreessDialog = new CustomProgreessDialog(context);
-            customProgreessDialog.setTitle(context.getResources().getString(R.string.default_my_location_fist_title));
-            customProgreessDialog.myDialog();
+            customProgressDialog = new CustomProgressDialog(context);
+            customProgressDialog.setTitle(context.getResources().getString(R.string.default_my_location_fist_title));
+            customProgressDialog.myDialog();
             LocationParams locationParams = new LocationParams.Builder()
                     .setAccuracy(LocationAccuracy.HIGH)
                     .build();
@@ -63,7 +62,7 @@ public class MyLocationFirst {
                         public void onLocationUpdated(Location location) {
                             latitude = location.getLatitude();
                             longitude = location.getLongitude();
-                            customProgreessDialog.onDidmiss();
+                            customProgressDialog.onDidmiss();
                             onStopSmartLocation();
                             if (onNextLocationFunction != null) {
                                 onNextLocationFunction.onStartNextFunction();
@@ -82,9 +81,9 @@ public class MyLocationFirst {
     public void onGeocodingGpsStaty() {
         if (SmartLocation.with(context).location().state().locationServicesEnabled()) {
 
-            customProgreessDialog = new CustomProgreessDialog(context);
-            customProgreessDialog.setTitle("Finding Location Address");
-            customProgreessDialog.myDialog();
+            customProgressDialog = new CustomProgressDialog(context);
+            customProgressDialog.setTitle("Finding Location Address");
+            customProgressDialog.myDialog();
             LocationParams locationParams = new LocationParams.Builder()
                     .setAccuracy(LocationAccuracy.HIGH)
                     .build();
@@ -104,7 +103,7 @@ public class MyLocationFirst {
                                     Log.d("location => ", location.toString());
                                     Log.d("size => ", list.size() + "");
                                     Log.d("list => ", list.toString());
-                                    customProgreessDialog.onDidmiss();
+                                    customProgressDialog.onDidmiss();
                                 }
                             });
                         }

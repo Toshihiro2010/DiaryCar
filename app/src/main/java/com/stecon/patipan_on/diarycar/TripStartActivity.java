@@ -211,6 +211,9 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
                 editor.remove(MyAppConfig.trip_id);
                 editor.commit();
                 tripId = 0;
+                mySetEmptyUi();
+                finish();
+
             }
         });
     }
@@ -379,12 +382,13 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
+    private void mySetEmptyUi() {
+        edtDepartureOdometer.setText("");
+        switchLocation.setChecked(false);
+        edtNameLocation.setText("");
 
-    private void goToActivitySet() {
-        Intent intent = new Intent(TripStartActivity.this, CarDiaryActivity.class);
-        startActivity(intent);
-        finish();
     }
+
 
     private void myGetText() {
         str_licenseplate = sharedPreferences.getString(MyAppConfig.licensePlate, "");

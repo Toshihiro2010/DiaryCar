@@ -159,7 +159,7 @@
     <string name="message_change_car">You want Change Car</string>
     <string name="message_title_change_car">Change Car</string>
     <string name="txt_change_car">Change Car</string>
-    <string name="txt_vehicle_journal">Vehicle Journal</string>
+    <string name="txt_vehicle_journal">Journal</string>
     <string name="button_save">บันทึกรายการ</string>
     <string name="txt_thai">Thai</string>
     <string name="txt_eng">English</string>

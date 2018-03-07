@@ -87,8 +87,9 @@ public class SplashScreenActivity extends AppCompatActivity {
                 PinCodeStatic.setPinNumber(pinForResult);
                 Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                 startActivity(intent);
-                finish();
             }
+            finish();
+
         }
     }
 }

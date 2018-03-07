@@ -103,7 +103,7 @@
 
     customAlertDialog
     <string name="default_custom_alert_dialog_title">You should in put title</string>
-    <string name="default_custom_alert_dialog_message">You should in put message............</string>
+    <string name="default_custom_alert_dialog_message">Wait Please............</string>
 
     customProgressDialog
     <string name="default_custom_progress_dialog_title">Please Wait</string>
