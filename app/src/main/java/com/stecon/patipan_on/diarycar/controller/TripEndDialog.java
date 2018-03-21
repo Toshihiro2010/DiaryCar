@@ -19,6 +19,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.R;
+import com.stecon.patipan_on.diarycar.common_class.MyLocationFirst;
 import com.stecon.patipan_on.diarycar.database.DatabaseTripDetail;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.MyDateTimeModify;
@@ -66,10 +67,13 @@ public class TripEndDialog implements View.OnClickListener {
     private MyLocationFirst myLocationFirst;
     private OnNextListener onNextListener = null;
 
+    private Double departureOdometer;
 
 
-    public TripEndDialog(Context context) {
+
+    public TripEndDialog(Context context,Double departureOdometer) {
         this.context = context;
+        this.departureOdometer = departureOdometer;
         dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.custom_trip_dialog);
@@ -170,13 +174,18 @@ public class TripEndDialog implements View.OnClickListener {
             Toast.makeText(context, context.getResources().getString(R.string.no_text), Toast.LENGTH_SHORT).show();
 
         } else {
-            customOnLocation();
+            arrivalOdometerDouble = Double.valueOf(strArrivalOdometer);
+            if (arrivalOdometerDouble < departureOdometer) {
+                Toast.makeText(context, "เลขไมล์ผิดปกติ", Toast.LENGTH_SHORT).show();
+            } else {
+                customOnLocation();
+            }
+
         }
     }
 
     private void customOnLocation() {
 
-        arrivalOdometerDouble = Double.valueOf(strArrivalOdometer);
         myLocationFirst = new MyLocationFirst(context);
         myLocationFirst.onLocationStart();
         myLocationFirst.setListennerNextLocationFunction(new MyLocationFirst.OnNextLocationFunction() {

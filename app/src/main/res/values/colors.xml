@@ -7,7 +7,8 @@
     <color name="textFont">#001eff</color>
 
     <color name="theme_background">#e0dfdf</color>
-    <color name="box_background">#64ffffff</color>
+    <color name="box_background">#3b3a3a</color>
+    <color name="my_underline_ui">#a6a4a4</color>
 
     <color name="cancel_dialog_background">#ff0000</color>
     <color name="confirm_dialog_background">#065417</color>

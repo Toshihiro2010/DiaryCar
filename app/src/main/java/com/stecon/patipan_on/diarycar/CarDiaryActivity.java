@@ -81,7 +81,7 @@ public class CarDiaryActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void onUpdateDBEndTrip() {
-        TripEndDialog tripEndDialog = new TripEndDialog(CarDiaryActivity.this);
+        TripEndDialog tripEndDialog = new TripEndDialog(CarDiaryActivity.this,900.0);
         tripEndDialog.onShow();
         tripEndDialog.registerOnNextListener(new TripEndDialog.OnNextListener() {
             @Override

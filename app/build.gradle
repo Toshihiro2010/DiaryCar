@@ -26,9 +26,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-
-
-
     compile 'com.android.support:appcompat-v7:27.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'me.dm7.barcodescanner:zxing:1.9.8'

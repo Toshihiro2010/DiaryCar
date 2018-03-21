@@ -21,16 +21,14 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.stecon.patipan_on.diarycar.common_class.CommonSyncCar;
-import com.stecon.patipan_on.diarycar.controller.CustomProgressDialog;
+import com.stecon.patipan_on.diarycar.common_class.CustomProgressDialog;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.database.DatabaseVehicleMaster;
 import com.stecon.patipan_on.diarycar.model.CarModel;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
-import com.stecon.patipan_on.diarycar.model.Recordset;
 import com.stecon.patipan_on.diarycar.model.Recordset_;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -152,7 +150,7 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            customProgressDialog = new CustomProgressDialog(LicensePlateActivity.this);
+            customProgressDialog = new CustomProgressDialog(LicensePlateActivity.this,"เลขทะเบียนรถยนต์","กรุญารอสักครู่......................");
             customProgressDialog.myDialog();
 
         }

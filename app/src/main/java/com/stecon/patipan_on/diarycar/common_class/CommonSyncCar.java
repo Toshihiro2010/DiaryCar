@@ -1,6 +1,5 @@
 package com.stecon.patipan_on.diarycar.common_class;
 
-import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,7 +8,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.stecon.patipan_on.diarycar.controller.CustomProgressDialog;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.database.DatabaseVehicleMaster;
 import com.stecon.patipan_on.diarycar.model.CarModel;
@@ -28,7 +26,7 @@ import okhttp3.Response;
 public class CommonSyncCar extends AsyncTask<Void,Void,String> {
 
     private Context context;
-    private CustomProgressDialog customProgressDialog;
+//    private CustomProgressDialog customProgressDialog;
 
 
     public CommonSyncCar(Context context) {
@@ -39,8 +37,8 @@ public class CommonSyncCar extends AsyncTask<Void,Void,String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        customProgressDialog = new CustomProgressDialog(context);
-        customProgressDialog.myDialog();
+//        customProgressDialog = new CustomProgressDialog(context);
+//        customProgressDialog.myDialog();
     }
 
     @Override
@@ -89,7 +87,7 @@ public class CommonSyncCar extends AsyncTask<Void,Void,String> {
         } else {
             Toast.makeText(context, "No Connect Server", Toast.LENGTH_SHORT).show();
         }
-        customProgressDialog.onDidmiss();
+//        customProgressDialog.onDidmiss();
 
     }
 }

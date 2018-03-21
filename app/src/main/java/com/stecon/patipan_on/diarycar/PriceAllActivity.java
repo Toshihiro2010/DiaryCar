@@ -75,25 +75,6 @@ public class PriceAllActivity extends AppCompatActivity implements View.OnClickL
 
         navigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         customViewPagerAdapter = new CustomViewPagerAdapter(getSupportFragmentManager());
-
-
-
-
-    }
-
-    public void onCustomSetNavigationView(int position) {
-        navigationView.setSelectedItemId(position);
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (floatingActionMenu.isOpened()) {
-            floatingActionMenu.close(true);
-        }
-
-        viewPager.setAdapter(customViewPagerAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -117,6 +98,29 @@ public class PriceAllActivity extends AppCompatActivity implements View.OnClickL
                 // Toast.makeText(PriceAllActivity.this, "position => " + position, Toast.LENGTH_SHORT).show();
             }
         });
+
+
+
+
+    }
+
+    public void onCustomSetNavigationView(int position) {
+        navigationView.setSelectedItemId(position);
+        viewPager.setCurrentItem(position);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (floatingActionMenu.isOpened()) {
+            floatingActionMenu.close(true);
+        }
+
+        viewPager.setAdapter(customViewPagerAdapter);
+        if (current_position != -1) {
+            onCustomSetNavigationView(current_position);
+        }
 
 
     }
@@ -158,7 +162,6 @@ public class PriceAllActivity extends AppCompatActivity implements View.OnClickL
         } else if (v == floatServiceActionButton) {
             Intent intent = new Intent(PriceAllActivity.this, ServiceJournalActivity.class);
             startActivity(intent);
-
         }
     }
 

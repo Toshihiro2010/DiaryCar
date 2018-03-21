@@ -1,4 +1,4 @@
-package com.stecon.patipan_on.diarycar.controller;
+package com.stecon.patipan_on.diarycar.common_class;
 
 import android.app.ProgressDialog;
 import android.content.Context;

@@ -20,7 +20,14 @@
         <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogCustomTheme</item>
         <item name="android:timePickerDialogTheme">@style/MyTimePickerDialogCustomTheme</item>
 
+    </style>
 
+    <!--Edit Text Default-->
+    <style name="EditTextCustomTheme" parent="Widget.AppCompat.EditText">
+        <item name="android:textColorHint">@color/common_signin_btn_dark_text_disabled</item>
+        <item name="editTextColor">@color/text_default_color</item>
+        <item name="android:textColor">@color/text_default_color</item>
+        <item name="android:backgroundTint">#FFFFFF</item>
     </style>
 
     <!--button OK-->
@@ -61,13 +68,5 @@
         <item name="android:textColor">#000000</item>
         <item name="android:buttonBarPositiveButtonStyle">@style/ButtonDialogOkTheme</item>
         <item name="android:buttonBarNegativeButtonStyle">@style/ButtonDialogCancelTheme</item>
-
-        <!--<item name="android:buttonBarNegativeButtonStyle">@style/ButtonCancelTheme</item>-->
-        <!--<item name="android:positiveButtonText">#26ff00</item>-->
-        <!--<item name="android:negativeButtonText">#ff0004</item>-->
-        <!--<item name="android:buttonBarPositiveButtonStyle">@style/ButtonOkTheme</item>-->
-        <!--<item name="android:buttonBarNegativeButtonStyle">@style/ButtonCancelTheme</item>-->
-        <!--<item name="android:positiveButtonText">#00ff15</item>-->
-        <!--<item name="android:negativeButtonText">#ff0000</item>-->
     </style>
 </resources>

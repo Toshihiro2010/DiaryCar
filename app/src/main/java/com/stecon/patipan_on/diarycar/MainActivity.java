@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -17,17 +16,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
-import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
-import com.stecon.patipan_on.diarycar.controller.MyLocationFirst;
 import com.stecon.patipan_on.diarycar.controller.MySendToServer;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.PinCodeStatic;
-import com.stecon.patipan_on.diarycar.model.TripDetailModel;
 
 import java.util.Locale;
 

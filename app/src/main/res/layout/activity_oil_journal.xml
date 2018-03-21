@@ -50,8 +50,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:backgroundTint="@color/my_underline_ui"
                     android:ems="10"
-                    android:hint="2000 กิโลเมตร"
                     android:inputType="numberDecimal"
                     android:textSize="@dimen/h5" />
 
@@ -74,8 +74,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:backgroundTint="@color/my_underline_ui"
                     android:ems="10"
-                    android:hint="36บาท"
                     android:inputType="numberDecimal"
                     android:textSize="@dimen/h5" />
 
@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:hint="900บาท"
+                    android:backgroundTint="@color/my_underline_ui"
                     android:inputType="numberDecimal"
                     android:textSize="@dimen/h5" />
 
@@ -168,6 +168,7 @@
                     android:id="@+id/spinnerOil"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/my_underline_ui"
                     android:layout_weight="1"
                     android:spinnerMode="dialog" />
 
@@ -191,6 +192,7 @@
                     android:id="@+id/spinnerMoneyPay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/my_underline_ui"
                     android:layout_weight="1"
                     android:spinnerMode="dialog" />
             </LinearLayout>
@@ -218,6 +220,7 @@
                 android:id="@+id/edtNote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/my_underline_ui"
                 android:ems="10"
                 android:gravity="bottom|center|left"
                 android:hint="@string/edt_price_other_note"

@@ -63,22 +63,24 @@
         <activity
             android:name=".OilJournalActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SettingActivity" />
-        <activity android:name=".FuelActivityTest" />
-        <activity android:name=".PriceAllActivity" />
+        <activity android:name=".SettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".FuelActivityTest"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PriceAllActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".CusTomTestMainActivity"
-            android:label="@string/title_activity_cus_tom_test_main"
-            android:theme="@style/AppTheme" />
+            android:label="@string/title_activity_cus_tom_test_main" />
         <activity
             android:name=".SettingNewActivity"
-            android:label="@string/title_activity_setting_new"
-            android:theme="@style/AppTheme" />
+            android:label="@string/title_activity_setting_new" />
         <activity
             android:name=".MainNewActivity"
-            android:label="@string/title_activity_main_new"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".VerifiedActivity"></activity>
+            android:label="@string/title_activity_main_new" />
+        <activity
+            android:name=".VerifiedActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

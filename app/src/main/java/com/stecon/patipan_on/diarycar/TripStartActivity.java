@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -31,15 +30,14 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
-import com.stecon.patipan_on.diarycar.controller.MyAddPermissionLocation;
+import com.stecon.patipan_on.diarycar.common_class.MyAddPermissionLocation;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
-import com.stecon.patipan_on.diarycar.controller.MyLocationFirst;
+import com.stecon.patipan_on.diarycar.common_class.MyLocationFirst;
 import com.stecon.patipan_on.diarycar.controller.TripEndDialog;
 import com.stecon.patipan_on.diarycar.database.DatabaseTripDetail;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.MyDateModify;
 import com.stecon.patipan_on.diarycar.model.MyDateTimeModify;
-import com.stecon.patipan_on.diarycar.model.TripDetailModel;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -202,7 +200,7 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void onDialogTripEnd() {
-        TripEndDialog tripEndDialog = new TripEndDialog(TripStartActivity.this);
+        TripEndDialog tripEndDialog = new TripEndDialog(TripStartActivity.this, odometerDouble);
         tripEndDialog.onShow();
         tripEndDialog.registerOnNextListener(new TripEndDialog.OnNextListener() {
             @Override

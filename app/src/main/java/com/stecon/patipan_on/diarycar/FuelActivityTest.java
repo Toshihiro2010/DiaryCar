@@ -23,9 +23,9 @@ import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
 import com.stecon.patipan_on.diarycar.controller.CustomSpinnerAdapter;
-import com.stecon.patipan_on.diarycar.controller.MyAddPermissionLocation;
+import com.stecon.patipan_on.diarycar.common_class.MyAddPermissionLocation;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
-import com.stecon.patipan_on.diarycar.controller.MyLocationFirst;
+import com.stecon.patipan_on.diarycar.common_class.MyLocationFirst;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
 import com.stecon.patipan_on.diarycar.database.query_model.FuelTypeQuerySQLite;
 import com.stecon.patipan_on.diarycar.model.FuelTypeModel;

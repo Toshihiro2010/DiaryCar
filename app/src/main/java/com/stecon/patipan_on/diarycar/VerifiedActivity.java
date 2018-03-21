@@ -19,6 +19,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.stecon.patipan_on.diarycar.common_class.CustomProgressDialog;
+import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.database.DatabaseUser;
 import com.stecon.patipan_on.diarycar.model.MyAppConfig;
@@ -225,6 +227,16 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private class SynUser extends AsyncTask<String, Object, String> {
+
+        CustomProgressDialog customProgressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            customProgressDialog = new CustomProgressDialog(VerifiedActivity.this);
+            customProgressDialog.myDialog();
+        }
+
         @Override
         protected String doInBackground(String... params) {
 
@@ -258,6 +270,7 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            customProgressDialog.onDidmiss();
             if (s != null) {
                 Gson gson = new Gson();
                 XmlToJson xmlToJson = new XmlToJson.Builder(s).build();

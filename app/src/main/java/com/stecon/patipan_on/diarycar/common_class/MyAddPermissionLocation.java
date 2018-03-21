@@ -1,4 +1,4 @@
-package com.stecon.patipan_on.diarycar.controller;
+package com.stecon.patipan_on.diarycar.common_class;
 
 import android.Manifest;
 import android.app.Activity;
@@ -8,9 +8,9 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 
 import com.stecon.patipan_on.diarycar.R;
+import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
 
 /**
  * Created by patipan_on on 12/7/2017.
