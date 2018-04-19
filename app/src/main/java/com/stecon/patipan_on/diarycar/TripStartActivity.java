@@ -1,6 +1,5 @@
 package com.stecon.patipan_on.diarycar;
 
-import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -19,7 +18,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -29,14 +27,15 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.stecon.patipan_on.diarycar.common_class.CommonDatePickerDialog;
+import com.stecon.patipan_on.diarycar.common_class.CommonTimePickerDialog;
 import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
 import com.stecon.patipan_on.diarycar.common_class.MyAddPermissionLocation;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.common_class.MyLocationFirst;
 import com.stecon.patipan_on.diarycar.controller.TripEndDialog;
 import com.stecon.patipan_on.diarycar.database.DatabaseTripDetail;
-import com.stecon.patipan_on.diarycar.model.MyAppConfig;
-import com.stecon.patipan_on.diarycar.model.MyDateModify;
+import com.stecon.patipan_on.diarycar.common_class.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.MyDateTimeModify;
 
 import java.io.IOException;
@@ -70,10 +69,9 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     private LinearLayout tvLinearLocation;
     private ConstraintLayout constraintLayout;
 
-//    private String strReservationNumber;
-//    private String strPurpose;
+
     private String strDepartureOdometer;
-//    private String strFuelLevel;
+
     private String strDepartureDateTime;
     private String strDepartureLocationName;
 
@@ -86,10 +84,6 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     private String str_licenseplate;
     private long tripId;
 
-    private int tvHour , tvMinute;
-    private int tvYear , tvMonth , tvDay;
-
-    private MyDateModify myDateModify;
     private MyLocationFirst myLocationFirst;
 
     private MyDbHelper myDbHelper;
@@ -98,6 +92,10 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     private SharedPreferences.Editor editor;
 
     private MyAddPermissionLocation myAddPermissionLocation;
+
+    private MyDateTimeModify myDateTimeModify;
+    private String strServiceDate;
+    private String strServiceTime;
 
 
 
@@ -119,22 +117,15 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         myStartSetText();
         myOnClick();
 
-//        progressBar.setVisibility(View.INVISIBLE);
-//        constraintLayout.setBackgroundColor(Color.RED);
-//        btnGoToMain.setBackgroundColor(Color.BLACK);
-
     }
 
     private void onMySetDateSpinner() {
+
         Date date = new Date();
-        Log.d("date => ", date.toString());
-        tvHour = date.getHours();
-        tvMinute = date.getMinutes();
-        String timeStamp = new SimpleDateFormat("dd/MM/yyyy").format(date);
-        myDateModify = new MyDateModify(timeStamp);
-        tvYear = myDateModify.getYear();
-        tvMonth = myDateModify.getMonth();
-        tvDay = myDateModify.getDay();
+        String timeStamp = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(date);
+        myDateTimeModify = new MyDateTimeModify(timeStamp);
+        strServiceDate = myDateTimeModify.getStrDate();
+        strServiceTime = myDateTimeModify.getStrTime();
     }
 
 
@@ -148,29 +139,27 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void myStartSetText() {
-        tvDepartureDate.setText(tvDay + "/" + tvMonth + "/" + tvYear);
-        tvDepartureTime.setText(tvHour + "." + tvMinute + " " + getResources().getString(R.string.short_minute));
+        tvDepartureDate.setText(strServiceDate);
+        tvDepartureTime.setText(strServiceTime + " " + getResources().getString(R.string.short_minute));
 
     }
 
     private void bindWidget() {
-//        edtReservationNumber = (EditText) findViewById(R.id.edtReservationNumber);
-//        edtPurpose = (EditText) findViewById(R.id.edtPurpose);
-        edtDepartureOdometer = (EditText) findViewById(R.id.edtDapartureOdometer);
-        //edtFuelLevel = (EditText) findViewById(R.id.edtFuelLevel);
-        tvDepartureDate = (TextView) findViewById(R.id.tvDepartureDate);
-        tvDepartureTime = (TextView) findViewById(R.id.tvDepartureTime);
-        btnGoToMain = (Button) findViewById(R.id.btnGoToMain);
-        switchLocation = (Switch) findViewById(R.id.switchGps);
-        txtNameLocation = (TextView) findViewById(R.id.txtNameLocation);
-        edtNameLocation = (EditText) findViewById(R.id.edtNameLocation);
-        tvLinearLocation = (LinearLayout) findViewById(R.id.tvLinearLocation);
-        imgBtnDepartureSelectDate = (ImageButton) findViewById(R.id.imgBtnDepartureSelectDate);
-        imgBtnDepartureSelectTime = (ImageButton) findViewById(R.id.imgBtnDepartureSelectTime);
-        constraintLayout = (ConstraintLayout) findViewById(R.id.layoutTripStartActivity);
-        tvShowTrip = (TextView) findViewById(R.id.tvShowTrip);
-        progressBar = (ProgressBar) findViewById(R.id.progressBarTrip);
-        btnCancelTripEnd = (Button) findViewById(R.id.btnCancelTripEnd);
+
+        edtDepartureOdometer =  findViewById(R.id.edtDapartureOdometer);
+        tvDepartureDate =  findViewById(R.id.tvDepartureDate);
+        tvDepartureTime =  findViewById(R.id.tvDepartureTime);
+        btnGoToMain =  findViewById(R.id.btnGoToMain);
+        switchLocation =  findViewById(R.id.switchGps);
+        txtNameLocation =  findViewById(R.id.txtNameLocation);
+        edtNameLocation =  findViewById(R.id.edtNameLocation);
+        tvLinearLocation =  findViewById(R.id.tvLinearLocation);
+        imgBtnDepartureSelectDate =  findViewById(R.id.imgBtnDepartureSelectDate);
+        imgBtnDepartureSelectTime =  findViewById(R.id.imgBtnDepartureSelectTime);
+        constraintLayout =  findViewById(R.id.layoutTripStartActivity);
+        tvShowTrip =  findViewById(R.id.tvShowTrip);
+        progressBar =  findViewById(R.id.progressBarTrip);
+        btnCancelTripEnd = findViewById(R.id.btnCancelTripEnd);
     }
 
     @Override
@@ -182,7 +171,10 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         } else if (v == btnGoToMain) {
             onSQLiteSaveData();
         } else if (v == btnCancelTripEnd) {
-            CustomAlertDialog customAlertDialog = new CustomAlertDialog(TripStartActivity.this, "Trip End", "คุณต้องการจบการเดินทาง ใช่ หรือ ไม่");
+            CustomAlertDialog customAlertDialog = new CustomAlertDialog(
+                    TripStartActivity.this,
+                    getResources().getString(R.string.message_end_trip),
+                    getResources().getString(R.string.message_description_end_trip));
             customAlertDialog.myDefaultDialog();
             customAlertDialog.show();
             customAlertDialog.setOnMyDialogActivity(new CustomAlertDialog.OnMyDialogActivity() {
@@ -220,7 +212,6 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     protected void onStart() {
         super.onStart();
         tripId = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
-        Log.d("tripId = > ", tripId + " ");
         mySetStatusStartTrip();
     }
 
@@ -254,36 +245,40 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void mySelectDate() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(TripStartActivity.this, new DatePickerDialog.OnDateSetListener() {
+
+        CommonDatePickerDialog commonDatePickerDialog = new CommonDatePickerDialog(TripStartActivity.this, myDateTimeModify);
+        commonDatePickerDialog.setRegisterCustomDatePickerListener(new CommonDatePickerDialog.CustomDatePickerListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                tvYear = year;
-                tvMonth = month+1;
-                tvDay = dayOfMonth;
-                Log.d("date listener => ", tvDay + "/" + tvMonth + "/" + tvYear);
-                tvDepartureDate.setText(tvDay + "/" + tvMonth + "/" + tvYear);
+            public void onClickListener() {
+                Toast.makeText(TripStartActivity.this, "Test", Toast.LENGTH_SHORT).show();
+                tvDepartureDate.setText(myDateTimeModify.getStrDate());
             }
-        }, tvYear, tvMonth-1, tvDay);
-        datePickerDialog.show();
+        });
+
     }
 
     private void mySelectTime() {
-        TimePickerDialog timePickerDialog = new TimePickerDialog(TripStartActivity.this, new TimePickerDialog.OnTimeSetListener() {
+//        TimePickerDialog timePickerDialog = new TimePickerDialog(TripStartActivity.this, new TimePickerDialog.OnTimeSetListener() {
+//            @Override
+//            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//
+//                myDateTimeModify.setHour(hourOfDay);
+//                myDateTimeModify.setMinute(minute);
+//
+//                strServiceTime = myDateTimeModify.getStrTime();
+//                tvDepartureTime.setText(strServiceTime + getResources().getString(R.string.short_minute));
+//
+//            }
+//        },myDateTimeModify.getHour(),myDateTimeModify.getMinute(),false);
+//        timePickerDialog.show();
+        CommonTimePickerDialog commonTimePickerDialog = new CommonTimePickerDialog(TripStartActivity.this, myDateTimeModify);
+        commonTimePickerDialog.setRegisterCustomListenerTimePicker(new CommonTimePickerDialog.OnCustomListenerTimePickerDialog() {
             @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                tvHour = hourOfDay;
-                tvMinute = minute;
-                String temp;
-                if (minute < 10) {
-                    temp = 0 + String.valueOf(minute);
-                } else {
-                    temp = String.valueOf(minute);
-                }
-                tvDepartureTime.setText(hourOfDay + "." + temp + getResources().getString(R.string.short_minute));
-
+            public void onClickListener() {
+                strServiceTime = myDateTimeModify.getStrTime();
+                tvDepartureTime.setText(strServiceTime + getResources().getString(R.string.short_minute));
             }
-        },tvHour,tvMinute,false);
-        timePickerDialog.show();
+        });
     }
 
     private void onSQLiteSaveData() {
@@ -301,10 +296,10 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
     private void saveToDatabase() {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseTripDetail.COL_LICENSEPLATE, str_licenseplate);
-//        contentValues.put(DatabaseTripDetail.COL_RESERVATION_NUMBER, strReservationNumber);
-//        contentValues.put(DatabaseTripDetail.COL_PURPOSE, strPurpose);
+        //contentValues.put(DatabaseTripDetail.COL_RESERVATION_NUMBER, strReservationNumber);
+        //contentValues.put(DatabaseTripDetail.COL_PURPOSE, strPurpose);
         contentValues.put(DatabaseTripDetail.COL_DEPARTURE_ODOMETER, odometerDouble);
-       // contentValues.put(DatabaseTripDetail.COL_FUEL_LEVEL, fuellLevelDouble);
+        //contentValues.put(DatabaseTripDetail.COL_FUEL_LEVEL, fuellLevelDouble);
         contentValues.put(DatabaseTripDetail.COL_DEPARTURE_DATETIME, strDepartureDateTime);
         contentValues.put(DatabaseTripDetail.COL_DEPARTURE_LOCATION_NAME, strDepartureLocationName);
         contentValues.put(DatabaseTripDetail.COL_DEPARTURE_LATITUDE, latitude);
@@ -312,7 +307,6 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
 
         long insertId = sqLiteDatabase.insert(DatabaseTripDetail.TABLE_NAME, null, contentValues);
         tripId = insertId;
-        Log.d("insert id = > ", insertId + "");
         editor.putLong(MyAppConfig.trip_id, insertId);
         editor.commit();
     }
@@ -390,13 +384,12 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
 
     private void myGetText() {
         str_licenseplate = sharedPreferences.getString(MyAppConfig.licensePlate, "");
-//        strReservationNumber = edtReservationNumber.getText().toString().trim();
-//        strPurpose = edtPurpose.getText().toString().trim();
         strDepartureOdometer = edtDepartureOdometer.getText().toString().trim();
-        //strFuelLevel = edtFuelLevel.getText().toString().trim();
-        strDepartureDateTime = myDateModify.getStrDateTimeModify(tvDay, tvMonth, tvYear, tvHour, tvMinute);
+
+        strDepartureDateTime = myDateTimeModify.getDateTimeToserver();
         strDepartureLocationName = edtNameLocation.getText().toString().trim();
 
+        Toast.makeText(this, strDepartureDateTime, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -419,7 +412,6 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         }
 
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -447,10 +439,9 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onNegativeMyDialog() {
-        Log.d("gps => ", "onNegativeMyDialog");
         if (switchLocation.isChecked()) {
             switchLocation.setChecked(false);
-            Toast.makeText(this, "No Open GPS ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.message_no_open_gps), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -522,14 +513,12 @@ public class TripStartActivity extends AppCompatActivity implements View.OnClick
         }else{
             super.onBackPressed();
         }
-
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         Log.d("activity = > ", "onStop");
-
     }
 
     @Override

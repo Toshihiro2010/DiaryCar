@@ -55,7 +55,7 @@ public class ServiceQuerySQLite {
                 Double latitude = cursor.getDouble(cursor.getColumnIndex(DatabaseServiceRecords.COL_LATITUDE));
                 Double longitude = cursor.getDouble(cursor.getColumnIndex(DatabaseServiceRecords.COL_LONGITUDE));
                 String location_name = cursor.getString(cursor.getColumnIndex(DatabaseServiceRecords.COL_LOCATION_NAME));
-                String note = cursor.getString(cursor.getColumnIndex(DatabasePriceCost.COL_NOTE));
+                //String note = cursor.getString(cursor.getColumnIndex(DatabasePriceCost.COL_NOTE));
 
                 String temp_date = cursor.getString(cursor.getColumnIndex(DatabasePriceCost.COL_TRANSACTION_DATE));
                 String[] date = MyDateTimeModify.getStrDateTimeFromSqlite(temp_date);
@@ -66,7 +66,7 @@ public class ServiceQuerySQLite {
                 String update_by = cursor.getString(cursor.getColumnIndex(DatabaseServiceRecords.COL_UPDATE_BY));
                 int status = cursor.getInt(cursor.getColumnIndex(DatabaseServiceRecords.COL_STATUS));
 
-                ServiceRecordModel serviceRecordModel = new ServiceRecordModel(id, service_id, license_plate, odometer, fule_level, service_cost, latitude, longitude, location_name, note, date[0], create_date, update_date, create_by, update_by, status);
+                ServiceRecordModel serviceRecordModel = new ServiceRecordModel(id, service_id, license_plate, odometer, fule_level, service_cost, latitude, longitude, location_name, date[0], create_date, update_date, create_by, update_by, status);
                 serviceRecordModelArrayList.add(serviceRecordModel);
                 cursor.moveToNext();
 

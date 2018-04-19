@@ -23,24 +23,7 @@ public class ServiceRecordModel {
     private String update_by;
     private int status;
 
-    public ServiceRecordModel(int id, int service_id, String license_plate, Double odometer, Double fuel_level, Double service_cost, Double latitude, Double longitude, String location_name, String note, String transaction_date, String date_create, String date_update, String create_by, String update_by, int status) {
-        this.id = id;
-        this.service_id = service_id;
-        this.license_plate = license_plate;
-        this.odometer = odometer;
-        this.fuel_level = fuel_level;
-        this.service_cost = service_cost;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.location_name = location_name;
-        this.note = note;
-        this.transaction_date = transaction_date;
-        this.date_create = date_create;
-        this.date_update = date_update;
-        this.create_by = create_by;
-        this.update_by = update_by;
-        this.status = status;
-    }
+
 
     public ServiceRecordModel(int id, int service_id, String license_plate, Double odometer, Double fuel_level, Double service_cost, Double latitude, Double longitude, String note, String transaction_date, String date_create, String date_update, String create_by, String update_by) {
         this.id = id;
@@ -58,6 +41,42 @@ public class ServiceRecordModel {
         this.create_by = create_by;
         this.update_by = update_by;
     }
+
+    public ServiceRecordModel(int id,
+                              int service_id,
+                              String license_plate,
+                              Double odometeer,
+                              Double fuel,
+                              Double service_cost,
+                              Double latitude,
+                              Double longitude,
+                              String location_name,
+                              String transaction_date,
+                              String create_date,
+                              String update_date,
+                              String create_by,
+                              String update_by,
+                              int status) {
+
+        this.id = id;
+        this.service_id = service_id;
+        this.license_plate = license_plate;
+        this.odometer = odometeer;
+        this.fuel_level = fuel;
+        this.service_cost = service_cost;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.location_name = location_name;
+        this.transaction_date = transaction_date;
+        this.date_create = create_date;
+        this.date_update = update_date;
+        this.create_by = create_by;
+        this.update_by = update_by;
+        this.status = status;
+
+
+    }
+
 
     public int getId() {
         return id;

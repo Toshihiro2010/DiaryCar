@@ -132,6 +132,8 @@
     <string name="message_change_car">คุณต้องการเปลี่ยนรถใช่หรือไม่</string>
     <string name="message_title_add_permission">อนุญาติเข้าถึงตำแหน่ง GPS</string>
     <string name="message_trip_on_start">กำลังเดินทาง</string>
+    <string name="message_description_end_trip">คุณต้องการจบการเดินทาง ใช่ หรือ ไม่</string>
+    <string name="message_no_open_gps">No Open GPS</string>
 
 
     <string-array name="oil_array">

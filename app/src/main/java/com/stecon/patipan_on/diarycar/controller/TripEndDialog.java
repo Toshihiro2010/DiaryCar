@@ -19,9 +19,11 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.R;
+import com.stecon.patipan_on.diarycar.common_class.CommonDatePickerDialog;
+import com.stecon.patipan_on.diarycar.common_class.CommonTimePickerDialog;
 import com.stecon.patipan_on.diarycar.common_class.MyLocationFirst;
 import com.stecon.patipan_on.diarycar.database.DatabaseTripDetail;
-import com.stecon.patipan_on.diarycar.model.MyAppConfig;
+import com.stecon.patipan_on.diarycar.common_class.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.MyDateTimeModify;
 
 import java.text.SimpleDateFormat;
@@ -112,7 +114,7 @@ public class TripEndDialog implements View.OnClickListener {
         strTvArrivalDate = myDateTimeModify.getStrDate();
         strTvArrivalTime = myDateTimeModify.getStrTime();
         tvArrivalDate.setText(strTvArrivalDate);
-        tvArrivalTime.setText(strTvArrivalTime + " น.");
+        tvArrivalTime.setText(strTvArrivalTime + " " + context.getResources().getString(R.string.short_minute));
 
     }
 
@@ -121,37 +123,30 @@ public class TripEndDialog implements View.OnClickListener {
     }
 
     public void onSelectDate() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+
+        CommonDatePickerDialog commonDatePickerDialog = new CommonDatePickerDialog(context, myDateTimeModify);
+        commonDatePickerDialog.setRegisterCustomDatePickerListener(new CommonDatePickerDialog.CustomDatePickerListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-                myDateTimeModify.setYear(year);
-                myDateTimeModify.setMonth(month + 1);
-                myDateTimeModify.setDay(dayOfMonth);
-
-
+            public void onClickListener() {
                 strTvArrivalDate = myDateTimeModify.getStrDate();
                 tvArrivalDate.setText(strTvArrivalDate);
             }
-        }, myDateTimeModify.getYear(), myDateTimeModify.getMonth()-1, myDateTimeModify.getDay());
-        datePickerDialog.show();
+        });
     }
 
     public void onSelectTime() {
-        TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
+
+        CommonTimePickerDialog commonTimePickerDialog = new CommonTimePickerDialog(context, myDateTimeModify);
+        commonTimePickerDialog.setRegisterCustomListenerTimePicker(new CommonTimePickerDialog.OnCustomListenerTimePickerDialog() {
             @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-                myDateTimeModify.setHour(hourOfDay);
-                myDateTimeModify.setMinute(minute);
-
+            public void onClickListener() {
                 strTvArrivalTime = myDateTimeModify.getStrTime();
                 tvArrivalTime.setText(strTvArrivalTime + context.getResources().getString(R.string.short_minute));
-
             }
-        },myDateTimeModify.getHour(),myDateTimeModify.getMinute(),false);
-        timePickerDialog.show();
+        });
     }
+
+
 
     @Override
     public void onClick(View v) {
@@ -207,32 +202,46 @@ public class TripEndDialog implements View.OnClickListener {
         myDbHelper = new MyDbHelper(context);
         sqLiteDatabase = myDbHelper.getWritableDatabase();
 
-        String arrivalDate = myDateTimeModify.getDateTimeToserver();
-        Date date = new Date();
-        String timeStamp = new SimpleDateFormat("dd/MM/yyy HH:mm:ss").format(date);
-        Log.d("timeStamp => ", timeStamp);
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
-        long tripId = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
+        final SharedPreferences sharedPreferences = context.getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
+        final long tripId = sharedPreferences.getLong(MyAppConfig.trip_id, 0);
         if (tripId == 0) {
             Toast.makeText(context, context.getResources().getString(R.string.program_not_process), Toast.LENGTH_SHORT).show();
 
         } else {
 
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(DatabaseTripDetail.COL_ARRIVAL_DATETIME, arrivalDate);
-            contentValues.put(DatabaseTripDetail.COL_ARRIVAL_ODOMETER, arrivalOdometerDouble);
-            contentValues.put(DatabaseTripDetail.COL_ARRIVAL_PARKING_LOCATION, strArrivalParkingLocation);
-            contentValues.put(DatabaseTripDetail.COL_UPDATE_BY, "User");
-            contentValues.put(DatabaseTripDetail.COL_DATE_UPDATE, timeStamp);
-            contentValues.put(DatabaseTripDetail.COL_NOTE, strTripNote);
-            contentValues.put(DatabaseTripDetail.COL_ARRIVAL_LATITUDE, latitude);
-            contentValues.put(DatabaseTripDetail.COL_ARRIVAL_LONGITUDE, longitude);
-            int row = sqLiteDatabase.update(DatabaseTripDetail.TABLE_NAME, contentValues, DatabaseTripDetail.COL_ID + " = ?", new String[]{String.valueOf(tripId)});
-            Log.d("row => ", row + "");
-            if (onNextListener != null) {
-                onNextListener.onStartNextListener();
-            }
+            StatusCheckServer statusCheckServer = new StatusCheckServer(context);
+            statusCheckServer.setOnMyListener(new StatusCheckServer.MyOnListener() {
+                @Override
+                public void onInsertListener() {
+                    String arrivalDate = myDateTimeModify.getDateTimeToserver();
+                    Date date = new Date();
+                    String timeStamp = new SimpleDateFormat("yyy-MM-dd HH:mm:ss").format(date);
+                    String user = sharedPreferences.getString(MyAppConfig.employee_id, "User");
+
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(DatabaseTripDetail.COL_ARRIVAL_DATETIME, arrivalDate);
+                    contentValues.put(DatabaseTripDetail.COL_ARRIVAL_ODOMETER, arrivalOdometerDouble);
+                    contentValues.put(DatabaseTripDetail.COL_ARRIVAL_PARKING_LOCATION, strArrivalParkingLocation);
+                    contentValues.put(DatabaseTripDetail.COL_UPDATE_BY, user);
+                    contentValues.put(DatabaseTripDetail.COL_DATE_UPDATE, timeStamp);
+                    contentValues.put(DatabaseTripDetail.COL_NOTE, strTripNote);
+                    contentValues.put(DatabaseTripDetail.COL_ARRIVAL_LATITUDE, latitude);
+                    contentValues.put(DatabaseTripDetail.COL_ARRIVAL_LONGITUDE, longitude);
+                    int row = sqLiteDatabase.update(DatabaseTripDetail.TABLE_NAME, contentValues, DatabaseTripDetail.COL_ID + " = ?", new String[]{String.valueOf(tripId)});
+                    Log.d("row => ", row + "");
+                    if (onNextListener != null) {
+                        onNextListener.onStartNextListener();
+                    }
+                }
+
+                @Override
+                public void onUpdateListener() {
+
+                }
+            });
+            statusCheckServer.checkInsert();
+
         }
         dialog.dismiss();
 

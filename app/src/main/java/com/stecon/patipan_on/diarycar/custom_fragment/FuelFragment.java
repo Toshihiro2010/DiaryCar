@@ -14,12 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.stecon.patipan_on.diarycar.PriceAllActivity;
 import com.stecon.patipan_on.diarycar.R;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.controller.OilAdapter;
 import com.stecon.patipan_on.diarycar.database.query_model.FuelDataQuerySQLIte;
-import com.stecon.patipan_on.diarycar.model.MyAppConfig;
+import com.stecon.patipan_on.diarycar.common_class.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.OilDataModel;
 
 import java.util.ArrayList;

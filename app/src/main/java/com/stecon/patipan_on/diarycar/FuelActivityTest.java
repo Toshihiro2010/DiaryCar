@@ -29,7 +29,7 @@ import com.stecon.patipan_on.diarycar.common_class.MyLocationFirst;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
 import com.stecon.patipan_on.diarycar.database.query_model.FuelTypeQuerySQLite;
 import com.stecon.patipan_on.diarycar.model.FuelTypeModel;
-import com.stecon.patipan_on.diarycar.model.MyAppConfig;
+import com.stecon.patipan_on.diarycar.common_class.MyAppConfig;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;

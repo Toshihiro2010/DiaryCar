@@ -62,29 +62,35 @@ public class CommonSyncCar extends AsyncTask<Void,Void,String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        if (s != null) {
+        if (s != null && !s.equals("")) {
 
             MyDbHelper myDbHelper = new MyDbHelper(context);
             SQLiteDatabase sqLiteDatabase = myDbHelper.getWritableDatabase();
 
-            sqLiteDatabase.delete(DatabaseVehicleMaster.TABLE_NAME, null, null);
-            Log.d("s => ", s);
-            Gson gson = new Gson();
-            CarModel carModel = gson.fromJson(s, CarModel.class);
-            int size_car = carModel.getRecordset().size();
-            if (size_car != 0) {
-                for (int i = 0; i < size_car; i++) {
-                    Recordset_ recordset = carModel.getRecordset().get(i);
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put(DatabaseVehicleMaster.COL_VEHICLE_ID, recordset.getCarID());
-                    contentValues.put(DatabaseVehicleMaster.COL_LICENSE_PLATE, recordset.getLicenseNo());
-                    contentValues.put(DatabaseVehicleMaster.COL_STATUS, recordset.getStatus());
+            try {
+                sqLiteDatabase.delete(DatabaseVehicleMaster.TABLE_NAME, null, null);
+                Log.d("s_post => ", s);
+                Gson gson = new Gson();
+                CarModel carModel = gson.fromJson(s, CarModel.class);
+                int size_car = carModel.getRecordset().size();
+                if (size_car != 0) {
+                    for (int i = 0; i < size_car; i++) {
+                        Recordset_ recordset = carModel.getRecordset().get(i);
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(DatabaseVehicleMaster.COL_VEHICLE_ID, recordset.getCarID());
+                        contentValues.put(DatabaseVehicleMaster.COL_LICENSE_PLATE, recordset.getLicenseNo());
+                        contentValues.put(DatabaseVehicleMaster.COL_STATUS, recordset.getStatus());
 
-                    long id = sqLiteDatabase.insert(DatabaseVehicleMaster.TABLE_NAME, null, contentValues);
-                    Log.d("id => ", id + "");
+                        long id = sqLiteDatabase.insert(DatabaseVehicleMaster.TABLE_NAME, null, contentValues);
+//                        Log.d("id => ", id + "");
+                    }
                 }
+            } catch (Exception e) {
+                Log.d("Error_Exception => ", e.toString());
             }
+
         } else {
+            Log.d("s_post =>", "data_null");
             Toast.makeText(context, "No Connect Server", Toast.LENGTH_SHORT).show();
         }
 //        customProgressDialog.onDidmiss();

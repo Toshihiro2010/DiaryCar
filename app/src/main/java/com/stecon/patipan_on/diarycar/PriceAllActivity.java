@@ -7,20 +7,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.stecon.patipan_on.diarycar.controller.CustomViewPagerAdapter;
-import com.stecon.patipan_on.diarycar.model.MyAppConfig;
+import com.stecon.patipan_on.diarycar.common_class.MyAppConfig;
 
 public class PriceAllActivity extends AppCompatActivity implements View.OnClickListener {
 

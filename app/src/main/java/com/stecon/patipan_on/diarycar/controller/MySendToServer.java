@@ -2,15 +2,18 @@ package com.stecon.patipan_on.diarycar.controller;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import com.google.gson.Gson;
+import com.stecon.patipan_on.diarycar.common_class.MyAppConfig;
 import com.stecon.patipan_on.diarycar.database.DatabaseLog;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
 import com.stecon.patipan_on.diarycar.database.DatabasePriceCost;
@@ -22,14 +25,13 @@ import com.stecon.patipan_on.diarycar.model.MyModelSynToServer;
 import com.stecon.patipan_on.diarycar.model.OilDataModel;
 import com.stecon.patipan_on.diarycar.model.ServiceRecordModel;
 import com.stecon.patipan_on.diarycar.model.PriceCostModel;
+import com.stecon.patipan_on.diarycar.model.StatusResultServerModel;
 import com.stecon.patipan_on.diarycar.model.TripDetailModel;
 
-import org.xml.sax.XMLReader;
-
-import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-import javax.xml.parsers.SAXParserFactory;
+import java.util.Calendar;
+import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -47,50 +49,53 @@ public class MySendToServer {
     private Boolean statusNetWork;
     private MyDbHelper myDbHelper;
     private SQLiteDatabase sqLiteDatabase;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     public MySendToServer(Context context) {
         this.context = context;
         this.statusNetWork = false;
         this.myDbHelper = new MyDbHelper(context);
         this.sqLiteDatabase = myDbHelper.getWritableDatabase();
+        this.sharedPreferences = context.getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
+        this.editor = sharedPreferences.edit();
     }
 
-    public void statusIdCheck() {
-        String strSQL = "SELECT * FROM " + DatabaseStatusToServer.TABLE_NAME + " WHERE " + DatabaseStatusToServer.COL_STATUS + " = 0";
-        Cursor cursor = sqLiteDatabase.rawQuery(strSQL, null);
-        long insertId;
-        Log.d("t = > ", cursor.getCount() + "");
-        if (cursor.getCount() == 0) {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(DatabaseStatusToServer.COL_MESSAGE, "Create");
-            insertId = sqLiteDatabase.insert(DatabaseStatusToServer.TABLE_NAME, null, contentValues);
-            Log.d("sql => ", "insert");
-        }else{
-            cursor.moveToFirst();
-            insertId = cursor.getInt(cursor.getColumnIndex(DatabaseStatusToServer.COL_ID));
-            Log.d("sql => ", "select");
-        }
-        Log.d("id => = > ", insertId + "");
-    }
-
-    public long checkInsertStatusOfSharePerference() {
-        String strSQL = "SELECT * FROM " + DatabaseStatusToServer.TABLE_NAME + " WHERE " + DatabaseStatusToServer.COL_STATUS + " = 0";
-        Cursor cursor = sqLiteDatabase.rawQuery(strSQL, null);
-        long insertId = 0;
-
-        if (cursor.getCount() == 0) {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(DatabaseStatusToServer.COL_MESSAGE, "Create");
-            insertId = sqLiteDatabase.insert(DatabaseStatusToServer.TABLE_NAME, null, contentValues);
-            Log.d("sql => ", "insert");
-        }else{
-            cursor.moveToFirst();
-            insertId = cursor.getInt(cursor.getColumnIndex(DatabaseStatusToServer.COL_ID));
-            Log.d("sql => ", "select");
-        }
-        Log.d("id => = > ", insertId + "");
-        return insertId;
-    }
+//    public void statusIdCheck() {
+//        String strSQL = "SELECT * FROM " + DatabaseStatusToServer.TABLE_NAME + " WHERE " + DatabaseStatusToServer.COL_STATUS + " = 0";
+//        Cursor cursor = sqLiteDatabase.rawQuery(strSQL, null);
+//        long insertId;
+//        Log.d("t = > ", cursor.getCount() + "");
+//        if (cursor.getCount() == 0) {
+//            ContentValues contentValues = new ContentValues();
+//            contentValues.put(DatabaseStatusToServer.COL_MESSAGE, "Create");
+//            insertId = sqLiteDatabase.insert(DatabaseStatusToServer.TABLE_NAME, null, contentValues);
+//            Log.d("sql => ", "insert");
+//        }else{
+//            cursor.moveToFirst();
+//            insertId = cursor.getInt(cursor.getColumnIndex(DatabaseStatusToServer.COL_ID));
+//            Log.d("sql => ", "select");
+//        }
+//        Log.d("id => = > ", insertId + "");
+//    }
+//
+//    public long checkInsertStatusOfSharePerference() {
+//        String strSQL = "SELECT * FROM " + DatabaseStatusToServer.TABLE_NAME + " WHERE " + DatabaseStatusToServer.COL_STATUS + " = 0";
+//        Cursor cursor = sqLiteDatabase.rawQuery(strSQL, null);
+//        long insertId = 0;
+//
+//        if (cursor.getCount() == 0) {
+//            ContentValues contentValues = new ContentValues();
+//            contentValues.put(DatabaseStatusToServer.COL_MESSAGE, "Create");
+//            insertId = sqLiteDatabase.insert(DatabaseStatusToServer.TABLE_NAME, null, contentValues);
+//            Log.d("sql => ", "insert");
+//        }else{
+//            cursor.moveToFirst();
+//            insertId = cursor.getInt(cursor.getColumnIndex(DatabaseStatusToServer.COL_ID));
+//        }
+//        Log.d("id => = > ", insertId + "");
+//        return insertId;
+//    }
 
     public long myCheckIdToServer() {
         String strSQL = "SELECT * FROM " + DatabaseStatusToServer.TABLE_NAME + " WHERE " + DatabaseStatusToServer.COL_STATUS + " = 0";
@@ -99,16 +104,13 @@ public class MySendToServer {
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             insertId = cursor.getInt(cursor.getColumnIndex(DatabaseStatusToServer.COL_ID));
-            Log.d("sql => ", "select");
+
         }
         return insertId;
-
     }
 
 
-
-
-    public Boolean checkStatus() {
+    public Boolean checkNetwork() {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 
@@ -117,8 +119,9 @@ public class MySendToServer {
     }
 
     public void syncToServer() {
-        statusNetWork = checkStatus();
+        statusNetWork = checkNetwork();
         long idToServer = myCheckIdToServer();
+        Log.d("idServer => ", idToServer + "");
         if (statusNetWork == true && idToServer != 0) {
             Log.d("syncToServer =>", "Sync To Server");
             MySyncToServer mySyncToServer = new MySyncToServer();
@@ -142,9 +145,9 @@ public class MySendToServer {
         protected String doInBackground(Object... params) {
 
             String dataSyncToServer = myCustomQueryArrayList();
-            String strURL = "http://172.20.20.57:7777/testobject";
+            String strURL = "http://172.20.20.57:888/syncData ";
             MediaType mediaTypeJson = MediaType.parse("application/json; charset=utf-8");
-
+            Log.d("data => ", dataSyncToServer);
             RequestBody body = RequestBody.create(mediaTypeJson, dataSyncToServer);
             Request request = new Request.Builder()
                     .url(strURL)
@@ -155,13 +158,9 @@ public class MySendToServer {
 
             try {
                 Response response = client.newCall(request).execute();
-                XMLReader xmlReader = (XMLReader) SAXParserFactory.newInstance().newSAXParser();
-
-                Log.d("response => ", response.body().toString());
                 return response.body().string();
             } catch (Exception e) {
                 Log.d("response error => ", e.toString());
-
             }
             return null;
         }
@@ -172,9 +171,15 @@ public class MySendToServer {
 
             if (s != null) {
                 try {
-                    Log.d("res => ", s);
-                    //changeStatus();
-
+                    StatusResultServerModel statusResultServerModel = new Gson().fromJson(s, StatusResultServerModel.class);
+                    Log.d("fuel => ", statusResultServerModel.getFuel() + " ");
+                    Log.d("Service => ", statusResultServerModel.getService() + " ");
+                    Log.d("Trip => ", statusResultServerModel.getTripDetail() + " ");
+                    Log.d("Cost => ", statusResultServerModel.getTripCost() + " ");
+                    changeStatus(statusResultServerModel.getFuel()
+                            ,statusResultServerModel.getService()
+                            ,statusResultServerModel.getTripDetail()
+                            ,statusResultServerModel.getTripCost());
                 } catch (Exception e) {
                     Log.d("exception => ", e.toString());
                 }
@@ -182,30 +187,79 @@ public class MySendToServer {
         }
     }
 
-    private void changeStatus() {
+    private void changeStatus(Boolean statusFuel,Boolean statusService,Boolean statusTripDetail,Boolean statusTripCost) {
+        Log.d("syncToServer => ", "changeStatus");
+        Date date = Calendar.getInstance().getTime();
+        String timeStamp = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(date);
 
-        String sqlUpdateOil = "UPDATE " + DatabaseOilJournal.TABLE_NAME
-                        + " set " + DatabaseOilJournal.COL_STATUS + " = 1 "
-                        + " WHERE " + DatabaseOilJournal.COL_STATUS + " != 1";
-        sqLiteDatabase.rawQuery(sqlUpdateOil, null);
+        ContentValues fuelContentValues = new ContentValues();
+        fuelContentValues.put(DatabaseOilJournal.COL_STATUS, 1);
 
-        String sqlUpdateTripCost = "UPDATE " + DatabasePriceCost.TABLE_NAME
-                + " set " + DatabasePriceCost.COL_STATUS + " = 1 "
-                + " WHERE " + DatabasePriceCost.COL_STATUS + " != 1";
-        sqLiteDatabase.rawQuery(sqlUpdateTripCost, null);
+        ContentValues serviceContentValues = new ContentValues();
+        serviceContentValues.put(DatabaseServiceRecords.COL_STATUS, 1);
 
-        String sqlUpdateTripDetail = "UPDATE " + DatabaseTripDetail.TABLE_NAME
-                + " set " + DatabaseTripDetail.COL_STATUS + " = 1 "
-                + " WHERE " + DatabaseTripDetail.COL_STATUS + " != 1";
-        sqLiteDatabase.rawQuery(sqlUpdateTripDetail, null);
+        ContentValues tripCostContentValues = new ContentValues();
+        tripCostContentValues.put(DatabasePriceCost.COL_STATUS, 1);
 
-        String sqlUpdateServiceRecord = "UPDATE " + DatabaseServiceRecords.TABLE_NAME
-                + " set " + DatabaseServiceRecords.COL_STATUS + " = 1 "
-                + " WHERE " + DatabaseServiceRecords.COL_STATUS + " != 1";
-        sqLiteDatabase.rawQuery(sqlUpdateServiceRecord, null);
+        ContentValues tripDetailContentValues = new ContentValues();
+        tripDetailContentValues.put(DatabaseTripDetail.COL_STATUS, 1);
+
+        String fuelValueCondition[] = {String.valueOf(1)};
+        String serviceValueCondition[] = {String.valueOf(1)};
+        String tripCostValueCondition[] = {String.valueOf(1)};
+        String tripDetailCondition[] = {String.valueOf(1)};
+
+        if (statusFuel) {
+            sqLiteDatabase.update(DatabaseOilJournal.TABLE_NAME,
+                    fuelContentValues,
+                    DatabaseOilJournal.COL_STATUS + "!= ?"
+                    , fuelValueCondition);
+        }
+
+        if (statusService) {
+            sqLiteDatabase.update(DatabaseServiceRecords.TABLE_NAME,
+                    serviceContentValues,
+                    DatabaseServiceRecords.COL_STATUS + "!= ?"
+                    , serviceValueCondition);
+        }
+
+
+        if (statusTripDetail) {
+            sqLiteDatabase.update(DatabaseTripDetail.TABLE_NAME,
+                    tripDetailContentValues,
+                    DatabaseTripDetail.COL_STATUS + "!= ?"
+                    , tripDetailCondition);
+        }
+
+        if (statusTripCost) {
+            sqLiteDatabase.update(DatabasePriceCost.TABLE_NAME,
+                    tripCostContentValues,
+                    DatabasePriceCost.COL_STATUS + "!= ?"
+                    , tripCostValueCondition);
+        }
 
 
 
+        ContentValues statusToServerContentValues = new ContentValues();
+        statusToServerContentValues.put(DatabaseStatusToServer.COL_STATUS, 1);
+        statusToServerContentValues.put(DatabaseStatusToServer.COL_DATE_UPDATE, timeStamp);
+        statusToServerContentValues.put(DatabaseStatusToServer.COL_MESSAGE,"SyncData Success");
+        String statusToServerValueCondition[] = {String.valueOf(1)};
+
+        if (statusFuel && statusService && statusTripCost && statusTripDetail) {
+            sqLiteDatabase.update(DatabaseStatusToServer.TABLE_NAME,
+                    statusToServerContentValues,
+                    DatabaseStatusToServer.COL_STATUS + " != ? ",
+                    statusToServerValueCondition);
+        } else {
+            ContentValues customContentValue = new ContentValues();
+            customContentValue.put(DatabaseStatusToServer.COL_STATUS, 1);
+            customContentValue.put(DatabaseStatusToServer.COL_MESSAGE,"SyncData No Success");
+            customContentValue.put(DatabaseStatusToServer.COL_TRANSACTION_DATE, timeStamp);
+            customContentValue.put(DatabaseStatusToServer.COL_CREATE_BY, sharedPreferences.getString(MyAppConfig.employee_id, ""));
+            customContentValue.put(DatabaseStatusToServer.COL_UPDATE_BY, sharedPreferences.getString(MyAppConfig.employee_id, ""));
+            sqLiteDatabase.insert(DatabaseStatusToServer.TABLE_NAME, null, customContentValue);
+        }
 
     }
 
@@ -265,12 +319,10 @@ public class MySendToServer {
                 String update_date = cursorFuel.getString(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_DATE_UPDATE));
                 String create_by = cursorFuel.getString(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_CREATE_BY));
                 String update_by = cursorFuel.getString(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_UPDATE_BY));
-                int status = cursorFuel.getInt(cursorTripCost.getColumnIndex(DatabaseOilJournal.COL_STATUS));
+                int status = cursorFuel.getInt(cursorFuel.getColumnIndex(DatabaseOilJournal.COL_STATUS));
 
                 OilDataModel oilDataModel = new OilDataModel(id, license_plate, odometer, unit_price, volume, fueltype, total_rpice, payment_type, latitude, longitude, note, transaction_date,location_date, create_date, update_date, create_by, update_by,status);
-
                 oilDataModelArrayList.add(oilDataModel);
-
                 cursorFuel.moveToNext();
             }
 
@@ -287,13 +339,13 @@ public class MySendToServer {
                 Double latitude = cursorServiceRecord.getDouble(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_LATITUDE));
                 Double longitude = cursorServiceRecord.getDouble(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_LONGITUDE));
                 String location_name = cursorServiceRecord.getString(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_LOCATION_NAME));
-                String note = cursorServiceRecord.getString(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_NOTE));
+                //String note = cursorServiceRecord.getString(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_NOTE));
                 String transaction_date = cursorServiceRecord.getString(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_TRANSACTION_DATE));
-                String create_date = cursorServiceRecord.getString(cursorFuel.getColumnIndex(DatabaseServiceRecords.COL_DATE_CREATE));
-                String update_date = cursorServiceRecord.getString(cursorFuel.getColumnIndex(DatabaseServiceRecords.COL_DATE_UPDATE));
-                String create_by = cursorServiceRecord.getString(cursorFuel.getColumnIndex(DatabaseServiceRecords.COL_CREATE_BY));
-                String update_by = cursorServiceRecord.getString(cursorFuel.getColumnIndex(DatabaseServiceRecords.COL_UPDATE_BY));
-                int status = cursorServiceRecord.getInt(cursorTripCost.getColumnIndex(DatabaseServiceRecords.COL_STATUS));
+                String create_date = cursorServiceRecord.getString(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_DATE_CREATE));
+                String update_date = cursorServiceRecord.getString(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_DATE_UPDATE));
+                String create_by = cursorServiceRecord.getString(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_CREATE_BY));
+                String update_by = cursorServiceRecord.getString(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_UPDATE_BY));
+                int status = cursorServiceRecord.getInt(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_STATUS));
 
                 ServiceRecordModel serviceRecordModel = new ServiceRecordModel(
                         id,
@@ -305,7 +357,6 @@ public class MySendToServer {
                         latitude,
                         longitude,
                         location_name,
-                        note,
                         transaction_date,
                         create_date,
                         update_date,
@@ -314,9 +365,7 @@ public class MySendToServer {
                         status);
 
                 serviceRecordModelArrayList.add(serviceRecordModel);
-
-
-                Log.d("serviceRecord => ", cursorServiceRecord.getString(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_NOTE)));
+                //Log.d("serviceRecord => ", cursorServiceRecord.getString(cursorServiceRecord.getColumnIndex(DatabaseServiceRecords.COL_NOTE)));
                 cursorServiceRecord.moveToNext();
             }
             if (cursorTripCost != null && !cursorTripCost.isAfterLast()) {
@@ -337,9 +386,7 @@ public class MySendToServer {
                 int status = cursorTripCost.getInt(cursorTripCost.getColumnIndex(DatabasePriceCost.COL_STATUS));
 
                 PriceCostModel priceCostModel = new PriceCostModel(id, license_plate, price_type, title, money, note, transaction_date, create_date, update_date, create_by, update_by, status);
-
                 priceCostModelArrayList.add(priceCostModel);
-
                 cursorTripCost.moveToNext();
             }
             if (cursorTripDetail != null && !cursorTripDetail.isAfterLast()) {
@@ -350,7 +397,7 @@ public class MySendToServer {
                 String licen_plate = cursorTripDetail.getString(cursorTripDetail.getColumnIndex(DatabaseTripDetail.COL_LICENSEPLATE));
                 String reservation_number = cursorTripDetail.getString(cursorTripDetail.getColumnIndex(DatabaseTripDetail.COL_RESERVATION_NUMBER));
                 String purpose = cursorTripDetail.getString(cursorTripDetail.getColumnIndex(DatabaseTripDetail.COL_PURPOSE));
-                String depatrture_date = cursorTripDetail.getString(cursorTripDetail.getColumnIndex(DatabaseTripDetail.COL_DEPARTURE_DATETIME));
+                String departure_date = cursorTripDetail.getString(cursorTripDetail.getColumnIndex(DatabaseTripDetail.COL_DEPARTURE_DATETIME));
                 Double departure_odometer = cursorTripDetail.getDouble(cursorTripDetail.getColumnIndex(DatabaseTripDetail.COL_DEPARTURE_ODOMETER));
                 Double departure_latitude = cursorTripDetail.getDouble(cursorTripDetail.getColumnIndex(DatabaseTripDetail.COL_DEPARTURE_LATITUDE));
                 Double departure_longitude = cursorTripDetail.getDouble(cursorTripDetail.getColumnIndex(DatabaseTripDetail.COL_DEPARTURE_LONGITUDE));
@@ -374,7 +421,7 @@ public class MySendToServer {
                         id, licen_plate,
                         reservation_number,
                         purpose,
-                        depatrture_date,
+                        departure_date,
                         departure_odometer,
                         departure_latitude,
                         departure_longitude,
@@ -392,14 +439,21 @@ public class MySendToServer {
                         update_by,
                         status);
                 tripDetailModelArrayList.add(tripDetailModel);
-
                 cursorTripDetail.moveToNext();
             }
         }
 
         MyModelSynToServer myModelSynToServer = new MyModelSynToServer();
-        myModelSynToServer.setDate_sync("1/10/2560");
-        myModelSynToServer.setSync_by("User");
+        Date date = Calendar.getInstance().getTime();
+        String timeStamp = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(date);
+        myModelSynToServer.setDate_sync(timeStamp);
+
+        String user = sharedPreferences.getString(MyAppConfig.employee_id, "");
+        if (!user.equals("")) {
+            myModelSynToServer.setSync_by(user);
+        } else {
+            myModelSynToServer.setSync_by("Anonymous");
+        }
 
         myModelSynToServer.setFuelData(oilDataModelArrayList);
         myModelSynToServer.setTripCost(priceCostModelArrayList);

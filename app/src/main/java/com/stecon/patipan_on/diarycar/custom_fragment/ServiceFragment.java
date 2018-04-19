@@ -18,7 +18,7 @@ import com.stecon.patipan_on.diarycar.R;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.controller.ServiceAdapter;
 import com.stecon.patipan_on.diarycar.database.query_model.ServiceQuerySQLite;
-import com.stecon.patipan_on.diarycar.model.MyAppConfig;
+import com.stecon.patipan_on.diarycar.common_class.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.ServiceRecordModel;
 
 import java.util.ArrayList;

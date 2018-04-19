@@ -6,10 +6,10 @@ package com.stecon.patipan_on.diarycar.model;
 
 public class TripDetailModel {
     private int id;
-    private String licen_plate;
+    private String license_plate;
     private String reservation_number;
     private String purpose;
-    private String depatrture_date;
+    private String departure_date;
     private Double departure_odometer;
     private Double departure_latitude;
     private Double departure_longitude;
@@ -54,10 +54,10 @@ public class TripDetailModel {
             String update_by,
             int status) {
         this.id = id;
-        this.licen_plate = licen_plate;
+        this.license_plate = licen_plate;
         this.reservation_number = reservation_number;
         this.purpose = purpose;
-        this.depatrture_date = depatrture_date;
+        this.departure_date = depatrture_date;
         this.departure_odometer = departure_odometer;
         this.departure_latitude = departure_latitude;
         this.departure_longitude = departure_longitude;
@@ -94,11 +94,11 @@ public class TripDetailModel {
     }
 
     public String getLicen_plate() {
-        return licen_plate;
+        return license_plate;
     }
 
     public void setLicen_plate(String licen_plate) {
-        this.licen_plate = licen_plate;
+        this.license_plate = licen_plate;
     }
 
     public String getReservation_number() {
@@ -118,11 +118,11 @@ public class TripDetailModel {
     }
 
     public String getDepatrture_date() {
-        return depatrture_date;
+        return departure_date;
     }
 
     public void setDepatrture_date(String depatrture_date) {
-        this.depatrture_date = depatrture_date;
+        this.departure_date = depatrture_date;
     }
 
     public Double getDeparture_odometer() {

@@ -19,9 +19,12 @@ import android.widget.Button;
 
 import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
 import com.stecon.patipan_on.diarycar.controller.MySendToServer;
-import com.stecon.patipan_on.diarycar.model.MyAppConfig;
+import com.stecon.patipan_on.diarycar.common_class.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.PinCodeStatic;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, CustomAlertDialog.OnMyDialogActivity {
@@ -47,12 +50,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_new);
 
-
-
         bindWidGet();
         sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         myOnClick();
+
+        myCustomTest();
 
 
 //        if (isNetworkAvailable()) {
@@ -171,7 +174,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         return super.onOptionsItemSelected(item);
 
-
     }
 
     private void onCheckPinFirst() {
@@ -180,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(MainActivity.this, PinCodeActivity.class);
             intent.putExtra(PinCodeActivity.PIN_MODE, 0);
             startActivityForResult(intent, PinCodeActivity.REQUEST_CODE);
-            //startActivity(intent);
         }
     }
 
@@ -221,17 +222,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(getApplicationContext(), PriceAllActivity.class);
             startActivity(intent);
 
-        }
-// else if (v == imgSetting) {
-//            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
-//            startActivity(intent);
-//        }
-        else if (v == imgChangeCar) {
+        } else if (v == imgChangeCar) {
             onExit();
         }
     }
-
-
 
     private void onExit() {
         String titleChangCar = this.getResources().getString(R.string.message_title_change_car);
@@ -282,7 +276,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -299,7 +292,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 finish();
             }
         }
-
         if (requestCode == LicensePlateActivity.REQUEST_CODE) {
             if (resultCode == RESULT_CANCELED) {
                 PinCodeStatic.setPinNumber(null);
@@ -316,7 +308,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("activity => ", "onActivityResult");
             }
         }
-
     }
 
     @Override
@@ -325,6 +316,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         PinCodeStatic.setPinNumber(null);
 
     }
-
 
 }

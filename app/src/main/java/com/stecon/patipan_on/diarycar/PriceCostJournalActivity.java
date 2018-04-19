@@ -19,9 +19,10 @@ import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
+import com.stecon.patipan_on.diarycar.controller.StatusCheckServer;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
 import com.stecon.patipan_on.diarycar.database.DatabasePriceCost;
-import com.stecon.patipan_on.diarycar.model.MyAppConfig;
+import com.stecon.patipan_on.diarycar.common_class.MyAppConfig;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -181,18 +182,32 @@ public class PriceCostJournalActivity extends AppCompatActivity implements View.
 
     private void onSaveData() {
         priceADouble = Double.valueOf(strPrice);
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DatabasePriceCost.COL_LICENSE_PLATE, strLicensePlate);
-        contentValues.put(DatabasePriceCost.COL_PRICE_TYPE, strPriceType);
-        contentValues.put(DatabasePriceCost.COL_PRICE_TITLE, strTitle);
-        contentValues.put(DatabasePriceCost.COL_PRICE_MONEY, priceADouble);
-        contentValues.put(DatabasePriceCost.COL_NOTE, strNote);
 
-        sqLiteDatabase.insert(DatabasePriceCost.TABLE_NAME, null, contentValues);
-        Toast.makeText(this, getResources().getString(R.string.message_save_success), Toast.LENGTH_SHORT).show();
-        mySetEmptyText();
-        progressDialog.dismiss();
-        finish();
+        StatusCheckServer statusCheckServer = new StatusCheckServer(PriceCostJournalActivity.this);
+        statusCheckServer.setOnMyListener(new StatusCheckServer.MyOnListener() {
+            @Override
+            public void onInsertListener() {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(DatabasePriceCost.COL_LICENSE_PLATE, strLicensePlate);
+                contentValues.put(DatabasePriceCost.COL_PRICE_TYPE, strPriceType);
+                contentValues.put(DatabasePriceCost.COL_PRICE_TITLE, strTitle);
+                contentValues.put(DatabasePriceCost.COL_PRICE_MONEY, priceADouble);
+                contentValues.put(DatabasePriceCost.COL_NOTE, strNote);
+
+                sqLiteDatabase.insert(DatabasePriceCost.TABLE_NAME, null, contentValues);
+                mySetEmptyText();
+                progressDialog.dismiss();
+                finish();
+            }
+
+            @Override
+            public void onUpdateListener() {
+
+            }
+        });
+        statusCheckServer.checkInsert();
+
+
 
     }
 

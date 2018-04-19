@@ -20,10 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.common_class.CustomProgressDialog;
-import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.database.DatabaseUser;
-import com.stecon.patipan_on.diarycar.model.MyAppConfig;
+import com.stecon.patipan_on.diarycar.common_class.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.MyDateModify;
 
 import java.io.IOException;
@@ -63,7 +62,7 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
     //private String strUrl = "http://csclub.ssru.ac.th/s56122201044/csc4202/monitor/php_get_monitor.php";
     //private String strUrl = "http://128.1.10.62:8081/BenzApi/Data?Date=0311201703112017";
     //private String strUrl = "http://203.146.239.40:8081/BenzApi/Data?Date=0311201703112017";
-    private String strNodejs = "http://172.20.20.57:7777/checkuser";
+    //private String strNodejs = "http://172.20.20.57:7777/checkuser";
     private String strUrl = "http://sthq50.stecon.co.th/SinoWS/SinoWebService.asmx/GetEmployee";
 
 
@@ -164,7 +163,7 @@ public class VerifiedActivity extends AppCompatActivity implements View.OnClickL
 //
 //
 //                if(code == 200){
-//                    //CheckStatus checkStatus = new Gson().fromJson(dataResponse, CheckStatus.class);
+//                    //CheckStatus checkNetwork = new Gson().fromJson(dataResponse, CheckStatus.class);
 //                    Log.d("status => ", "ok");
 //                    //Toast.makeText(VerifiedActivity.this, "สำเร็จ", Toast.LENGTH_SHORT).show();
 //                    //myIntent();

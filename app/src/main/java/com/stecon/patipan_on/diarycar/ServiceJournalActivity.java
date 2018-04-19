@@ -29,12 +29,15 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.stecon.patipan_on.diarycar.common_class.CommonDatePickerDialog;
+import com.stecon.patipan_on.diarycar.common_class.CommonTimePickerDialog;
 import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
 import com.stecon.patipan_on.diarycar.common_class.MyAddPermissionLocation;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.common_class.MyLocationFirst;
+import com.stecon.patipan_on.diarycar.controller.StatusCheckServer;
 import com.stecon.patipan_on.diarycar.database.DatabaseServiceRecords;
-import com.stecon.patipan_on.diarycar.model.MyAppConfig;
+import com.stecon.patipan_on.diarycar.common_class.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.MyDateTimeModify;
 
 import java.io.IOException;
@@ -196,7 +199,8 @@ public class ServiceJournalActivity extends AppCompatActivity implements MyAddPe
         strServiceDate = myDateTimeModify.getStrDate();
         strServiceTime = myDateTimeModify.getStrTime();
         tvServiceDate.setText(strServiceDate);
-        tvServiceTime.setText(strServiceTime);
+        tvServiceTime.setText(strServiceTime + " " + getResources().getString(R.string.short_minute));
+
     }
 
     private void btnOnClick() {
@@ -338,20 +342,30 @@ public class ServiceJournalActivity extends AppCompatActivity implements MyAddPe
     }
 
     private void onInsert() {
+        StatusCheckServer statusCheckServer = new StatusCheckServer(ServiceJournalActivity.this);
+        statusCheckServer.setOnMyListener(new StatusCheckServer.MyOnListener() {
+            @Override
+            public void onInsertListener() {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(DatabaseServiceRecords.COL_SERVICE_ID, intServicePosion);
+                contentValues.put(DatabaseServiceRecords.COL_LICENSE_PLATE, strLicensePlate);
+                contentValues.put(DatabaseServiceRecords.COL_ODOMETER, douOdometer);
+                contentValues.put(DatabaseServiceRecords.COL_SERVICE_COST, douServiceCost);
+                contentValues.put(DatabaseServiceRecords.COL_LATITUDE, latitude);
+                contentValues.put(DatabaseServiceRecords.COL_LONGITUDE, longitude);
+                contentValues.put(DatabaseServiceRecords.COL_LOCATION_NAME, strLocationName);
+                contentValues.put(DatabaseServiceRecords.COL_TRANSACTION_DATE, strDateTime);
 
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DatabaseServiceRecords.COL_SERVICE_ID, intServicePosion);
-        contentValues.put(DatabaseServiceRecords.COL_LICENSE_PLATE, strLicensePlate);
-        contentValues.put(DatabaseServiceRecords.COL_ODOMETER, douOdometer);
-        contentValues.put(DatabaseServiceRecords.COL_SERVICE_COST, douServiceCost);
-        contentValues.put(DatabaseServiceRecords.COL_LATITUDE, latitude);
-        contentValues.put(DatabaseServiceRecords.COL_LONGITUDE, longitude);
-        contentValues.put(DatabaseServiceRecords.COL_LOCATION_NAME, strLocationName);
-        contentValues.put(DatabaseServiceRecords.COL_TRANSACTION_DATE, strDateTime);
+                sqLiteDatabase.insert(DatabaseServiceRecords.TABLE_NAME, null, contentValues);
+                finish();
+            }
 
-        sqLiteDatabase.insert(DatabaseServiceRecords.TABLE_NAME, null, contentValues);
-        finish();
+            @Override
+            public void onUpdateListener() {
 
+            }
+        });
+        statusCheckServer.checkInsert();
     }
 
     private void serviceGetText() {
@@ -391,36 +405,25 @@ public class ServiceJournalActivity extends AppCompatActivity implements MyAddPe
     }
 
     private void onSelectTime() {
-        timePickerDialog = new TimePickerDialog(ServiceJournalActivity.this, new TimePickerDialog.OnTimeSetListener() {
+        CommonTimePickerDialog commonTimePickerDialog = new CommonTimePickerDialog(ServiceJournalActivity.this, myDateTimeModify);
+        commonTimePickerDialog.setRegisterCustomListenerTimePicker(new CommonTimePickerDialog.OnCustomListenerTimePickerDialog() {
             @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-                myDateTimeModify.setHour(hourOfDay);
-                myDateTimeModify.setMinute(minute);
-
+            public void onClickListener() {
                 strServiceTime = myDateTimeModify.getStrTime();
                 tvServiceTime.setText(strServiceTime + getResources().getString(R.string.short_minute));
-
             }
-        },myDateTimeModify.getHour(),myDateTimeModify.getMinute(),false);
-        timePickerDialog.show();
+        });
     }
 
     private void onSelectDate() {
-        datePickerDialog = new DatePickerDialog(ServiceJournalActivity.this, new DatePickerDialog.OnDateSetListener() {
+        CommonDatePickerDialog commonDatePickerDialog = new CommonDatePickerDialog(ServiceJournalActivity.this, myDateTimeModify);
+        commonDatePickerDialog.setRegisterCustomDatePickerListener(new CommonDatePickerDialog.CustomDatePickerListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-                myDateTimeModify.setYear(year);
-                myDateTimeModify.setMonth(month + 1);
-                myDateTimeModify.setDay(dayOfMonth);
-
-
+            public void onClickListener() {
                 strServiceDate = myDateTimeModify.getStrDate();
                 tvServiceDate.setText(strServiceDate);
             }
-        }, myDateTimeModify.getYear(), myDateTimeModify.getMonth()-1, myDateTimeModify.getDay());
-        datePickerDialog.show();
+        });
     }
 
     @Override

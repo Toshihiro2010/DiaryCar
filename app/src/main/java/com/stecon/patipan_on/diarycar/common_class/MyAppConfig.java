@@ -1,4 +1,4 @@
-package com.stecon.patipan_on.diarycar.model;
+package com.stecon.patipan_on.diarycar.common_class;
 
 /**
  * Created by patipan_on on 12/19/2017.

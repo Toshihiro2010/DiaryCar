@@ -1,7 +1,6 @@
 package com.stecon.patipan_on.diarycar;
 
 import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,7 +24,7 @@ import com.stecon.patipan_on.diarycar.common_class.CustomProgressDialog;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.database.DatabaseVehicleMaster;
 import com.stecon.patipan_on.diarycar.model.CarModel;
-import com.stecon.patipan_on.diarycar.model.MyAppConfig;
+import com.stecon.patipan_on.diarycar.common_class.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.Recordset_;
 
 import java.io.IOException;
@@ -53,6 +52,7 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
     private String strUrlGetCarAll = "http://172.20.20.57:888/findLicenseAll";
 
     AlertDialog.Builder builder;
+    private String license_select;
 
 
     @Override
@@ -60,6 +60,8 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_licen_plate);
 
+        myDbHelper = new MyDbHelper(LicensePlateActivity.this);
+        sqLiteDatabase = myDbHelper.getWritableDatabase();
         sharedPreferences = getSharedPreferences(MyAppConfig.P_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         strLicensePlate = sharedPreferences.getString(MyAppConfig.licensePlate, "");
@@ -71,10 +73,7 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
         }else{
             if (isNetworkAvailable()) {
                 Log.d("Internet => ", "Conntected");
-//                SyncLicenseCarAll syncLicenseCarAll = new SyncLicenseCarAll();
-//                syncLicenseCarAll.execute();
-                MyDbHelper myDbHelper = new MyDbHelper(LicensePlateActivity.this);
-                SQLiteDatabase sqLiteDatabase = myDbHelper.getWritableDatabase();
+                sqLiteDatabase = myDbHelper.getWritableDatabase();
                 String strSql = "SELECT * FROM " + DatabaseVehicleMaster.TABLE_NAME;
                 Cursor cursor = sqLiteDatabase.rawQuery(strSql, null);
                 if (cursor.getCount() == 0) {
@@ -92,6 +91,7 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
         btnGoMain.setOnClickListener(this);
 
     }
+
 
     private void binWidGet() {
         edtLicensePlate =  findViewById(R.id.edtLicensePlate);
@@ -120,14 +120,42 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void checkLicensePlate() {
-        SyncCheckLicensePlate syncCheckLicensePlate = new SyncCheckLicensePlate();
-        syncCheckLicensePlate.execute();
 
-//        mySharePreferences();
-//        Intent intent = new Intent();
-//        intent.putExtra(MyAppConfig.licensePlate, strLicensePlate);
-//        setResult(RESULT_OK, intent);
-//        finish();
+        String strSql = "SELECT * FROM " + DatabaseVehicleMaster.TABLE_NAME + " WHERE " + DatabaseVehicleMaster.COL_LICENSE_PLATE + " LIKE '%" + strLicensePlate + "%'";
+
+        final Cursor cursor = sqLiteDatabase.rawQuery(strSql, null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            license_select = cursor.getString(cursor.getColumnIndex(DatabaseVehicleMaster.COL_LICENSE_PLATE));
+            builder = new AlertDialog.Builder(LicensePlateActivity.this);
+            builder.setTitle("เลือกเลขทะเบียน");
+            builder.setSingleChoiceItems(cursor, 0, DatabaseVehicleMaster.COL_LICENSE_PLATE, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    cursor.moveToPosition(which);
+                    license_select = cursor.getString(cursor.getColumnIndex(DatabaseVehicleMaster.COL_LICENSE_PLATE));
+
+                }
+            });
+
+            builder.setPositiveButton("ยืนยัน", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(LicensePlateActivity.this, "คุณเลือก " + license_select, Toast.LENGTH_SHORT).show();
+                    mySetLicensePlateAndFinish(license_select);
+                    dialog.dismiss();
+                }
+            });
+
+            builder.setNegativeButton("ไม่มีเลขทะเบียนที่ต้องการ", null);
+            builder.show();
+
+        } else {
+            SyncCheckLicensePlate syncCheckLicensePlate = new SyncCheckLicensePlate();
+            syncCheckLicensePlate.execute();
+        }
+
     }
 
     private void mySharePreferences(String licensePlate) {
@@ -174,7 +202,6 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
             return null;
         }
 
-        String temp;
 
         @Override
         protected void onPostExecute(String s) {
@@ -195,13 +222,13 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
                         for(int i = 0 ; i < sizeCar ; i++) {
                             carArray[i] = carModel.getRecordset().get(i).getLicenseNo();
                         }
-                        temp = carArray[0];
+                        license_select = carArray[0];
                         builder = new AlertDialog.Builder(LicensePlateActivity.this);
                         builder.setTitle("เลือกเลขทะเบียน");
                         builder.setSingleChoiceItems(carArray, 0, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                temp = carArray[which];
+                                license_select = carArray[which];
                                 //Toast.makeText(LicensePlateActivity.this, "like => " + carArray[which], Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -210,8 +237,8 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
                         builder.setPositiveButton("ยืนยัน", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(LicensePlateActivity.this, "คุณเลือก " + temp, Toast.LENGTH_SHORT).show();
-                                mySetLicensePlateAndFinish(temp);
+                                Toast.makeText(LicensePlateActivity.this, "คุณเลือก " + license_select, Toast.LENGTH_SHORT).show();
+                                mySetLicensePlateAndFinish(license_select);
                                 dialog.dismiss();
                             }
                         });
@@ -240,6 +267,7 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+
     private void mySetLicensePlateAndFinish(String licensePlate) {
         mySharePreferences(licensePlate);
         Intent intent = new Intent();
@@ -248,52 +276,5 @@ public class LicensePlateActivity extends AppCompatActivity implements View.OnCl
         finish();
 
 
-    }
-
-    private class SyncLicenseCarAll extends AsyncTask<String,Void,String> {
-        @Override
-        protected String doInBackground(String... params) {
-
-            Request request = new Request.Builder().get().url(strUrlGetCarAll).build();
-            OkHttpClient client = new OkHttpClient.Builder().build();
-
-            try {
-                Response response = client.newCall(request).execute();
-                if (response.code() == 200) {
-                    return response.body().string();
-                }
-            } catch (IOException e) {
-                Log.d("IOException => ", e.toString());
-            }
-            return null;
-
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-            if (s != null) {
-                myDbHelper = new MyDbHelper(LicensePlateActivity.this);
-                sqLiteDatabase = myDbHelper.getWritableDatabase();
-                Log.d("s => ", s);
-                Gson gson = new Gson();
-                CarModel carModel = gson.fromJson(s, CarModel.class);
-                int size_car = carModel.getRecordset().size();
-                if (size_car != 0) {
-                    for (int i = 0 ; i < size_car ; i++) {
-                        Recordset_ recordset = carModel.getRecordset().get(i);
-                        ContentValues contentValues = new ContentValues();
-                        contentValues.put(DatabaseVehicleMaster.COL_VEHICLE_ID, recordset.getCarID());
-                        contentValues.put(DatabaseVehicleMaster.COL_LICENSE_PLATE, recordset.getLicenseNo());
-                        contentValues.put(DatabaseVehicleMaster.COL_STATUS, recordset.getStatus());
-
-                        sqLiteDatabase.insert(DatabaseVehicleMaster.TABLE_NAME, null, contentValues);
-                        Log.d("insert => ", (i + 1) + "");
-                    }
-                }
-            }
-
-        }
     }
 }

@@ -26,11 +26,12 @@ import com.stecon.patipan_on.diarycar.controller.CustomSpinnerAdapter;
 import com.stecon.patipan_on.diarycar.common_class.MyAddPermissionLocation;
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.common_class.MyLocationFirst;
+import com.stecon.patipan_on.diarycar.controller.StatusCheckServer;
 import com.stecon.patipan_on.diarycar.database.DatabaseOilJournal;
 import com.stecon.patipan_on.diarycar.database.query_model.FuelDataQuerySQLIte;
 import com.stecon.patipan_on.diarycar.database.query_model.FuelTypeQuerySQLite;
 import com.stecon.patipan_on.diarycar.model.FuelTypeModel;
-import com.stecon.patipan_on.diarycar.model.MyAppConfig;
+import com.stecon.patipan_on.diarycar.common_class.MyAppConfig;
 import com.stecon.patipan_on.diarycar.model.OilDataModel;
 
 import java.text.DecimalFormat;
@@ -360,21 +361,34 @@ public class OilJournalActivity extends AppCompatActivity implements View.OnClic
 
     private void onInsertSQLite() {
 
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DatabaseOilJournal.COL_LICENSE_PLATE, strLicensePlate);
-        contentValues.put(DatabaseOilJournal.COL_ODOMETER, douOdometer);
-        contentValues.put(DatabaseOilJournal.COL_UNIT_PRICE, douUnitPrice);
-        contentValues.put(DatabaseOilJournal.COL_FUEL_TYPE, fuelTypePosition);
-        contentValues.put(DatabaseOilJournal.COL_VOLUME, douVolume);
-        contentValues.put(DatabaseOilJournal.COL_TOTAL_PRICE, douMoneyTotal);
-        contentValues.put(DatabaseOilJournal.COL_PAYMENT_TYPE, strPaymentType);
-        contentValues.put(DatabaseOilJournal.COL_LATITUDE, latitude);
-        contentValues.put(DatabaseOilJournal.COL_LONGITUDE, longitude);
-        contentValues.put(DatabaseOilJournal.COL_NOTE, strNote);
+        StatusCheckServer statusCheckServer = new StatusCheckServer(OilJournalActivity.this);
+        statusCheckServer.setOnMyListener(new StatusCheckServer.MyOnListener() {
+            @Override
+            public void onInsertListener() {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(DatabaseOilJournal.COL_LICENSE_PLATE, strLicensePlate);
+                contentValues.put(DatabaseOilJournal.COL_ODOMETER, douOdometer);
+                contentValues.put(DatabaseOilJournal.COL_UNIT_PRICE, douUnitPrice);
+                contentValues.put(DatabaseOilJournal.COL_FUEL_TYPE, fuelTypePosition);
+                contentValues.put(DatabaseOilJournal.COL_VOLUME, douVolume);
+                contentValues.put(DatabaseOilJournal.COL_TOTAL_PRICE, douMoneyTotal);
+                contentValues.put(DatabaseOilJournal.COL_PAYMENT_TYPE, strPaymentType);
+                contentValues.put(DatabaseOilJournal.COL_LATITUDE, latitude);
+                contentValues.put(DatabaseOilJournal.COL_LONGITUDE, longitude);
+                contentValues.put(DatabaseOilJournal.COL_NOTE, strNote);
 
-        sqLiteDatabase.insert(DatabaseOilJournal.TABLE_NAME, null, contentValues);
-        mySetEmptyText();
-        finish();
+                sqLiteDatabase.insert(DatabaseOilJournal.TABLE_NAME, null, contentValues);
+                mySetEmptyText();
+                finish();
+            }
+
+            @Override
+            public void onUpdateListener() {
+
+            }
+        });
+        statusCheckServer.checkInsert();
+
     }
 
     private void mySetEmptyText() {

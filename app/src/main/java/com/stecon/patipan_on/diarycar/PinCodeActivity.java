@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.database.DatabaseUser;
-import com.stecon.patipan_on.diarycar.model.MyAppConfig;
+import com.stecon.patipan_on.diarycar.common_class.MyAppConfig;
 
 import java.util.ArrayList;
 
@@ -142,18 +142,18 @@ public class PinCodeActivity extends AppCompatActivity implements View.OnClickLi
 
 //    private void myTestPinCustomResult() {//TODO งงในงง เขียนไรวะ
 //        PinCodeStatic.setPinNumber("2010");
-//        String temp = PinCodeStatic.getPinNumber();
-//        if (temp != null) {
-//            if (temp.length() == 4) {
-//                for (int i = 0 ; i < temp.length(); i++) {
-//                    pinResult[i] = temp.charAt(i);
+//        String license_select = PinCodeStatic.getPinNumber();
+//        if (license_select != null) {
+//            if (license_select.length() == 4) {
+//                for (int i = 0 ; i < license_select.length(); i++) {
+//                    pinResult[i] = license_select.charAt(i);
 //                }
 //            }
 //            Log.d("pin result test = > ", Arrays.toString(pinResult));
 //        } else { // value is PinCodeStatic is Not value
-//            if (temp.length() == 4) {
-//                for (int i = 0 ; i < temp.length(); i++) {
-//                    pinResult[i] = temp.charAt(i);
+//            if (license_select.length() == 4) {
+//                for (int i = 0 ; i < license_select.length(); i++) {
+//                    pinResult[i] = license_select.charAt(i);
 //                }
 //            }
 //

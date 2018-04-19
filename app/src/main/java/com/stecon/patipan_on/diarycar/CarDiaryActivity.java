@@ -1,25 +1,18 @@
 package com.stecon.patipan_on.diarycar;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.stecon.patipan_on.diarycar.controller.CustomAlertDialog;
-import com.stecon.patipan_on.diarycar.controller.MyDbHelper;
 import com.stecon.patipan_on.diarycar.controller.TripEndDialog;
-import com.stecon.patipan_on.diarycar.model.MyAppConfig;
-
-import java.util.ArrayList;
+import com.stecon.patipan_on.diarycar.common_class.MyAppConfig;
 
 public class CarDiaryActivity extends AppCompatActivity implements View.OnClickListener, CustomAlertDialog.OnMyDialogActivity {
 
